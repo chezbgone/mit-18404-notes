@@ -75,7 +75,7 @@ Note that here we are using a polynomial time reduction because if we used a \(\
 	
 	Now suppose we have some \(A \in \mathsf{PSPACE}\) using a \textsf{TM} \(M\) running in \(O(n^k)\) space. We want to show that \(A \polyredu \textit{TQBF}\). If \(w \in A\), consider the tableau for \(M\) on \(w\). Then, we want to determine whether there exists a sequence of configurations \(C_{\textsc{start}}, \dots, C_{\textsc{accept}}\). More specifically, we want to write an instance of \textit{TQBF} that says ``\(M\) accepts \(w\)''.
 
-	Let's try to solve a more general problem. Given configurations \(C_i\) and \(C_j\) and some \(k \in \NN\), we want to write a quantified binary formula \(\phi_{C_i, C_j, k}\) that says \(C_i \stackrel{k}{\to} C_j\) i.e. that there exists a computation history tableau that goes from \(C_i\) to \(C_j\) in \(k\) steps. Like in Cook-Levin We can use a similar strategy that we used to prove Savitch's theorem, i.e. recursion.
+	Let's try to solve a more general problem. Given configurations \(C_i\) and \(C_j\) and some \(k \in \NN\), we want to write a quantified binary formula \(\phi_{C_i, C_j, k}\) that says \(C_i \stackrel{k}{\to} C_j\) i.e.\ that there exists a computation history tableau that goes from \(C_i\) to \(C_j\) in \(k\) steps. Like in Cook-Levin We can use a similar strategy that we used to prove Savitch's theorem, i.e.\ recursion.
 
 	The quantified formula \(\phi_{C_i, C_j, k}\) is equivalent to there existing some intermediate configuration \(C_m\) such that \(C_i \xrightarrow{k/2} C_m\) and \(C_m \xrightarrow{k/2} C_j\). In particular, we can write
 	\[

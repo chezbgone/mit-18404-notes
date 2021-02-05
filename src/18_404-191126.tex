@@ -81,7 +81,7 @@ Let the problem be
 \]
 
 \begin{proposition}
-	\(\textit{CAKE} \in \mathsf{NP}^{\textit{UNSAT}}\), i.e. using an \textsf{NTM} with an \(\textit{UNSAT}\) oracle, we can solve \(\textit{CAKE}\).
+	\(\textit{CAKE} \in \mathsf{NP}^{\textit{UNSAT}}\), i.e.\ using an \textsf{NTM} with an \(\textit{UNSAT}\) oracle, we can solve \(\textit{CAKE}\).
 \end{proposition}
 \begin{proof}
 	Consider the following algorithm. Let the \textsf{NTM} nondeterministically select the subset of cuts that Al chooses. We have some pieces of cake with certain volumes. Consider the formula that says ``the volumes of the partition are unequal'', where the variables are indicator variables of whether a piece is in the partition. Then, use the oracle to determine whether this formula is unsatisfiable. If so, then any choice Bo will make must be fair.
@@ -103,9 +103,9 @@ Let the problem be
 	Let a \vocab{probabilistic Turing machine} (\textsf{PTM}) be a decider \textsf{NTM} where at each nondeterministic step, there are two options, and there is a \(\half\) probability of choose each option.
 \end{definition}
 
-For each branch, we can consider the probability that the machine has taken it, i.e. \(2^{-k}\), where \(k\) is the number of nondeterministic states in that branch. Then, we define
+For each branch, we can consider the probability that the machine has taken it, i.e.\ \(2^{-k}\), where \(k\) is the number of nondeterministic states in that branch. Then, we define
 \[
-	\PP[\text{$M$ accepts $w$]} \coloneqq \sum_{\substack{\text{accepting} \\ \mathclap{\text{branches $b$}}}} \PP[\text{$M$ takes branch $b$}],
+	\PP[\text{$M$ accepts $w$}] \coloneqq \sum_{\substack{\text{accepting} \\ \mathclap{\text{branches $b$}}}} \PP[\text{$M$ takes branch $b$}],
 \]
 and \(\PP[\text{$M$ rejects $w$}] \coloneqq 1 - \PP[\text{$M$ accepts $w$}]\).
 

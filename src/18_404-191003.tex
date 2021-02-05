@@ -89,7 +89,11 @@ Moreover, if \(w \in A \iff f(w) \in B\), we also have \(w \in \ol A \iff f(w) \
 		\item If \(M\) rejects, then loop.
 	\end{enumerate}
 
-	Note that if \(\angles{M, w} \in A_{\textsf{TM}}\), then \(M'\) will accept \(w\) (i.e. halt), and \(\angles{M', w} \in \HALT_{\textsf{TM}}\). If \(\angles{M, w} \notin A_{\textsf{TM}}\), then \(M'\) will loop, so \(\angles{M', w} \notin \HALT_{\textsf{TM}}\).
+	Note that if \(\angles{M, w} \in A_{\textsf{TM}}\),
+  then \(M'\) will accept \(w\) (i.e.\ halt),
+  and \(\angles{M', w} \in \HALT_{\textsf{TM}}\).
+  If \(\angles{M, w} \notin A_{\textsf{TM}}\),
+  then \(M'\) will loop, so \(\angles{M', w} \notin \HALT_{\textsf{TM}}\).
 \end{example}
 
 \begin{example}

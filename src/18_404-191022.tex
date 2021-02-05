@@ -89,7 +89,16 @@ We also would like to rigorize what we mean by ``checking'' whether a solution w
 		\end{scope}
 	\end{tikzpicture}
 \end{center}
-If the \textsf{NTM} accepts, then we will say that the runtime is the depth of the node. Otherwise, the \textsf{NTM} rejects, and we will say that the runtime is the full height of the tree. Moreover, if the \textsf{NTM} accepts, there exists some path from the starting node to an accepting state. Note that a deterministic \textsf{TM} can simulate this \textsf{NTM} if it were told this path, i.e. which decisions to make whenever the tree branches. This motivates the following definition:
+If the \textsf{NTM} accepts,
+then we will say that the runtime is the depth of the node.
+Otherwise, the \textsf{NTM} rejects,
+and we will say that the runtime is the full height of the tree.
+Moreover, if the \textsf{NTM} accepts,
+there exists some path from the starting node to an accepting state.
+Note that a deterministic \textsf{TM} can
+simulate this \textsf{NTM} if it were told this path,
+i.e.\ which decisions to make whenever the tree branches.
+This motivates the following definition:
 
 \begin{definition}
 	A \vocab{verifier} for a language \(A\) is a Turing machine \(M\) such that

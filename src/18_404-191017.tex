@@ -56,7 +56,11 @@ This shows us that the model of computation we have will affect the complexity! 
 
 	When \(M\) makes one step, \(S\) makes a complete pass through its whole tape. The length of the tape is \(O(f(n))\), because at each step, \(M\) can only write one symbol to each tape. Therefore, on each step of \(M\), \(S\) takes \(O(f(n))\) steps. Since \(M\) takes \(f(n)\) steps, \(S\) will run in \(O(f(n)^2)\).
 \end{proof}
-Note that this only squared the time. It turns out that if we decide to ignore polynomial factors, i.e. two running times \(f\) and \(g\) are equivalent if \(f = O(P(g))\) for some polynomial \(P\), then the models of computation we care about are equivalent.
+Note that this only squared the time.
+It turns out that if we decide to ignore polynomial factors,
+i.e.\ two running times \(f\) and \(g\) are equivalent if \(f = O(P(g))\)
+for some polynomial \(P\),
+then the models of computation we care about are equivalent.
 
 \begin{definition}
 	We say that a \textsf{TM} \vocab{runs in time \(t(n)\)} for a function \(t \colon \NN \to \NN\) if the \textsf{TM} halts on all inputs of length \(n\) in \(t(n)\) steps. Then, let
@@ -82,7 +86,10 @@ There is the idea that we have nested sets of languages based on the time in whi
 
 Note that this has nice properties we care about:
 \begin{itemize}
-	\item model independent (for reasonable deterministic models\footnote{i.e. can't do an exponential (non-polynomial) amount of work on each step})
+	\item model independent
+        (for reasonable deterministic models\footnote{
+          i.e.\ can't do an exponential (non-polynomial)
+          amount of work on each step})
 	\item roughly corresponds to practical solvability.
 \end{itemize}
 

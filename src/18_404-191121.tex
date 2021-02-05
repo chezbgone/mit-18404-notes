@@ -1,57 +1,59 @@
-\documentclass{standalone}
-\usepackage{chez}
+  \documentclass{standalone}
+  \usepackage{chez}
 
-\begin{document}
-%\chapter{November 21, 2019}
-\section{Intractable Problems}
-Recall that we have
-\[
-	\mathsf{L} \subseteq
-	\mathsf{NL} \subseteq
-	\mathsf{P} \subseteq
-	\mathsf{NP} \subseteq
-	\mathsf{PSPACE},
-\]
-where \(\mathsf{NL} \neq \mathsf{PSPACE}\). The problems of whether \(\mathsf{L} \overset{?}{=} \mathsf{P}\) and \(\mathsf{P} \overset{?}{=} \mathsf{PSPACE}\) are open, but \(\mathsf{NL} \neq \mathsf{PSPACE}\) implies that at least one of them is false.
+  \begin{document}
+  %\chapter{November 21, 2019}
+  \section{Intractable Problems}
+  Recall that we have
+  \[
+    \mathsf{L} \subseteq
+    \mathsf{NL} \subseteq
+    \mathsf{P} \subseteq
+    \mathsf{NP} \subseteq
+    \mathsf{PSPACE},
+  \]
+  where \(\mathsf{NL} \neq \mathsf{PSPACE}\). The problems of whether \(\mathsf{L} \overset{?}{=} \mathsf{P}\) and \(\mathsf{P} \overset{?}{=} \mathsf{PSPACE}\) are open, but \(\mathsf{NL} \neq \mathsf{PSPACE}\) implies that at least one of them is false.
 
-Recall that \(\textit{EQ}_{\textsf{DFA}}\) is decidable, and using the same \textsf{TM}, we have that \(\textit{EQ}_{\textsf{DFA}} \in \mathsf{P}\). We can also show that \(\textit{EQ}_{\textsf{NFA}} \in \mathsf{PSPACE}\).
+  Recall that \(\textit{EQ}_{\textsf{DFA}}\) is decidable, and using the same \textsf{TM}, we have that \(\textit{EQ}_{\textsf{DFA}} \in \mathsf{P}\). We can also show that \(\textit{EQ}_{\textsf{NFA}} \in \mathsf{PSPACE}\).
 
-\begin{proposition}
-	\(\textit{EQ}_{\textsf{NFA}} \in \mathsf{PSPACE}\).
-\end{proposition}
-\begin{proof}
-	Since \(\mathsf{PSPACE}\) is deterministic, \(A \in \mathsf{PSPACE} \iff \ol A \in \mathsf{PSPACE}\). We proceed by showing that \(\ol{\textit{EQ}_{\mathsf{NFA}}} \in \mathsf{NPSPACE = \mathsf{PSPACE}}\). The idea is to nondeterministically guess the string that yields different results for the two \textsf{NFA}s. It is clear that this runs in polynomial space.
-\end{proof}
+  \begin{proposition}
+    \(\textit{EQ}_{\textsf{NFA}} \in \mathsf{PSPACE}\).
+  \end{proposition}
+  \begin{proof}
+    Since \(\mathsf{PSPACE}\) is deterministic, \(A \in \mathsf{PSPACE} \iff \ol A \in \mathsf{PSPACE}\). We proceed by showing that \(\ol{\textit{EQ}_{\mathsf{NFA}}} \in \mathsf{NPSPACE = \mathsf{PSPACE}}\). The idea is to nondeterministically guess the string that yields different results for the two \textsf{NFA}s. It is clear that this runs in polynomial space.
+  \end{proof}
 
-Similarly, we have a similar theorem for regular expressions:
-\begin{corollary}
-	\(\textit{EQ}_{\textsf{REGEX}} \in \mathsf{PSPACE}\).
-\end{corollary}
-\begin{proof}
-	This is immediately because the conversion from \(\textsf{REGEX} \to \textsf{NFA}\) can be done in polynomial space.
-\end{proof}
+  Similarly, we have a similar theorem for regular expressions:
+  \begin{corollary}
+    \(\textit{EQ}_{\textsf{REGEX}} \in \mathsf{PSPACE}\).
+  \end{corollary}
+  \begin{proof}
+    This is immediately because the conversion from \(\textsf{REGEX} \to \textsf{NFA}\) can be done in polynomial space.
+  \end{proof}
 
 
-\subsection{Exponential Space}
-Consider a modified version of regular expressions that has exponentiation, i.e.
-\[
-	R^i = \underbracket{RR \dots R}_{\text{$i$ times}}.
-\]
-Let a regular expression with this feature be called an \(\REGEXup\).
+  \subsection{Exponential Space}
+  Consider a modified version of regular expressions that has exponentiation, i.e.
+  \[
+    R^i = \underbracket{RR \dots R}_{\text{$i$ times}}.
+  \]
+  Let a regular expression with this feature be called an \(\REGEXup\).
 
-\begin{definition}
-	Let the languages decidable in exponential time and space be, respectively
-	\begin{gather*}
-		\mathsf{EXPTIME} = \bigunion_k \TIME(2^{n^k}) \\
-		\mathsf{EXPSPACE} = \bigunion_k \SPACE(2^{n^k}).
-	\end{gather*}
-\end{definition}
+  \begin{definition}
+    Let the languages decidable in exponential time and space be, respectively
+    \begin{gather*}
+      \mathsf{EXPTIME} = \bigunion_k \TIME(2^{n^k}) \\
+      \mathsf{EXPSPACE} = \bigunion_k \SPACE(2^{n^k}).
+    \end{gather*}
+  \end{definition}
 
-\begin{definition}
-	We say that a language \(B\) is \vocab{\(\mathsf{EXPSPACE}\)-complete} if
-	\begin{itemize}
-		\item \(B \in \mathsf{EXPSPACE}\) and
-		\item for all \(A \in \mathsf{EXPSPACE}\), we have \(A \polyredu B\), i.e. is \vocab{\(\mathsf{EXPSPACE}\)-hard}.
+  \begin{definition}
+    We say that a language \(B\) is \vocab{\(\mathsf{EXPSPACE}\)-complete} if
+    \begin{itemize}
+      \item \(B \in \mathsf{EXPSPACE}\) and
+      \item for all \(A \in \mathsf{EXPSPACE}\),
+            we have \(A \polyredu B\),
+            i.e.\ is \vocab{\(\mathsf{EXPSPACE}\)-hard}.
 	\end{itemize}
 \end{definition}
 
@@ -74,15 +76,24 @@ Let a regular expression with this feature be called an \(\REGEXup\).
 	\[
 		R_2 = R_{\text{bad-start}} \union R_{\text{bad-move}} \union R_{\text{bad-reject}},
 	\]
-	where the parts are defined as follows (where we adopt the notation \(X - a \coloneqq X \setminus \set{a}\)):
+	where the parts are defined as follows
+  (where we adopt the notation \(X - a \coloneqq X \setminus \set{a}\)):
 	\begin{itemize}
-		\item Let \(R_{\text{bad-start}} = S_0 \union S_1 \union S_2 \union S_n \union S_{\text{blanks}},\) where \(S_i\) means that the \(i\)th character is incorrect. In particular,
-		\[
-			S_i = \Delta^i (\Delta - w_i) \Delta^*
-				\qquad \text{and} \qquad
-				S_{\text{blanks}} = \Delta^{n + 1} (\Delta - \eps)^{2^{n^k} - n - 2} (\Delta - \blank) \Delta^*.
-		\]
-		Note that we have used the exponentiation function of the \(\REGEXup\) so that \(R_{\text{bad-start}}\) is not exponentially long.
+		\item Let
+          \(R_{\text{bad-start}} =
+            S_0 \union S_1 \union S_2 \union S_n \union S_{\text{blanks}}\),
+          where \(S_i\) means that the \(i\)th character is incorrect.
+          In particular,
+          \[
+            S_i = \Delta^i (\Delta - w_i) \Delta^*
+              \qquad \text{and} \qquad
+              S_{\text{blanks}} = \Delta^{n + 1}
+                                  (\Delta - \eps)^{2^{n^k} - n - 2}
+                                  (\Delta - \blank) \Delta^*.
+          \]
+          Note that we have used the exponentiation function of
+          the \(\REGEXup\) so that \(R_{\text{bad-start}}\) is not
+          exponentially long.
 
 		\item Similarly, let \(R_{\text{bad-reject}} = (\Delta - q_{\text{reject}})^*\).
 

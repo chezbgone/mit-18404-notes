@@ -18,15 +18,15 @@
 	\begin{definition*}
 		A \vocab{tableau} for \(M\) on \(w\) is an \(N \times N\) table where row \(i\) is the configuration on the \(i\)th step of an accepting branch of \(M\) on \(w\), where the whole branch is \(N\) steps.
 		\[
-			\begin{array}{| c | c | c | c | c | c | c | c |} \hline
-				q_0 & w_1 & w_2 & \!\dots\! & w_n & \blank & \blank & \blank \\ \hline
-				  &   &   &   &   &   &   &   \\ \hline
-				  &   &   &   &   &   &   &   \\ \hline
-				  &   &   &   &   &   &   &   \\ \hline
-				  &   &   &   &   &   &   &   \\ \hline
-				  &   &   &   &   &   &   &   \\ \hline
-				  &   &   &   &   &   &   &   \\ \hline
-				  &   &   &   &   &   &   &   \\ \hline
+			\begin{array}{| c | c | c | c | c | c | c | c |} \hline % chktex 44
+				q_0 & w_1 & w_2 & \!\dots\! & w_n & \blank & \blank & \blank \\ \hline % chktex 44
+				  &   &   &   &   &   &   &   \\ \hline % chktex 44
+				  &   &   &   &   &   &   &   \\ \hline % chktex 44
+				  &   &   &   &   &   &   &   \\ \hline % chktex 44
+				  &   &   &   &   &   &   &   \\ \hline % chktex 44
+				  &   &   &   &   &   &   &   \\ \hline % chktex 44
+				  &   &   &   &   &   &   &   \\ \hline % chktex 44
+				  &   &   &   &   &   &   &   \\ \hline % chktex 44
 			\end{array}
 		\]
 	\end{definition*}
@@ -286,7 +286,10 @@ Suppose we color each node either blue or red. Call an triple \(t \in T\) \vocab
 	\end{center}
 	Then, we can connect other things to these nodes in order to enforce which color means true and which means false.
 
-	In our graph, we will also have a node for each possible literal, i.e. two nodes for each variable. We can force all of these to have opposite colorings using the same method we did for \textsc{true} and \textsc{false}.
+	In our graph, we will also have a node for each possible literal,
+  i.e.\ two nodes for each variable.
+  We can force all of these to have opposite colorings
+  using the same method we did for \textsc{true} and \textsc{false}.
 	\begin{center}
 		\begin{tikzpicture}[
 			every node/.style={circle, draw, inner sep=2pt},

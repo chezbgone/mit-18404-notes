@@ -5,7 +5,9 @@
 \section{Polynomial Time Reducibility}
 \subsection{Satisfiability Problem}
 \begin{problem}[SAT]
-	Suppose we have a formula made from variables, \(\land\)s, \(\lor\)s, and \(\neg\)s. We want to determine whether there exists some assignment of variables over \(\set{\textsc{true}, \textsc{false}}\) or \(\set{1, 0}\) that makes the formula true. We call this problem \textit{SAT}. More formally,
+	Suppose we have a formula made from variables,
+  \(\land\)s, \(\lor\)s, and \(\neg\)s.
+  We want to determine whether there exists some assignment of variables over \(\set{\textsc{true}, \textsc{false}}\) or \(\set{1, 0}\) that makes the formula true. We call this problem \textit{SAT}. More formally,
 	\[
 		\textit{SAT} = \set{\angles{\phi} \mid \text{some assignment satisfies the formula $\phi$}}.
 	\]
@@ -20,7 +22,11 @@
 It is clear that \(\textit{SAT} \in \mathsf{NP}\) because we can create an \textsf{NTM} that guesses all possible combinations.
 
 \subsubsection{Cool Special Cases}
-We call \(k\textit{-SAT}\) to be the problem of SAT on a formula in \vocab{conjunctive normal form}, i.e. where each clause is the \textsc{or} of \(k\) literals, and the clauses are \textsc{and}ed together. For example,
+We call \(k\textit{-SAT}\) the problem of SAT
+on a formula in \vocab{conjunctive normal form},
+i.e.\ where each clause is the \textsc{or} of \(k\) literals,
+and the clauses are \textsc{and}ed together.
+For example,
 \[
 	(a \lor b \lor c)
 		\land (\neg a \lor b \lor \neg b)
