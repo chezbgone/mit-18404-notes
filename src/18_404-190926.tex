@@ -19,126 +19,126 @@ Given a \textsf{DFA}, we would like to determine
 whether it will accept some string \(w\).
 In particular, let
 \[
-	A_{\textsf{DFA}} = \set{
-		\angles{B, w} \mid
-		\text{$B$ is a \textsf{DFA} that accepts $w$}
-	}.
+  A_{\textsf{DFA}} = \set{
+    \angles{B, w} \mid
+    \text{$B$ is a \textsf{DFA} that accepts $w$}
+  }.
 \]
 Therefore, if testing if \(a \in A\) is equivalent to
 determining if some \textsf{DFA} accepts some word.
 
 \begin{proposition}
-	\(A_\textsf{DFA}\) is decidable.
+  \(A_\textsf{DFA}\) is decidable.
 \end{proposition}
 \begin{proof}
-	Let \(M\) be the following Turing machine with input \(s = \angles{B, w}\):
-	\begin{itemize}[nosep]
-		\item Test if \(s = \angles{B, w}\) rejects or not.
-		\item Simulate \(B\) on \(W\).
-		\item If \(B\) accepts, \textsc{accept}, else \textsc{reject}. \qedhere
-	\end{itemize}
+  Let \(M\) be the following Turing machine with input \(s = \angles{B, w}\):
+  \begin{itemize}[nosep]
+    \item Test if \(s = \angles{B, w}\) rejects or not.
+    \item Simulate \(B\) on \(W\).
+    \item If \(B\) accepts, \textsc{accept}, else \textsc{reject}. \qedhere
+  \end{itemize}
 \end{proof}
 
 We can define a similar language for \textsf{NFA}s.
 \begin{corollary}
-	\(A_{\textsf{NFA}} = \set{\angles{B, w} \mid
-		\text{$B$ is a \textsf{NFA} that accepts $w$}
-	}\) is decidable.
+  \(A_{\textsf{NFA}} = \set{\angles{B, w} \mid
+    \text{$B$ is a \textsf{NFA} that accepts $w$}
+  }\) is decidable.
 \end{corollary}
 To prove this, we can just do the same thing as above,
 and simulate the \textsf{NFA}.
 However, we can do something clever and just reduce it to the previous problem.
 \begin{proof}[Sketch]
-	Convert \(B\) to a \textsf{DFA} \(B'\) and then
+  Convert \(B\) to a \textsf{DFA} \(B'\) and then
   use the fact that \(A_{\textsf{DFA}}\) is decidable.
 \end{proof}
 
 \subsubsection{Emptiness Problem}
 \begin{proposition}
-	Let \(E_{\textsf{DFA}} = \set{\angles{B} \mid
-		\text{$B$ is a \textsf{DFA} where $L(B) = \nullset$}
-	}\). Then \(E_{\textsf{DFA}}\) is decidable.
+  Let \(E_{\textsf{DFA}} = \set{\angles{B} \mid
+    \text{$B$ is a \textsf{DFA} where $L(B) = \nullset$}
+  }\). Then \(E_{\textsf{DFA}}\) is decidable.
 \end{proposition}
 \begin{proof}
-	The idea is to just perform a graph search on the states.
+  The idea is to just perform a graph search on the states.
   Consider the \textsf{TM} \(M\) with input \(\angles B\), described by:
-	\begin{itemize}
-		\item Mark the start state
-		\item Repeat until nothing new is marked:
-		\begin{itemize}[nosep]
-			\item Mark state \(q\) if some previously marked state points to \(q\).
-		\end{itemize}
-		\item \textsc{Accept} if no accept node is marked,
+  \begin{itemize}
+    \item Mark the start state
+    \item Repeat until nothing new is marked:
+    \begin{itemize}[nosep]
+      \item Mark state \(q\) if some previously marked state points to \(q\).
+    \end{itemize}
+    \item \textsc{Accept} if no accept node is marked,
           otherwise \textsc{reject}. \qedhere
-	\end{itemize}
+  \end{itemize}
 \end{proof}
 
 \subsubsection{Equivalence Problem}
 \begin{proposition}
-	Let \(\mathit{EQ}_{\textsf{DFA}} = \set{
-		\angles{B, C} \mid \text{$B, C$ are \textsf{DFA}s and $L(B) = L(C)$}
-	}\). Then \(EQ_{\textsf{DFA}}\) is decidable.
+  Let \(\mathit{EQ}_{\textsf{DFA}} = \set{
+    \angles{B, C} \mid \text{$B, C$ are \textsf{DFA}s and $L(B) = L(C)$}
+  }\). Then \(EQ_{\textsf{DFA}}\) is decidable.
 \end{proposition}
 \begin{proof}
-	The key idea is that if \(L(B) = L(C)\),
+  The key idea is that if \(L(B) = L(C)\),
   then we know that the symmetric difference is empty, i.e.
-	\[
-		L(B) \mathbin{\Delta} L(C)
+  \[
+    L(B) \mathbin{\Delta} L(C)
       = \ol{L(B)} \intersect L(C) \union L(B) \intersect \ol{L(C)}
       = \nullset.
-	\]
-	Therefore, we consider the following \textsf{TM}
+  \]
+  Therefore, we consider the following \textsf{TM}
   with input \(\angles{B, C}\):
-	\begin{itemize}
-		\item Let \(D\) be the \textsf{DFA} such that
-		\[
-			L(D) = \ol{L(B)} \intersect L(C) \union L(B) \intersect \ol{L(C)}.
-		\]
-		\item Test if \(\angles{D} \in E_{\textsf{DFA}}\),
+  \begin{itemize}
+    \item Let \(D\) be the \textsf{DFA} such that
+    \[
+      L(D) = \ol{L(B)} \intersect L(C) \union L(B) \intersect \ol{L(C)}.
+    \]
+    \item Test if \(\angles{D} \in E_{\textsf{DFA}}\),
           i.e.\ if \(L(D)\) is empty.
           If yes then \textsc{accept}; \textsc{reject} if no. \qedhere
-	\end{itemize}
+  \end{itemize}
 \end{proof}
 
 \subsection{CFGs}
 \begin{proposition}
-	Let \(A_{\textsf{CFG}} = \set{
-		\angles{G, w} \mid \text{$G$ is a \textsf{CFG} such that $w \in L(G)$}
-	}\). Then \(A_{\textsf{CFG}}\) is decidable.
+  Let \(A_{\textsf{CFG}} = \set{
+    \angles{G, w} \mid \text{$G$ is a \textsf{CFG} such that $w \in L(G)$}
+  }\). Then \(A_{\textsf{CFG}}\) is decidable.
 \end{proposition}
 \begin{proof}
-	Consider the following \textsf{TM} with input \(\angles{G, w}\):
-	\begin{itemize}
-		\item Convert \(G\) to Chomsky's Normal form.
+  Consider the following \textsf{TM} with input \(\angles{G, w}\):
+  \begin{itemize}
+    \item Convert \(G\) to Chomsky's Normal form.
           We know that to derive a string of length $n$,
           it will take \(2n - 1\) steps
           (\(n - 1\) to get the correct number of symbols,
           and \(n\) to convert variables).
-		\item Try all the derivations of length \(2n - 1\).
+    \item Try all the derivations of length \(2n - 1\).
           If any of them yield \(w\), then \textsc{accept},
           else \textsc{reject}. \qedhere
-	\end{itemize}
+  \end{itemize}
 \end{proof}
 
 \begin{proposition}
-	Every \textsf{CFL} is decidable.
+  Every \textsf{CFL} is decidable.
 \end{proposition}
 \begin{proof}
-	Let \(A\) be a \textsf{CFL} generated by the \textsf{CFG} \(G\).
+  Let \(A\) be a \textsf{CFL} generated by the \textsf{CFG} \(G\).
   Consider the \textsf{TM} \(M_G\) with input \(w\):
-	\begin{itemize}
-		\item Test if \(\angles{G, w} \in A_{\textsf{CFG}}\).
-		\item If yes then \textsc{accept}; \textsc{reject} if no. \qedhere
-	\end{itemize}
+  \begin{itemize}
+    \item Test if \(\angles{G, w} \in A_{\textsf{CFG}}\).
+    \item If yes then \textsc{accept}; \textsc{reject} if no. \qedhere
+  \end{itemize}
 \end{proof}
 
 \begin{proposition}
-	Let \(E_{\textsf{CFG}} = \set{
-		\angles{G} \mid \text{$G$ is a \textsf{CFG} and $L(G) = \nullset$}
-	}\). Then \(E_{\textsf{CFG}}\) is decidable.
+  Let \(E_{\textsf{CFG}} = \set{
+    \angles{G} \mid \text{$G$ is a \textsf{CFG} and $L(G) = \nullset$}
+  }\). Then \(E_{\textsf{CFG}}\) is decidable.
 \end{proposition}
 \begin{proof}
-	Suppose we are given a list of rules.
+  Suppose we are given a list of rules.
   We can mark all the terminals,
   and then if everything on the right side of a rule is marked,
   then this means we can get the left side.
@@ -148,9 +148,9 @@ However, we can do something clever and just reduce it to the previous problem.
 \end{proof}
 
 \begin{proposition}
-	Let \(\mathit{EQ}_{\textsf{CFG}} = \set{
-		\angles{G, H} \mid \text{$G, H$ are \textsf{CFG}s and $L(G) = L(H)$}
-	}\). Then \(\mathit{EQ}_{\textsf{CFG}}\) is undecidable.
+  Let \(\mathit{EQ}_{\textsf{CFG}} = \set{
+    \angles{G, H} \mid \text{$G, H$ are \textsf{CFG}s and $L(G) = L(H)$}
+  }\). Then \(\mathit{EQ}_{\textsf{CFG}}\) is undecidable.
 \end{proposition}
 We can't use the same trick of using the symmetric difference
 we used last time for \textsf{DFA}s,
@@ -158,19 +158,19 @@ because \textsf{CFG}s are not closed under complements or intersection!
 We'll prove this proposition later.
 
 \begin{proposition}
-	Let \(A_{\textsf{TM}} = \set{
-		\angles{M, w} \mid \text{$M$ is a \textsf{TM} accepting $w$}
-	}\). Then \(A_{\textsf{TM}}\) is Turing recognizable.
+  Let \(A_{\textsf{TM}} = \set{
+    \angles{M, w} \mid \text{$M$ is a \textsf{TM} accepting $w$}
+  }\). Then \(A_{\textsf{TM}}\) is Turing recognizable.
 \end{proposition}
 \begin{proof}
-	The idea is to just make the machine do it.
+  The idea is to just make the machine do it.
   In particular, the following machine recognizes \(A_{\textsf{TM}}\):
-	\begin{enumerate}[nosep, start=0]
-		\item On input \(\angles{M, w}\):
-		\item Simulate \(M\) on \(w\).
-		\item If \(M\) accepts, then \textsc{accept},
+  \begin{enumerate}[nosep, start=0]
+    \item On input \(\angles{M, w}\):
+    \item Simulate \(M\) on \(w\).
+    \item If \(M\) accepts, then \textsc{accept},
           if \(M\) rejects, then \textsc{reject}. \qedhere
-	\end{enumerate}
+  \end{enumerate}
 \end{proof}
 
 

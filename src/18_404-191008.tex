@@ -7,175 +7,175 @@ Recall that to show that \(B\) is undecidable, we can reduce \(A_{\textsf{TM}}\)
 Also, recall the set \(D = \set{\angles p \mid \text{$p$ is a multivariable polynomial that has integer roots}}\). The question whether \(D\) is decidable or not is Hilbert's 10th problem.
 
 \begin{proposition}[1971]
-	\(D\) is not decidable.
+  \(D\) is not decidable.
 \end{proposition}
 \begin{proof}[Sketch]
-	Reduce \(A_{\textsf{TM}}\) to \(D\).
+  Reduce \(A_{\textsf{TM}}\) to \(D\).
 \end{proof}
 This reduction unfortunately is very complicated, so we will not go over it here. We can, however find another problem that is undecidable.
 
 \section{Post Correspondence Problem}
 Suppose we have dominoes, i.e.\ pairs of strings:
 \[
-	P = \set*{
-		\begin{bmatrix} u_1 \\ v_1 \end{bmatrix},
-		\begin{bmatrix} u_2 \\ v_2 \end{bmatrix},
-		\begin{bmatrix} u_3 \\ v_3 \end{bmatrix}, \dots,
-		\begin{bmatrix} u_k \\ v_k \end{bmatrix}
-	}.
+  P = \set*{
+    \begin{bmatrix} u_1 \\ v_1 \end{bmatrix},
+    \begin{bmatrix} u_2 \\ v_2 \end{bmatrix},
+    \begin{bmatrix} u_3 \\ v_3 \end{bmatrix}, \dots,
+    \begin{bmatrix} u_k \\ v_k \end{bmatrix}
+  }.
 \]
 Can we determine if there exists a nonempty tuple \((p_1, \dots, p_k)\) of dominoes with \(p_i \in P\) such that the top strings concatenated are the same as the bottom strings concatenated. Such tuples are called \vocab{matches}.
 
 \begin{example}
-	Suppose that
-	\[
-		P = \set*{
-			\begin{bmatrix} \mathtt{aa} \\ \mathtt{aba} \end{bmatrix},
-			\begin{bmatrix} \mathtt{ab} \\ \mathtt{aba} \end{bmatrix},
-			\begin{bmatrix} \mathtt{ba} \\ \mathtt{aa} \end{bmatrix},
-			\begin{bmatrix} \mathtt{abab} \\ \mathtt{b} \end{bmatrix}
-		}.
-	\]
+  Suppose that
+  \[
+    P = \set*{
+      \begin{bmatrix} \mathtt{aa} \\ \mathtt{aba} \end{bmatrix},
+      \begin{bmatrix} \mathtt{ab} \\ \mathtt{aba} \end{bmatrix},
+      \begin{bmatrix} \mathtt{ba} \\ \mathtt{aa} \end{bmatrix},
+      \begin{bmatrix} \mathtt{abab} \\ \mathtt{b} \end{bmatrix}
+    }.
+  \]
 
-	Then, the tuple
-	\[
-		\parens*{
-			\begin{bmatrix} \mathtt{ab} \\ \mathtt{aba} \end{bmatrix},
-			\begin{bmatrix} \mathtt{aa} \\ \mathtt{aba} \end{bmatrix},
-			\begin{bmatrix} \mathtt{ba} \\ \mathtt{aa} \end{bmatrix},
-			\begin{bmatrix} \mathtt{aa} \\ \mathtt{aba} \end{bmatrix},
-			\begin{bmatrix} \mathtt{abab} \\ \mathtt{b} \end{bmatrix}
-		}
-	\]
-	is a match because both the top and bottom are \(\mathtt{abaabaaaabab}\).
+  Then, the tuple
+  \[
+    \parens*{
+      \begin{bmatrix} \mathtt{ab} \\ \mathtt{aba} \end{bmatrix},
+      \begin{bmatrix} \mathtt{aa} \\ \mathtt{aba} \end{bmatrix},
+      \begin{bmatrix} \mathtt{ba} \\ \mathtt{aa} \end{bmatrix},
+      \begin{bmatrix} \mathtt{aa} \\ \mathtt{aba} \end{bmatrix},
+      \begin{bmatrix} \mathtt{abab} \\ \mathtt{b} \end{bmatrix}
+    }
+  \]
+  is a match because both the top and bottom are \(\mathtt{abaabaaaabab}\).
 \end{example}
 
 \begin{proposition}<pcp>
-	The language \(\mathit{PCP} = \set{\angles{P} \mid \text{$P$ has a match}}\) is undecidable.
+  The language \(\mathit{PCP} = \set{\angles{P} \mid \text{$P$ has a match}}\) is undecidable.
 \end{proposition}
 
 We will prove this later today. First, we need a lemma:
 \begin{lemma}
-	Given a set of dominoes \(P\) and some element \(p \in P\), finding a match with first element \(p\) is equivalent to \(\mathit{PCP}\).
+  Given a set of dominoes \(P\) and some element \(p \in P\), finding a match with first element \(p\) is equivalent to \(\mathit{PCP}\).
 \end{lemma}
 \begin{proof}
-	If \(u = u_1 u_2 \dots u_\ell\) is a string where \(u_i\) are characters, let
-	\begin{align*}
-		\star u &= * u_1 * u_2 * \dots * u_\ell \\
-		u \star &= u_1 * u_2 * \dots * u_\ell * \\
-		\star u \star &= * u_1 * u_2 * \dots * u_\ell *.
-	\end{align*}
-	Then if
-	\[
-		P = \set*{
-			\begin{bmatrix} u_1 \\ v_1 \end{bmatrix},
-			\begin{bmatrix} u_2 \\ v_2 \end{bmatrix},
-			\begin{bmatrix} u_3 \\ v_3 \end{bmatrix}, \dots,
-			\begin{bmatrix} u_k \\ v_k \end{bmatrix}
-		},
-	\]
-	where \(p = \begin{bmatrix} u_i \\ v_i \end{bmatrix}\), then consider
-	\[
-		P' = \set*{
-			\begin{bmatrix} \star u_1 \\ v_1 \star \end{bmatrix},
-			\begin{bmatrix} \star u_2 \\ v_2 \star \end{bmatrix},
-			\begin{bmatrix} \star u_3 \\ v_3 \star \end{bmatrix}, \dots,
-			\begin{bmatrix} \star u_i \\ v_i \star \end{bmatrix},
-			\begin{bmatrix} \star u_i \\ \star v_i \star \end{bmatrix},
-			\begin{bmatrix} \star u_i \\ v_i \star \end{bmatrix}, \dots
-			\begin{bmatrix} \star u_k \\ v_k \star \end{bmatrix},
-			\begin{bmatrix} \star \diamond \\ \diamond \end{bmatrix}
-		}.
-	\]
-	This forces the element corresponding to \(p\) to go first, and then every thing else fits together. The last element is added so that we can actually finish the top string. A match of \(P'\) corresponds to a match in \(P\) with first element \(p\).
+  If \(u = u_1 u_2 \dots u_\ell\) is a string where \(u_i\) are characters, let
+  \begin{align*}
+    \star u &= * u_1 * u_2 * \dots * u_\ell \\
+    u \star &= u_1 * u_2 * \dots * u_\ell * \\
+    \star u \star &= * u_1 * u_2 * \dots * u_\ell *.
+  \end{align*}
+  Then if
+  \[
+    P = \set*{
+      \begin{bmatrix} u_1 \\ v_1 \end{bmatrix},
+      \begin{bmatrix} u_2 \\ v_2 \end{bmatrix},
+      \begin{bmatrix} u_3 \\ v_3 \end{bmatrix}, \dots,
+      \begin{bmatrix} u_k \\ v_k \end{bmatrix}
+    },
+  \]
+  where \(p = \begin{bmatrix} u_i \\ v_i \end{bmatrix}\), then consider
+  \[
+    P' = \set*{
+      \begin{bmatrix} \star u_1 \\ v_1 \star \end{bmatrix},
+      \begin{bmatrix} \star u_2 \\ v_2 \star \end{bmatrix},
+      \begin{bmatrix} \star u_3 \\ v_3 \star \end{bmatrix}, \dots,
+      \begin{bmatrix} \star u_i \\ v_i \star \end{bmatrix},
+      \begin{bmatrix} \star u_i \\ \star v_i \star \end{bmatrix},
+      \begin{bmatrix} \star u_i \\ v_i \star \end{bmatrix}, \dots
+      \begin{bmatrix} \star u_k \\ v_k \star \end{bmatrix},
+      \begin{bmatrix} \star \diamond \\ \diamond \end{bmatrix}
+    }.
+  \]
+  This forces the element corresponding to \(p\) to go first, and then every thing else fits together. The last element is added so that we can actually finish the top string. A match of \(P'\) corresponds to a match in \(P\) with first element \(p\).
 \end{proof}
 
 \subsection{Linearly Bounded Automata}
 To prove \(\mathit{PCP}\), we will consider a new kind of automaton to explore the idea of a computation history.
 \begin{definition}
-	A \vocab{linearly bounded automaton (\textsf{LBA})} is a \textsf{TM} whose tape is the size of the input.
+  A \vocab{linearly bounded automaton (\textsf{LBA})} is a \textsf{TM} whose tape is the size of the input.
 \end{definition}
 \begin{proposition}
-	The language \(A_{\textsf{LBA}} = \set{\angles{B, w} \mid \text{\textsf{LBA} $B$ accepts $w$}}\) is decidable.
+  The language \(A_{\textsf{LBA}} = \set{\angles{B, w} \mid \text{\textsf{LBA} $B$ accepts $w$}}\) is decidable.
 \end{proposition}
 \begin{proof}[Idea]
-	Run \(B\) on \(w\). Since the length of the tape is fixed, there are a finite number of configurations of the \textsf{TM}. Therefore, at some point the machine with either halt or repeat a configuration. If \(B\) repeats a configuration, then we know that it will loop.
+  Run \(B\) on \(w\). Since the length of the tape is fixed, there are a finite number of configurations of the \textsf{TM}. Therefore, at some point the machine with either halt or repeat a configuration. If \(B\) repeats a configuration, then we know that it will loop.
 
-	In particular, if the input is of length \(n\), then there are \(N = n \size Q \size{\Gamma}^n\) possible configurations of the \textsf{LBA}, so we can run \(B\) on \(v\) for \(N + 1\) steps. If \(B\) is still running after this, then we know it will definitely loop.
+  In particular, if the input is of length \(n\), then there are \(N = n \size Q \size{\Gamma}^n\) possible configurations of the \textsf{LBA}, so we can run \(B\) on \(v\) for \(N + 1\) steps. If \(B\) is still running after this, then we know it will definitely loop.
 \end{proof}
 
 \begin{proposition}
-	The language \(E_{\textsf{LBA}} = \set{\angles{B} \mid L(B) = \nullset}\) is undecidable.
+  The language \(E_{\textsf{LBA}} = \set{\angles{B} \mid L(B) = \nullset}\) is undecidable.
 \end{proposition}
 \begin{proof}
-	We will show that \(A_{\textsf{TM}}\) reduces to \(E_{\textsf{LBA}}\). The idea is to consider the possible computation history for a machine. In particular, a computation history is a sequence of configurations
-	\[
-		C_1 \texttt\#
-		C_2 \texttt\#
-		C_3 \texttt\# \dots \texttt\#
-		C_\ell,
-	\]
-	delimited by \(\texttt\#\)s, where \(C_i\) are of the form \(t_1 q t_2\), where \(t_1 t_2 \in \Gamma^n\) is the content of the tape, and \(q\) is the state that the machine is on, inserted into \(t = t_1 t_2\) at the position of the head. We will create a machine that determines whether a certain computation history is valid and accepts. Then, we can use \(E_{\textsf{LBA}}\) to determine whether there exists a valid computation history that accepts.
+  We will show that \(A_{\textsf{TM}}\) reduces to \(E_{\textsf{LBA}}\). The idea is to consider the possible computation history for a machine. In particular, a computation history is a sequence of configurations
+  \[
+    C_1 \texttt\#
+    C_2 \texttt\#
+    C_3 \texttt\# \dots \texttt\#
+    C_\ell,
+  \]
+  delimited by \(\texttt\#\)s, where \(C_i\) are of the form \(t_1 q t_2\), where \(t_1 t_2 \in \Gamma^n\) is the content of the tape, and \(q\) is the state that the machine is on, inserted into \(t = t_1 t_2\) at the position of the head. We will create a machine that determines whether a certain computation history is valid and accepts. Then, we can use \(E_{\textsf{LBA}}\) to determine whether there exists a valid computation history that accepts.
 
-	Let the \textsf{TM} \(R\) decide \(E_{\textsf{LBA}}\). Then consider the following \textsf{TM} \(S\) that decides \(A_{\textsf{TM}}\):
-	\begin{enumerate}[nosep, start=0]
-		\item On input \(\angles{M, w}\):
-	\item Consider the \textsf{LBA} \(B_{M, w}\) defined by
-		\begin{enumerate}[nosep]
-			\item On input \(x\):
-			\item Determine whether \(x\) is an accepting computation history for \(M\) on \(w\).
-			\item If yes then \textsc{accept}, otherwise \textsc{reject}.
-		\end{enumerate}
-		\item Run \(R\) on \(B_{M, w}\).
-		\item If \(R\) rejects then \textsc{accept}, otherwise, \textsc{reject}. \qedhere
-	\end{enumerate}
+  Let the \textsf{TM} \(R\) decide \(E_{\textsf{LBA}}\). Then consider the following \textsf{TM} \(S\) that decides \(A_{\textsf{TM}}\):
+  \begin{enumerate}[nosep, start=0]
+    \item On input \(\angles{M, w}\):
+  \item Consider the \textsf{LBA} \(B_{M, w}\) defined by
+    \begin{enumerate}[nosep]
+      \item On input \(x\):
+      \item Determine whether \(x\) is an accepting computation history for \(M\) on \(w\).
+      \item If yes then \textsc{accept}, otherwise \textsc{reject}.
+    \end{enumerate}
+    \item Run \(R\) on \(B_{M, w}\).
+    \item If \(R\) rejects then \textsc{accept}, otherwise, \textsc{reject}. \qedhere
+  \end{enumerate}
 \end{proof}
 
 \subsection{Undecidability of \texorpdfstring{\(\mathit{PCP}\)}{PCP}}
 Now we will prove \cref{prop:pcp}, i.e. \(\mathit{PCP}\) is undecidable.
 \begin{proof}[\(\mathit{PCP}\)]
-	The idea is to encode the computation history rules into the dominoes \(P\) that we can use to prove \(A_{\textsf{TM}} \mapredu \mathit{PCP}\).
+  The idea is to encode the computation history rules into the dominoes \(P\) that we can use to prove \(A_{\textsf{TM}} \mapredu \mathit{PCP}\).
 
-	Suppose the \textsf{TM} \(R\) decides \(\mathit{PCP}\). Consider the following machine \(S\) that decides \(A_{\textsf{TM}}\):
-	\begin{enumerate}[start=0]
-		\item On input \(\angles{M, w}\), where \(w = w_1 w_2 \dots w_n\):
-		\item Construct the set
-		\[
-			\begin{multlined}
-				P_{M, w} = \set*{
-					\begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*},
-					\begin{bmatrix} \texttt\# \\ \texttt\# \end{bmatrix},
-					\begin{bmatrix} q_{\text{accept}} \texttt\# \\ \texttt\# \end{bmatrix}
-				} \union \set*{
-					\begin{bmatrix} a \\ a \end{bmatrix} \mid a \in \Gamma
-				} \\
-				\union \set*{
-					\begin{bmatrix} qa \\ br \end{bmatrix} \mid \delta(q, a) = (r, b, R)
-				} \union \set*{
-					\begin{bmatrix} cqa \\ rcb \end{bmatrix} \mid \delta(q, a) = (r, b, L)
-				} \union \set*{
-					\begin{bmatrix*}[r] a q_{\text{accept}} b \texttt\# \\ \texttt\# \end{bmatrix*} \mid a, b \in \Gamma^*
-				}
-			\end{multlined}
-		\]
-		\item Run \(R\) on \(P_{M, w}\).
-		\item If \(R\) accepts then \textsc{accept}; if \(R\) rejects then \textsc{reject}.
-	\end{enumerate}
-	The idea is to make \(R\) create a valid computation history if one exists. At each \(\texttt\#\), the computation history advances one step. For example, if \(\begin{bmatrix} q_0 w_1 \\ a q \end{bmatrix} \in P_{M, w}\), then our sequence of dominoes might start out as
-	\[
-		\begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*},
-		\begin{bmatrix} q_0 w_1 \\ a q \end{bmatrix}, \dots,
-		\begin{bmatrix} \texttt\# \\ \texttt\# \end{bmatrix}, \dots
-	\]
-	which gives the combined domino:
-	\[
-		\begin{bmatrix*}[l]
-			\texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \\
-			\texttt\# q_0 w_1 w_2 \dots w_n \texttt\# a q w_2 \dots w_n \texttt\#
-		\end{bmatrix*}.
-	\]
-	
-	The existence of a match in \(P\) that starts with \(\begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*}\) means that we have a valid sequence of configurations that accept. In particular, if \(R\) accepts \(P\) then we know that \(M\) accepts \(w\), and similarly if \(R\) rejects \(P\).
+  Suppose the \textsf{TM} \(R\) decides \(\mathit{PCP}\). Consider the following machine \(S\) that decides \(A_{\textsf{TM}}\):
+  \begin{enumerate}[start=0]
+    \item On input \(\angles{M, w}\), where \(w = w_1 w_2 \dots w_n\):
+    \item Construct the set
+    \[
+      \begin{multlined}
+        P_{M, w} = \set*{
+          \begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*},
+          \begin{bmatrix} \texttt\# \\ \texttt\# \end{bmatrix},
+          \begin{bmatrix} q_{\text{accept}} \texttt\# \\ \texttt\# \end{bmatrix}
+        } \union \set*{
+          \begin{bmatrix} a \\ a \end{bmatrix} \mid a \in \Gamma
+        } \\
+        \union \set*{
+          \begin{bmatrix} qa \\ br \end{bmatrix} \mid \delta(q, a) = (r, b, R)
+        } \union \set*{
+          \begin{bmatrix} cqa \\ rcb \end{bmatrix} \mid \delta(q, a) = (r, b, L)
+        } \union \set*{
+          \begin{bmatrix*}[r] a q_{\text{accept}} b \texttt\# \\ \texttt\# \end{bmatrix*} \mid a, b \in \Gamma^*
+        }
+      \end{multlined}
+    \]
+    \item Run \(R\) on \(P_{M, w}\).
+    \item If \(R\) accepts then \textsc{accept}; if \(R\) rejects then \textsc{reject}.
+  \end{enumerate}
+  The idea is to make \(R\) create a valid computation history if one exists. At each \(\texttt\#\), the computation history advances one step. For example, if \(\begin{bmatrix} q_0 w_1 \\ a q \end{bmatrix} \in P_{M, w}\), then our sequence of dominoes might start out as
+  \[
+    \begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*},
+    \begin{bmatrix} q_0 w_1 \\ a q \end{bmatrix}, \dots,
+    \begin{bmatrix} \texttt\# \\ \texttt\# \end{bmatrix}, \dots
+  \]
+  which gives the combined domino:
+  \[
+    \begin{bmatrix*}[l]
+      \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \\
+      \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# a q w_2 \dots w_n \texttt\#
+    \end{bmatrix*}.
+  \]
+  
+  The existence of a match in \(P\) that starts with \(\begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*}\) means that we have a valid sequence of configurations that accept. In particular, if \(R\) accepts \(P\) then we know that \(M\) accepts \(w\), and similarly if \(R\) rejects \(P\).
 \end{proof}
 
 

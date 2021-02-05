@@ -12,17 +12,17 @@ in which we need models of computation.
 Let's start with an object \(M_1\) that is represented by
 the following diagram:
 \begin{center}
-	\begin{tikzpicture}[automaton, node distance=1.7cm]
-		\node[state, initial]   (s_1) {\(q_1\)};
-		\node[state]            (s_2) [right = of s_1] {\(q_2\)};
-		\node[state, accepting] (s_3) [right = of s_2] {\(q_3\)};
+  \begin{tikzpicture}[automaton, node distance=1.7cm]
+    \node[state, initial]   (s_1) {\(q_1\)};
+    \node[state]            (s_2) [right = of s_1] {\(q_2\)};
+    \node[state, accepting] (s_3) [right = of s_2] {\(q_3\)};
 
-		\path (s_1) edge [loop above] node {\(\texttt 0\)} (s_1);
-		\path (s_1) edge [bend left]  node {\(\texttt 1\)} (s_2);
-		\path (s_2) edge [bend left]  node {\(\texttt 0\)} (s_1);
-		\path (s_2) edge []           node {\(\texttt 1\)} (s_3);
-		\path (s_3) edge [loop right] node {\(\texttt 0, \texttt 1\)} (s_3);
-	\end{tikzpicture}
+    \path (s_1) edge [loop above] node {\(\texttt 0\)} (s_1);
+    \path (s_1) edge [bend left]  node {\(\texttt 1\)} (s_2);
+    \path (s_2) edge [bend left]  node {\(\texttt 0\)} (s_1);
+    \path (s_2) edge []           node {\(\texttt 1\)} (s_3);
+    \path (s_3) edge [loop right] node {\(\texttt 0, \texttt 1\)} (s_3);
+  \end{tikzpicture}
 \end{center}
 We have the states \(q_1\), \(q_2\), and \(q_3\),
 transitions represented by the arrows and their labels,
@@ -37,68 +37,68 @@ If the ending state is an accepting state, we say that the input is accepted,
 and otherwise the input is rejected.
 
 \begin{example}
-	In \(M_1\), \texttt{0101} is rejected and \texttt{01101} is accepted.
+  In \(M_1\), \texttt{0101} is rejected and \texttt{01101} is accepted.
 \end{example}
 
 For a finite automata \(M\), we can think about all of the strings
 that \(M\) accepts:
 \[
-	\set{\text{strings \(w\)} \mid \text{\(M\) accepts \(w\)}}.
+  \set{\text{strings \(w\)} \mid \text{\(M\) accepts \(w\)}}.
 \]
 We usually call this the language of \(M\),
 and we also sometimes say that \(M\) recognizes \(A\).
 
 \subsection{More Rigorously}
 \begin{definition}[Finite Automaton]
-	A \vocab{finite automaton} \(M\) is a tuple
+  A \vocab{finite automaton} \(M\) is a tuple
   \((Q, \Sigma, \delta, q_0, F)\) where
-	\begin{itemize}[nosep]
-		\item \(Q\) is a finite set of states,
-		\item \(\Sigma\) is a set of symbols, called the \vocab{alphabet},
-		\item \(\delta \colon Q \times \Sigma \to Q\) is the transition function,
-    i.e.\ the arrows in the diagram,
-		\item \(q_0 \in Q\) is the start state, and
-		\item \(F \subseteq Q\) are the accepting states.
-	\end{itemize}
+  \begin{itemize}[nosep]
+    \item \(Q\) is a finite set of states,
+    \item \(\Sigma\) is a set of symbols, called the \vocab{alphabet},
+    \item \(\delta \colon Q \times \Sigma \to Q\) is the transition function,
+          i.e.\ the arrows in the diagram,
+    \item \(q_0 \in Q\) is the start state, and
+    \item \(F \subseteq Q\) are the accepting states.
+  \end{itemize}
 \end{definition}
 
 \begin{remark}
-	Since \(\delta\) has a codomain of \(Q\),
+  Since \(\delta\) has a codomain of \(Q\),
   this is a deterministic finite automata,
   i.e.\ there is only one possible ``next'' output
   given a state and a symbol.
 \end{remark}
 
 \begin{definition}
-	We say that a finite automaton \(M = (Q, \Sigma, \delta, q_0, F)\)
+  We say that a finite automaton \(M = (Q, \Sigma, \delta, q_0, F)\)
   \vocab{accepts} a string (a finite sequence of symbols in \(\Sigma\))
   \(w = w_1 w_2 \dots w_n\), where \(w_i \in \Sigma\) if
   there exists a sequence of states \(r_0, r_1, \dots, r_n\) where
-	\begin{itemize}[nosep]
-		\item \(r_0 = q_0\),
-		\item \(r_n \in F\), and
-		\item \(\delta(r_{i - 1}, w_i) = r_i\) for \(1 \leq i \leq n\).
-	\end{itemize}
+  \begin{itemize}[nosep]
+    \item \(r_0 = q_0\),
+    \item \(r_n \in F\), and
+    \item \(\delta(r_{i - 1}, w_i) = r_i\) for \(1 \leq i \leq n\).
+  \end{itemize}
 \end{definition}
 
 \begin{definition}
-	The \vocab{language} of \(M\) is
+  The \vocab{language} of \(M\) is
   \(L(M) = \set{w \mid \text{$M$ accepts $w$}}\).
   Then, we say that \(M\) \vocab{recognizes} \(L(M)\).
 
-	If \(A = L(M)\) for some finite automaton \(M\),
+  If \(A = L(M)\) for some finite automaton \(M\),
   then \(A\) is a \vocab{regular} language.
 \end{definition}
 
 \begin{example}[Regular Languages]
-	\begin{itemize}[nosep]
-		\item \(A = \set{w \mid \text{\texttt{11} is a substring of $w$}}\)
+  \begin{itemize}[nosep]
+    \item \(A = \set{w \mid \text{\texttt{11} is a substring of $w$}}\)
           is regular.
-		\item \(B = \set{w \mid \text{$w$ starts and ends with the same symbol}}\)
+    \item \(B = \set{w \mid \text{$w$ starts and ends with the same symbol}}\)
           is regular.
-		\item \(C = \set{w \mid \text{$w$ has an equal number of
+    \item \(C = \set{w \mid \text{$w$ has an equal number of
                             \texttt{0}s and \texttt{1}s}}\) is regular.
-	\end{itemize}
+  \end{itemize}
 \end{example}
 
 \subsection{Operations}
@@ -106,24 +106,24 @@ We can also define operations on languages.
 Let \(A\) and \(B\) be languages.
 Then, the \vocab{union} of \(A\) and \(B\) is
 \[
-	A \union B = \set{w \mid \text{$w \in A$ or $w \in B$}}.
+  A \union B = \set{w \mid \text{$w \in A$ or $w \in B$}}.
 \]
 The \vocab{concatenation} of \(A\) and \(B\) is
 \[
-	A \circ B = \set{xy \mid \text{$x \in A$ and $y \in B$}}.
+  A \circ B = \set{xy \mid \text{$x \in A$ and $y \in B$}}.
 \]
 We will often omit the circle for convenience.
 The \vocab{star} operator gives
 \[
-	A^* = \set{x_1 x_2 \dots x_k \mid x_i \in A, k \in \NN}.
+  A^* = \set{x_1 x_2 \dots x_k \mid x_i \in A, k \in \NN}.
 \]
 Note that the empty string \(\eps\) is in \(A^*\) from the case \(k = 0\).
 
 \begin{proposition}<union_of_regular_is_regular>
-	If \(A\) and \(B\) are regular, then so is \(A \union B\).
+  If \(A\) and \(B\) are regular, then so is \(A \union B\).
 \end{proposition}
 \begin{proof}
-	First we'll show that \(A \union B\) is regular.
+  First we'll show that \(A \union B\) is regular.
   Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) and
           \(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\)
   recognize \(A\) and \(B\) respectively.
@@ -133,21 +133,21 @@ Note that the empty string \(\eps\) is in \(A^*\) from the case \(k = 0\).
   In particular, we will keep track of the states
   of each machine in ordered pairs.
 
-	Our desired finite automaton that accepts \(A \union B\) is
+  Our desired finite automaton that accepts \(A \union B\) is
   \((Q, \Sigma, \delta, q, F)\), where
-	\begin{itemize}[nosep]
-		\item \(Q = Q_A \times Q_B\),
-		\item \(\delta \colon ((a, b), \sigma) \mapsto
+  \begin{itemize}[nosep]
+    \item \(Q = Q_A \times Q_B\),
+    \item \(\delta \colon ((a, b), \sigma) \mapsto
                           (\delta_A(a, \sigma), \delta_B(b, \sigma))\),
-		\item \(q = (q_A, q_B)\), and
-		\item \(F = \set{(a, b) \in Q_A \times Q_B \mid
+    \item \(q = (q_A, q_B)\), and
+    \item \(F = \set{(a, b) \in Q_A \times Q_B \mid
                      \text{$a \in F_A$ or $b \in F_B$}}
               = (F_A \times Q_B) \union (Q_A \times F_B)\). \qedhere
-	\end{itemize}
+  \end{itemize}
 \end{proof}
 
 \begin{remark}
-	Note that we can prove that
+  Note that we can prove that
   \(A \intersect B \coloneqq \set{w \mid \text{$w \in A$ and $w \in B$}}\)
   is regular with the exact same machine as \(A \union B\)
   except we replace the final states with \(F_A \times F_B\).

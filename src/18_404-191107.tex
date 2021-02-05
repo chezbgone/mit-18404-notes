@@ -4,99 +4,99 @@
 \begin{document}
 %\chapter{November 07, 2019}
 \begin{proposition}
-	\(\textit{LADDER}_{\textsf{DFA}} \in \mathsf{PSPACE}\).
+  \(\textit{LADDER}_{\textsf{DFA}} \in \mathsf{PSPACE}\).
 \end{proposition}
 \begin{proof}
-	Let's write \(u \to v\) if \(\angles{B, u, v} \in \textit{LADDER}_{\textsf{DFA}}\), and \(u \stackrel{k}{\to} v\) if the ladder has \(\leq k\) steps. Consider the following algorithm that tests if \(u \stackrel{k}{\to} v\):
-	\begin{enumerate}[start=0]
-		\item On input \(\angles{B, u, v}\):
-		\item If \(k = 1\), then check directly.
-		\item For each \(w\) of length \(m\):
-		\begin{enumerate}[nosep]
-			\item Test \(u \xrightarrow{k/2} w\) and \(w \xrightarrow{k/2}\) recursively.
-			\item If both succeed then \textsc{accept}.
-		\end{enumerate}
-		\item If no such \(w\) work, then \textsc{reject}.
-	\end{enumerate}
+  Let's write \(u \to v\) if \(\angles{B, u, v} \in \textit{LADDER}_{\textsf{DFA}}\), and \(u \stackrel{k}{\to} v\) if the ladder has \(\leq k\) steps. Consider the following algorithm that tests if \(u \stackrel{k}{\to} v\):
+  \begin{enumerate}[start=0]
+    \item On input \(\angles{B, u, v}\):
+    \item If \(k = 1\), then check directly.
+    \item For each \(w\) of length \(m\):
+    \begin{enumerate}[nosep]
+      \item Test \(u \xrightarrow{k/2} w\) and \(w \xrightarrow{k/2}\) recursively.
+      \item If both succeed then \textsc{accept}.
+    \end{enumerate}
+    \item If no such \(w\) work, then \textsc{reject}.
+  \end{enumerate}
 
-	The number of levels of recursion is \(\log k\), and the space used per level is \(m\), namely in storing \(w\). Therefore, this algorithm uses \(m \log k\) space.
+  The number of levels of recursion is \(\log k\), and the space used per level is \(m\), namely in storing \(w\). Therefore, this algorithm uses \(m \log k\) space.
 
-	To test if \(u \to v\) in general, then it suffices to test \(u \xrightarrow{\size{\Sigma}^m} v\). This takes space
-	\[
-		m \log d^m = m^2 \log d = O(m^2) \leq O(n^3). \qedhere
-	\]
+  To test if \(u \to v\) in general, then it suffices to test \(u \xrightarrow{\size{\Sigma}^m} v\). This takes space
+  \[
+    m \log d^m = m^2 \log d = O(m^2) \leq O(n^3). \qedhere
+  \]
 \end{proof}
 
 \begin{theorem}[Savitch]
-	For any function \(f \colon \NN \to \NN\) where \(f(n) \geq n\),
-	\[
-		\mathsf{NSPACE}(f(n)) \subseteq \mathsf{SPACE}(f(n)^2).
-	\]
+  For any function \(f \colon \NN \to \NN\) where \(f(n) \geq n\),
+  \[
+    \mathsf{NSPACE}(f(n)) \subseteq \mathsf{SPACE}(f(n)^2).
+  \]
 \end{theorem}
 \begin{proof}
-	Let \(A \in \mathsf{NSPACE}(f(n))\) decided by an \textsf{NTM} \(M\) that runs in space \(O(f(n))\). We want to show that there is a deterministic algorithm for \(A\) that runs in \(O(f(n)^2)\) space. Note that since \(M\) halts, the maximum number of steps it can take is \(d^{f(n)}\), where \(d\) is some constant depending on \(M\).
+  Let \(A \in \mathsf{NSPACE}(f(n))\) decided by an \textsf{NTM} \(M\) that runs in space \(O(f(n))\). We want to show that there is a deterministic algorithm for \(A\) that runs in \(O(f(n)^2)\) space. Note that since \(M\) halts, the maximum number of steps it can take is \(d^{f(n)}\), where \(d\) is some constant depending on \(M\).
 
-	Let's (suggestively) write \(C_i \xrightarrow{k} C_j\) where \(C_i\) and \(C_j\) are configurations of \(M\), if \(C_i\) can yield \(C_j\) in \(k\) steps. Then \(M\) accepts \(w\) if \(C_{\textsc{start}} \xrightarrow{d^{f(n)}} C_{\textsc{accept}}\).
+  Let's (suggestively) write \(C_i \xrightarrow{k} C_j\) where \(C_i\) and \(C_j\) are configurations of \(M\), if \(C_i\) can yield \(C_j\) in \(k\) steps. Then \(M\) accepts \(w\) if \(C_{\textsc{start}} \xrightarrow{d^{f(n)}} C_{\textsc{accept}}\).
 
-	Consider the following algorithm that tests if \(C_i \xrightarrow{k} C_j\):
-	\begin{enumerate}[start=0]
-		\item On input \(\angles{C_i, C_j, k}\):
-		\item If \(k = 1\), then check directly according to the rules of \(M\).
-		\item For each possible configuration \(C_{\textsc{mid}}\):
-		\begin{enumerate}[nosep]
-			\item Test \(C_i \xrightarrow{k/2} C_{\textsc{mid}}\) and \(C_{\textsc{mid}} \xrightarrow{k/2} C_j\).
-			\item If both succeed, then \textsc{accept}.
-		\end{enumerate}
-		\item If no such \(w\) work, then \textsc{reject}.
-	\end{enumerate}
-	There are \(\log k\) levels of recursion, and the space used at each level is the amount of space we use to write \(C_{\textsc{mid}}\), which is \(O(f(n))\). Therefore, the total space we use is \(O(f(n)\log k)\).
+  Consider the following algorithm that tests if \(C_i \xrightarrow{k} C_j\):
+  \begin{enumerate}[start=0]
+    \item On input \(\angles{C_i, C_j, k}\):
+    \item If \(k = 1\), then check directly according to the rules of \(M\).
+    \item For each possible configuration \(C_{\textsc{mid}}\):
+    \begin{enumerate}[nosep]
+      \item Test \(C_i \xrightarrow{k/2} C_{\textsc{mid}}\) and \(C_{\textsc{mid}} \xrightarrow{k/2} C_j\).
+      \item If both succeed, then \textsc{accept}.
+    \end{enumerate}
+    \item If no such \(w\) work, then \textsc{reject}.
+  \end{enumerate}
+  There are \(\log k\) levels of recursion, and the space used at each level is the amount of space we use to write \(C_{\textsc{mid}}\), which is \(O(f(n))\). Therefore, the total space we use is \(O(f(n)\log k)\).
 
-	The problem of interest is for \(k = d^{f(n)}\), and the total runtime is \(O(f(n) \cdot \log d^{f(n)}) = O(f(n)^2)\).
+  The problem of interest is for \(k = d^{f(n)}\), and the total runtime is \(O(f(n) \cdot \log d^{f(n)}) = O(f(n)^2)\).
 \end{proof}
 
 Therefore, we have the chain
 \[
-	\mathsf{P} \subseteq \mathsf{NP} \subseteq \mathsf{PSPACE} = \mathsf{NPSPACE},
+  \mathsf{P} \subseteq \mathsf{NP} \subseteq \mathsf{PSPACE} = \mathsf{NPSPACE},
 \]
 where the problems of whether these subsets are strict are open.
 
 \section{PSPACE-Completeness}
 \begin{definition}
-	A problem \(B\) is \vocab{\(\mathsf{PSPACE}\)-hard} if for every \(A \in \mathsf{PSPACE}\), we have \(A \polyredu B\). Then, \(B\) is \vocab{\(\mathsf{PSPACE}\)-complete} if we also have \(B \in \mathsf{PSPACE}\).
+  A problem \(B\) is \vocab{\(\mathsf{PSPACE}\)-hard} if for every \(A \in \mathsf{PSPACE}\), we have \(A \polyredu B\). Then, \(B\) is \vocab{\(\mathsf{PSPACE}\)-complete} if we also have \(B \in \mathsf{PSPACE}\).
 \end{definition}
 
 Note that here we are using a polynomial time reduction because if we used a \(\mathsf{PSPACE}\) reduction, everything would be \(\mathsf{PSPACE}\)-complete. In general, we usually want to use a reduction that is weaker than the space.
 
 \begin{proposition}
-	\textit{TQBF} is \(\mathsf{PSPACE}\)-complete.
+  \textit{TQBF} is \(\mathsf{PSPACE}\)-complete.
 \end{proposition}
 \begin{proof}
-	First, we know that \(\textit{TQBF} \in \mathsf{PSPACE}\) from \cref{prop:tqbf_pspace}.
-	
-	Now suppose we have some \(A \in \mathsf{PSPACE}\) using a \textsf{TM} \(M\) running in \(O(n^k)\) space. We want to show that \(A \polyredu \textit{TQBF}\). If \(w \in A\), consider the tableau for \(M\) on \(w\). Then, we want to determine whether there exists a sequence of configurations \(C_{\textsc{start}}, \dots, C_{\textsc{accept}}\). More specifically, we want to write an instance of \textit{TQBF} that says ``\(M\) accepts \(w\)''.
+  First, we know that \(\textit{TQBF} \in \mathsf{PSPACE}\) from \cref{prop:tqbf_pspace}.
+  
+  Now suppose we have some \(A \in \mathsf{PSPACE}\) using a \textsf{TM} \(M\) running in \(O(n^k)\) space. We want to show that \(A \polyredu \textit{TQBF}\). If \(w \in A\), consider the tableau for \(M\) on \(w\). Then, we want to determine whether there exists a sequence of configurations \(C_{\textsc{start}}, \dots, C_{\textsc{accept}}\). More specifically, we want to write an instance of \textit{TQBF} that says ``\(M\) accepts \(w\)''.
 
-	Let's try to solve a more general problem. Given configurations \(C_i\) and \(C_j\) and some \(k \in \NN\), we want to write a quantified binary formula \(\phi_{C_i, C_j, k}\) that says \(C_i \stackrel{k}{\to} C_j\) i.e.\ that there exists a computation history tableau that goes from \(C_i\) to \(C_j\) in \(k\) steps. Like in Cook-Levin We can use a similar strategy that we used to prove Savitch's theorem, i.e.\ recursion.
+  Let's try to solve a more general problem. Given configurations \(C_i\) and \(C_j\) and some \(k \in \NN\), we want to write a quantified binary formula \(\phi_{C_i, C_j, k}\) that says \(C_i \stackrel{k}{\to} C_j\) i.e.\ that there exists a computation history tableau that goes from \(C_i\) to \(C_j\) in \(k\) steps. Like in Cook-Levin We can use a similar strategy that we used to prove Savitch's theorem, i.e.\ recursion.
 
-	The quantified formula \(\phi_{C_i, C_j, k}\) is equivalent to there existing some intermediate configuration \(C_m\) such that \(C_i \xrightarrow{k/2} C_m\) and \(C_m \xrightarrow{k/2} C_j\). In particular, we can write
-	\[
-		\phi_{C_i, C_j, k} =
-			\exists C_m \, (
-				\phi_{C_i, C_m, k/2} \land
-				\phi_{C_m, C_j, k/2}
-			).
-	\]
-	However if we recuse with this formula, this gives us a formula of size \(O(k)\). This is bad because our initial \(k\) will be exponential in the input size. We can fix this by using the \(\forall\) feature of quantified formulas. In particular,
-	\[
-		\phi_{C_i, C_j, k} =
-			\exists C_m \, \forall (C_i', C_j') \in \set{(C_i, C_m), (C_m, C_j)} \, (
-				\phi_{C_i, C_m, k/2}
-			).
-	\]
-	This gives us a formula of length \(O(\log k)\), which is good.
+  The quantified formula \(\phi_{C_i, C_j, k}\) is equivalent to there existing some intermediate configuration \(C_m\) such that \(C_i \xrightarrow{k/2} C_m\) and \(C_m \xrightarrow{k/2} C_j\). In particular, we can write
+  \[
+    \phi_{C_i, C_j, k} =
+      \exists C_m \, (
+        \phi_{C_i, C_m, k/2} \land
+        \phi_{C_m, C_j, k/2}
+      ).
+  \]
+  However if we recuse with this formula, this gives us a formula of size \(O(k)\). This is bad because our initial \(k\) will be exponential in the input size. We can fix this by using the \(\forall\) feature of quantified formulas. In particular,
+  \[
+    \phi_{C_i, C_j, k} =
+      \exists C_m \, \forall (C_i', C_j') \in \set{(C_i, C_m), (C_m, C_j)} \, (
+        \phi_{C_i, C_m, k/2}
+      ).
+  \]
+  This gives us a formula of length \(O(\log k)\), which is good.
 
-	One thing to be careful about is that we said \(\exists C_m\) and \(\forall(C_i', C_j')\), when \textit{TQBF} was defined for boolean variables. The way to fix this is to use the indicator variables, like we did in the proof of Cook-Levin. More specifically, we can write \(\forall x \in \set{s_1, s_2}\, \varphi\) as \(\forall x \, [(x = s_1 \lor x = s_2) \rightarrow \varphi]\).
+  One thing to be careful about is that we said \(\exists C_m\) and \(\forall(C_i', C_j')\), when \textit{TQBF} was defined for boolean variables. The way to fix this is to use the indicator variables, like we did in the proof of Cook-Levin. More specifically, we can write \(\forall x \in \set{s_1, s_2}\, \varphi\) as \(\forall x \, [(x = s_1 \lor x = s_2) \rightarrow \varphi]\).
 
-	Therefore, we can write \(\phi_{C_{\textsc{start}}, C_{\textsc{accept}}, 2^{d n^k}}\) as a formula in \(O(\log 2^{d n^k}) = O(d n^k)\) space, and therefore \(w \mapsto \phi_{C_{\textsc{start}}, C_{\textsc{accept}}, 2^{d n^k}}\) is the reduction that we are looking for.
+  Therefore, we can write \(\phi_{C_{\textsc{start}}, C_{\textsc{accept}}, 2^{d n^k}}\) as a formula in \(O(\log 2^{d n^k}) = O(d n^k)\) space, and therefore \(w \mapsto \phi_{C_{\textsc{start}}, C_{\textsc{accept}}, 2^{d n^k}}\) is the reduction that we are looking for.
 \end{proof}
 
 

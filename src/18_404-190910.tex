@@ -4,7 +4,7 @@
 \begin{document}
 \section{More on Closure of Regular Operations}
 \begin{proposition}<concat_of_regular_is_regular>
-	If \(A\) and \(B\) are regular, then so is \(A \circ B\).
+  If \(A\) and \(B\) are regular, then so is \(A \circ B\).
 \end{proposition}
 We can attempt to prove using the same method as
 \cref{prop:union_of_regular_is_regular}.
@@ -20,17 +20,17 @@ So \(M\) is not able to test all potential split points.
 \section{Nondeterministic Finite Automata}
 To fix this problem, let's allow the machine to make decisions.
 \begin{center}
-	\begin{tikzpicture}[automaton]
-		\node[state, initial]     (q1) {\(q_1\)};
-		\node[state, right=of q1] (q2) {\(q_2\)};
-		\node[state, right=of q2] (q3) {\(q_3\)};
-		\node[state, right=1.8cm of q3] (q4) {\(q_4\)};
+  \begin{tikzpicture}[automaton]
+    \node[state, initial]     (q1) {\(q_1\)};
+    \node[state, right=of q1] (q2) {\(q_2\)};
+    \node[state, right=of q2] (q3) {\(q_3\)};
+    \node[state, right=1.8cm of q3] (q4) {\(q_4\)};
 
-		\path[loop above] (q1) edge node{\(\mathtt a, \mathtt b\)} (q1);
-		\path             (q1) edge node{\(\mathtt a\)} (q2);
-		\path             (q2) edge node{\(\mathtt b\)} (q3);
-		\path             (q3) edge node{\(\mathtt a, \eps\)} (q4);
-	\end{tikzpicture}
+    \path[loop above] (q1) edge node{\(\mathtt a, \mathtt b\)} (q1);
+    \path             (q1) edge node{\(\mathtt a\)} (q2);
+    \path             (q2) edge node{\(\mathtt b\)} (q3);
+    \path             (q3) edge node{\(\mathtt a, \eps\)} (q4);
+  \end{tikzpicture}
 \end{center}
 The idea is that at a particular state (e.g.\ \(q_1\)),
 there may be multiple edges that the machine could take
@@ -42,54 +42,54 @@ then we include both the current state as well as
 the state that the \(\eps\) arrow goes to, as the machine can be at both.
 
 \begin{example}
-	In the machine described by the diagram above,
+  In the machine described by the diagram above,
   \(\mathtt{ab}\) and \(\mathtt{aba}\) are accepted,
   while \(\mathtt{ba}\) and \(\mathtt{abaa}\) are rejected.
 \end{example}
 
 \begin{definition}
-	A \vocab{nondeterministic finite automata} (\textsf{NFA}) is
+  A \vocab{nondeterministic finite automata} (\textsf{NFA}) is
   tuple \((Q, \Sigma, \delta, q_0, F)\) where
-	\begin{itemize}[nosep]
-		\item \(Q\) is a finite set of states,
-		\item \(\Sigma\) is a finite alphabet,
-		\item \(\delta \colon Q \times \Sigma_\eps \to \mathcal P(Q)\) is
+  \begin{itemize}[nosep]
+    \item \(Q\) is a finite set of states,
+    \item \(\Sigma\) is a finite alphabet,
+    \item \(\delta \colon Q \times \Sigma_\eps \to \mathcal P(Q)\) is
           the transition function,
-		\item \(q_0 \in Q\) is the start state, and
-		\item \(F\) is the set of accepting states.
-	\end{itemize}
-	where \(\Sigma_\eps = \Sigma \union \set \eps\).
+    \item \(q_0 \in Q\) is the start state, and
+    \item \(F\) is the set of accepting states.
+  \end{itemize}
+  where \(\Sigma_\eps = \Sigma \union \set \eps\).
   Then, we say that the \textsf{NFA} \vocab{accepts} a string
   \(s = s_1 s_2 \dots s_n \in \Sigma^n\) if there exists
   a sequence of states \(r_0, \dots, r_n\) such that
-	\begin{itemize}[nosep]
-		\item \(r_0 = q_0\),
-		\item \(r_n \in F\), and
-		\item \(r_i \in \delta(r_{i - 1}, w_i)\) for \(1 \leq i \leq n\).
-	\end{itemize}
+  \begin{itemize}[nosep]
+    \item \(r_0 = q_0\),
+    \item \(r_n \in F\), and
+    \item \(r_i \in \delta(r_{i - 1}, w_i)\) for \(1 \leq i \leq n\).
+  \end{itemize}
 \end{definition}
 
 \begin{proposition}
-	If \(N\) is a \textsf{NFA}, then \(L(N)\) is regular.
+  If \(N\) is a \textsf{NFA}, then \(L(N)\) is regular.
 \end{proposition}
 \begin{proof}
-	Let \(N = (Q, \Sigma, \delta, q_0, F)\).
+  Let \(N = (Q, \Sigma, \delta, q_0, F)\).
   We will show that there exists a \textsf{DFA} \(M\)
   that is equivalent to \(N\).
   The idea (again) is to keep track of the subset of
   the states that \(N\) can be at.
   Therefore, we let
-	\begin{itemize}
-		\item \(Q' = \mathcal P(Q)\),
-		\item \(\delta' \colon (R, \sigma)
+  \begin{itemize}
+    \item \(Q' = \mathcal P(Q)\),
+    \item \(\delta' \colon (R, \sigma)
                     \mapsto \bigunion_{r \in R} \delta(r, \sigma)\),
-		\item \(q_0' = \set{q_0}\), and
-		\item \(F' = \set{q \in Q' \mid q \intersect F \neq \nullset}\).
-	\end{itemize}
-	The desired \textsf{DFA} is then \((Q', \Sigma, \delta', q_0', F')\).
+    \item \(q_0' = \set{q_0}\), and
+    \item \(F' = \set{q \in Q' \mid q \intersect F \neq \nullset}\).
+  \end{itemize}
+  The desired \textsf{DFA} is then \((Q', \Sigma, \delta', q_0', F')\).
 \end{proof}
 \begin{remark}
-	We ignored \(\eps\) in this proof, but the idea is to consider
+  We ignored \(\eps\) in this proof, but the idea is to consider
   \(E(R)\) for \(R \in Q'\) to be the set of states
   that can be reached by following \(\eps\) arrows, and then let
   \(\delta' \colon (R, \sigma)
@@ -99,84 +99,84 @@ the state that the \(\eps\) arrow goes to, as the machine can be at both.
 We can then write a new and better proof for one of our old propositions!
 \begin{proof}[Closure of Regular Languages under \(\union\),
               \Cref{prop:union_of_regular_is_regular}]
-	Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) recognizes \(A\) and
+  Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) recognizes \(A\) and
           \(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\) recognizes \(B\).
           Then consider the following machine:
-	\begin{center}
-		\begin{tikzpicture}[automaton]
-			\node[state, initial] (q0) {};
-			\node[state, above right=1.1cm and 1.7cm of q0] (q1) {\(q_A\)};
-			\node[state, below right=1.1cm and 1.7cm of q0] (q2) {\(q_B\)};
-			\node[state, accepting, above right=0.5cm and 1.7cm of q1] (q11) {};
-			\node[state, accepting, below right=0.5cm and 1.7cm of q1] (q12) {};
-			\node[state, accepting, above right=0.5cm and 1.7cm of q2] (q21) {};
-			\node[state, accepting, below right=0.5cm and 1.7cm of q2] (q22) {};
-			\node[right=0.8cm of q1] () {\(\cdots\)};
-			\node[right=0.8cm of q2] () {\(\cdots\)};
+  \begin{center}
+    \begin{tikzpicture}[automaton]
+      \node[state, initial] (q0) {};
+      \node[state, above right=1.1cm and 1.7cm of q0] (q1) {\(q_A\)};
+      \node[state, below right=1.1cm and 1.7cm of q0] (q2) {\(q_B\)};
+      \node[state, accepting, above right=0.5cm and 1.7cm of q1] (q11) {};
+      \node[state, accepting, below right=0.5cm and 1.7cm of q1] (q12) {};
+      \node[state, accepting, above right=0.5cm and 1.7cm of q2] (q21) {};
+      \node[state, accepting, below right=0.5cm and 1.7cm of q2] (q22) {};
+      \node[right=0.8cm of q1] () {\(\cdots\)};
+      \node[right=0.8cm of q2] () {\(\cdots\)};
 
-			\node () at ($(q1) + (-0.3, 0.7)$) {\(M_A\)};
-			\node () at ($(q2) + (-0.3, 0.7)$) {\(M_B\)};
+      \node () at ($(q1) + (-0.3, 0.7)$) {\(M_A\)};
+      \node () at ($(q2) + (-0.3, 0.7)$) {\(M_B\)};
 
-			\draw[lightgray] ($(q1) + (-0.7, -1)$) rectangle ($(q11) + (0.7, 0.5)$);
-			\draw[lightgray] ($(q2) + (-0.7, -1)$) rectangle ($(q21) + (0.7, 0.5)$);
+      \draw[lightgray] ($(q1) + (-0.7, -1)$) rectangle ($(q11) + (0.7, 0.5)$);
+      \draw[lightgray] ($(q2) + (-0.7, -1)$) rectangle ($(q21) + (0.7, 0.5)$);
 
-			\path[bend left]  (q0) edge node{\(\eps\)} (q1);
-			\path[bend right] (q0) edge node[swap]{\(\eps\)} (q2);
-		\end{tikzpicture}
-	\end{center}
-	Note that this accepts factly the languages in \(A \union B\).
+      \path[bend left]  (q0) edge node{\(\eps\)} (q1);
+      \path[bend right] (q0) edge node[swap]{\(\eps\)} (q2);
+    \end{tikzpicture}
+  \end{center}
+  Note that this accepts factly the languages in \(A \union B\).
 \end{proof}
 
 \begin{proof}[\Cref{prop:concat_of_regular_is_regular}]
-	Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) recognizes \(A\) and
+  Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) recognizes \(A\) and
           \(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\) recognizes \(B\).
           Then consider the following machine:
-	\begin{center}
-		\begin{tikzpicture}[automaton]
-			\node[state, initial]                                      (q1) {\(q_A\)};
-			\node[state, right=3.5cm of q1]                            (q2) {\(q_B\)};
-			\node[state, above right=0.5cm and 1.7cm of q1] (q11)           {};
-			\node[state, below right=0.5cm and 1.7cm of q1] (q12)           {};
-			\node[state, accepting, above right=0.5cm and 1.7cm of q2] (q21) {};
-			\node[state, accepting, below right=0.5cm and 1.7cm of q2] (q22) {};
-			\node[right=0.8cm of q1] () {\(\cdots\)};
-			\node[right=0.8cm of q2] () {\(\cdots\)};
+  \begin{center}
+    \begin{tikzpicture}[automaton]
+      \node[state, initial]                                      (q1) {\(q_A\)};
+      \node[state, right=3.5cm of q1]                            (q2) {\(q_B\)};
+      \node[state, above right=0.5cm and 1.7cm of q1] (q11)           {};
+      \node[state, below right=0.5cm and 1.7cm of q1] (q12)           {};
+      \node[state, accepting, above right=0.5cm and 1.7cm of q2] (q21) {};
+      \node[state, accepting, below right=0.5cm and 1.7cm of q2] (q22) {};
+      \node[right=0.8cm of q1] () {\(\cdots\)};
+      \node[right=0.8cm of q2] () {\(\cdots\)};
 
-			\node () at ($(q1) + (-0.3, 0.7)$) {\(M_A\)};
-			\node () at ($(q2) + (-0.3, 0.7)$) {\(M_B\)};
+      \node () at ($(q1) + (-0.3, 0.7)$) {\(M_A\)};
+      \node () at ($(q2) + (-0.3, 0.7)$) {\(M_B\)};
 
-			\draw[lightgray] ($(q1) + (-0.7, -1)$) rectangle ($(q11) + (0.7, 0.5)$);
-			\draw[lightgray] ($(q2) + (-0.7, -1)$) rectangle ($(q21) + (0.7, 0.5)$);
+      \draw[lightgray] ($(q1) + (-0.7, -1)$) rectangle ($(q11) + (0.7, 0.5)$);
+      \draw[lightgray] ($(q2) + (-0.7, -1)$) rectangle ($(q21) + (0.7, 0.5)$);
 
-			\path[bend left=10] (q11) edge node[pos=0.3]      {\(\eps\)} (q2);
-			\path[bend right=10] (q12) edge node[pos=0.3, swap]{\(\eps\)} (q2);
-		\end{tikzpicture}
-	\end{center}
-	This recognizes \(AB\).
+      \path[bend left=10] (q11) edge node[pos=0.3]      {\(\eps\)} (q2);
+      \path[bend right=10] (q12) edge node[pos=0.3, swap]{\(\eps\)} (q2);
+    \end{tikzpicture}
+  \end{center}
+  This recognizes \(AB\).
 \end{proof}
 
 \begin{proposition}
-	Let \(A\) be a regular language. Then \(A^*\) is regular.
+  Let \(A\) be a regular language. Then \(A^*\) is regular.
 \end{proposition}
 \begin{proof}
-	Let \(M = (Q, \Sigma, \delta, q_0, F)\) recognize \(A\).
+  Let \(M = (Q, \Sigma, \delta, q_0, F)\) recognize \(A\).
   Then consider the following machine:
-	\begin{center}
-		\begin{tikzpicture}[automaton]
-			\node[state, accepting, initial]                (q0)  {};
-			\node[state, right=of q0]                       (q1)  {\(q_0\)};
-			\node[state, accepting, above right=0.5cm and 1.7cm of q1] (q11) {};
-			\node[state, accepting, below right=0.5cm and 1.7cm of q1] (q12) {};
-			\node[right=0.8cm of q1] () {\(\cdots\)};
+  \begin{center}
+    \begin{tikzpicture}[automaton]
+      \node[state, accepting, initial]                (q0)  {};
+      \node[state, right=of q0]                       (q1)  {\(q_0\)};
+      \node[state, accepting, above right=0.5cm and 1.7cm of q1] (q11) {};
+      \node[state, accepting, below right=0.5cm and 1.7cm of q1] (q12) {};
+      \node[right=0.8cm of q1] () {\(\cdots\)};
 
-			\draw[lightgray] ($(q1) + (-0.5, -1)$) rectangle ($(q11) + (0.5, 0.5)$);
+      \draw[lightgray] ($(q1) + (-0.5, -1)$) rectangle ($(q11) + (0.5, 0.5)$);
 
-			\path (q0) edge node{\(\eps\)} (q1);
-			\path[bend right=35] (q11) edge node[swap]{\(\eps\)} (q1);
-			\path[bend left=35]  (q12) edge node{\(\eps\)}       (q1);
-		\end{tikzpicture}
-	\end{center}
-	This accepts \(A^*\).
+      \path (q0) edge node{\(\eps\)} (q1);
+      \path[bend right=35] (q11) edge node[swap]{\(\eps\)} (q1);
+      \path[bend left=35]  (q12) edge node{\(\eps\)}       (q1);
+    \end{tikzpicture}
+  \end{center}
+  This accepts \(A^*\).
   Note that we did not make \(q_0\) accepting,
   but rather added a new start state.
   This is because within \(M\), there may be a sequence in \(A\)
@@ -195,33 +195,33 @@ For example, we want something like
 \((\mathtt{01} \union \mathtt 0)^*\) to be a regular expression.
 
 \begin{definition}
-	An expression \(R\) is a \vocab{regular expression} if either:
-	\begin{itemize}
-		\item \(R \in \Sigma \union \set{\eps, \nullset}\),
-		\item \(R = R_1 \union R_2\) where \(R_1\) and \(R_2\) are languages,
-		\item \(R = R_1 \circ R_2\) where \(R_1\) and \(R_2\) are languages, or
-		\item \(R = R_0^*\) where \(R_0\) is a language.
-	\end{itemize}
+  An expression \(R\) is a \vocab{regular expression} if either:
+  \begin{itemize}
+    \item \(R \in \Sigma \union \set{\eps, \nullset}\),
+    \item \(R = R_1 \union R_2\) where \(R_1\) and \(R_2\) are languages,
+    \item \(R = R_1 \circ R_2\) where \(R_1\) and \(R_2\) are languages, or
+    \item \(R = R_0^*\) where \(R_0\) is a language.
+  \end{itemize}
 \end{definition}
 
 Note that each of the atomic regular expressions represent languages:
 \begin{itemize}
-	\item \(a\) represents \(\set{a}\) for all \(a \in \Sigma\)
-	\item \(\eps\) represents \(\set{\eps}\)
-	\item \(\nullset\) represents \(\nullset\).
+  \item \(a\) represents \(\set{a}\) for all \(a \in \Sigma\)
+  \item \(\eps\) represents \(\set{\eps}\)
+  \item \(\nullset\) represents \(\nullset\).
 \end{itemize}
 \begin{remark}
-	The expressions \(\eps\) and \(\nullset\) do not represent the same language!
+  The expressions \(\eps\) and \(\nullset\) do not represent the same language!
   \(\eps\) is the language that contains the empty string,
   and \(\nullset\) is the empty language.
 \end{remark}
 
 \begin{example}
-	Consider the regular expression \(R = (\mathtt{01} \union \mathtt 0)^*\).
+  Consider the regular expression \(R = (\mathtt{01} \union \mathtt 0)^*\).
   We have \(\mathtt{01} \union \mathtt 0 \to \set{\mathtt{01}, \mathtt 0}\),
   so \(R\) represents the language
-	\[
-		\set{
+  \[
+    \set{
       \eps,
       \mathtt{0},
       \mathtt{01},
@@ -230,8 +230,8 @@ Note that each of the atomic regular expressions represent languages:
       \mathtt{0100},
       \dots
     }.
-	\]
-	This is the language of all strings such that
+  \]
+  This is the language of all strings such that
   whenever a \(\mathtt 1\) appears, there is a \(\mathtt{0}\) before it.
 \end{example}
 

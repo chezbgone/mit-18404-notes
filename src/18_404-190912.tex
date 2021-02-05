@@ -4,140 +4,140 @@
 \begin{document}
 \section{More on Regular Expressions}
 \begin{proposition}
-	The set of languages that regular expressions determine is
+  The set of languages that regular expressions determine is
   exactly all regular languages.
 \end{proposition}
 \begin{proof}[Regular expressions \(\implies\) regular]
-	It is fairly clear that all regular expressions determine regular languages.
+  It is fairly clear that all regular expressions determine regular languages.
   In particular, for the atomic regular expressions,
   we can find the \textsf{NFA}s:
-	\begin{itemize}
-		\item \(a\) for \(a \in \Sigma_\eps\)
-		\begin{center}
-			\begin{tikzpicture}[automaton]
-				\node[state, initial]                (q0) {};
-				\node[state, accepting, right=of q0] (q1) {};
-				\path (q0) edge node{\(a\)} (q1);
-			\end{tikzpicture}
-		\end{center}
+  \begin{itemize}
+    \item \(a\) for \(a \in \Sigma_\eps\)
+    \begin{center}
+      \begin{tikzpicture}[automaton]
+        \node[state, initial]                (q0) {};
+        \node[state, accepting, right=of q0] (q1) {};
+        \path (q0) edge node{\(a\)} (q1);
+      \end{tikzpicture}
+    \end{center}
 
-		\item \(\nullset\)
-		\begin{center}
-			\begin{tikzpicture}[automaton]
-				\node[state, initial] (q0) {};
-			\end{tikzpicture}
-		\end{center}
-	\end{itemize}
+    \item \(\nullset\)
+    \begin{center}
+      \begin{tikzpicture}[automaton]
+        \node[state, initial] (q0) {};
+      \end{tikzpicture}
+    \end{center}
+  \end{itemize}
 
-	For the composite regular expressions,
+  For the composite regular expressions,
   we just can use the regular operations for \textsf{NFA}s.
 \end{proof}
 
 \begin{example}
-	If we want to build an \textsf{NFA} for \((\mathtt a \union \mathtt{ab})^*\),
+  If we want to build an \textsf{NFA} for \((\mathtt a \union \mathtt{ab})^*\),
   we can just build it up from smaller parts:
-	\begin{itemize}[nosep]
-		\item \(\mathtt a\)
-		\begin{center}
-			\begin{tikzpicture}[automaton]
-				\node[state, initial]                (q0) {};
-				\node[state, accepting, right=of q0] (q1) {};
-				\path (q0) edge node{\(\mathtt a\)} (q1);
-			\end{tikzpicture}
-		\end{center}
+  \begin{itemize}[nosep]
+    \item \(\mathtt a\)
+    \begin{center}
+      \begin{tikzpicture}[automaton]
+        \node[state, initial]                (q0) {};
+        \node[state, accepting, right=of q0] (q1) {};
+        \path (q0) edge node{\(\mathtt a\)} (q1);
+      \end{tikzpicture}
+    \end{center}
 
-		\item \(\mathtt b\)
-		\begin{center}
-			\begin{tikzpicture}[automaton]
-				\node[state, initial]                (q0) {};
-				\node[state, accepting, right=of q0] (q1) {};
-				\path (q0) edge node{\(\mathtt b\)} (q1);
-			\end{tikzpicture}
-		\end{center}
+    \item \(\mathtt b\)
+    \begin{center}
+      \begin{tikzpicture}[automaton]
+        \node[state, initial]                (q0) {};
+        \node[state, accepting, right=of q0] (q1) {};
+        \path (q0) edge node{\(\mathtt b\)} (q1);
+      \end{tikzpicture}
+    \end{center}
 
-		\item \(\mathtt{ab}\)
-		\begin{center}
-			\begin{tikzpicture}[automaton]
-				\node[state, initial]                (q0) {};
-				\node[state, right=of q0]            (q1) {};
-				\node[state, right=of q1]            (q2) {};
-				\node[state, accepting, right=of q2] (q3) {};
-				\path (q0) edge node{\(\mathtt a\)} (q1);
-				\path (q1) edge node{\(\eps\)} (q2);
-				\path (q2) edge node{\(\mathtt b\)} (q3);
-			\end{tikzpicture}
-		\end{center}
+    \item \(\mathtt{ab}\)
+    \begin{center}
+      \begin{tikzpicture}[automaton]
+        \node[state, initial]                (q0) {};
+        \node[state, right=of q0]            (q1) {};
+        \node[state, right=of q1]            (q2) {};
+        \node[state, accepting, right=of q2] (q3) {};
+        \path (q0) edge node{\(\mathtt a\)} (q1);
+        \path (q1) edge node{\(\eps\)} (q2);
+        \path (q2) edge node{\(\mathtt b\)} (q3);
+      \end{tikzpicture}
+    \end{center}
 
-		\item \(\mathtt a \union \mathtt{ab}\)
-		\begin{center}
-			\begin{tikzpicture}[automaton]
-				\node[state, initial]                (qn1) {};
-				\node[state, below right=0.6cm and 1cm of qn1]     (q0) {};
-				\node[state, right=of q0]            (q1) {};
-				\node[state, right=of q1]            (q2) {};
-				\node[state, accepting, right=of q2] (q3) {};
-				\node[state, above right=0.6cm and 1cm of qn1]     (q4) {};
-				\node[state, accepting, right=of q4] (q5) {};
-				\path (qn1) edge node[swap]{\(\mathtt \eps\)} (q0);
-				\path (qn1) edge node{\(\mathtt \eps\)} (q4);
-				\path (q0) edge node{\(\mathtt a\)} (q1);
-				\path (q1) edge node{\(\eps\)} (q2);
-				\path (q2) edge node{\(\mathtt b\)} (q3);
-				\path (q4) edge node{\(\mathtt a\)} (q5);
-			\end{tikzpicture}
-		\end{center}
+    \item \(\mathtt a \union \mathtt{ab}\)
+    \begin{center}
+      \begin{tikzpicture}[automaton]
+        \node[state, initial]                (qn1) {};
+        \node[state, below right=0.6cm and 1cm of qn1]     (q0) {};
+        \node[state, right=of q0]            (q1) {};
+        \node[state, right=of q1]            (q2) {};
+        \node[state, accepting, right=of q2] (q3) {};
+        \node[state, above right=0.6cm and 1cm of qn1]     (q4) {};
+        \node[state, accepting, right=of q4] (q5) {};
+        \path (qn1) edge node[swap]{\(\mathtt \eps\)} (q0);
+        \path (qn1) edge node{\(\mathtt \eps\)} (q4);
+        \path (q0) edge node{\(\mathtt a\)} (q1);
+        \path (q1) edge node{\(\eps\)} (q2);
+        \path (q2) edge node{\(\mathtt b\)} (q3);
+        \path (q4) edge node{\(\mathtt a\)} (q5);
+      \end{tikzpicture}
+    \end{center}
 
-		\item \((\mathtt a \union \mathtt{ab})^*\)
-		\begin{center}
-			\begin{tikzpicture}[automaton]
-				\node[state, initial, accepting]     (qn2) {};
-				\node[state, right=of qn2]           (qn1) {};
-				\node[state, below right=0.6cm and 1cm of qn1]     (q0) {};
-				\node[state, right=of q0]            (q1) {};
-				\node[state, right=of q1]            (q2) {};
-				\node[state, accepting, right=of q2] (q3) {};
-				\node[state, above right=0.6cm and 1cm of qn1]     (q4) {};
-				\node[state, accepting, right=of q4] (q5) {};
+    \item \((\mathtt a \union \mathtt{ab})^*\)
+    \begin{center}
+      \begin{tikzpicture}[automaton]
+        \node[state, initial, accepting]     (qn2) {};
+        \node[state, right=of qn2]           (qn1) {};
+        \node[state, below right=0.6cm and 1cm of qn1]     (q0) {};
+        \node[state, right=of q0]            (q1) {};
+        \node[state, right=of q1]            (q2) {};
+        \node[state, accepting, right=of q2] (q3) {};
+        \node[state, above right=0.6cm and 1cm of qn1]     (q4) {};
+        \node[state, accepting, right=of q4] (q5) {};
 
-				\path (qn2) edge node{\(\mathtt \eps\)} (qn1);
-				\path (qn1) edge node[swap]{\(\mathtt \eps\)} (q0);
-				\path (qn1) edge node{\(\mathtt \eps\)} (q4);
-				\path (q0) edge node{\(\mathtt a\)} (q1);
-				\path (q1) edge node{\(\eps\)} (q2);
-				\path (q2) edge node{\(\mathtt b\)} (q3);
-				\path (q4) edge node{\(\mathtt a\)} (q5);
-				\path[bend right=45] (q5) edge node[swap]{\(\eps\)} (qn2);
-				\path[bend left=30] (q3) edge node{\(\eps\)} (qn2);
-			\end{tikzpicture}
-		\end{center}
-	\end{itemize}
+        \path (qn2) edge node{\(\mathtt \eps\)} (qn1);
+        \path (qn1) edge node[swap]{\(\mathtt \eps\)} (q0);
+        \path (qn1) edge node{\(\mathtt \eps\)} (q4);
+        \path (q0) edge node{\(\mathtt a\)} (q1);
+        \path (q1) edge node{\(\eps\)} (q2);
+        \path (q2) edge node{\(\mathtt b\)} (q3);
+        \path (q4) edge node{\(\mathtt a\)} (q5);
+        \path[bend right=45] (q5) edge node[swap]{\(\eps\)} (qn2);
+        \path[bend left=30] (q3) edge node{\(\eps\)} (qn2);
+      \end{tikzpicture}
+    \end{center}
+  \end{itemize}
 \end{example}
 
 To prove that all \textsf{NFA}s can be represented by a regular expression,
 we will define another version of them that will make things more convenient.
 \begin{definition}
-	A \vocab{generalized nondeterministic finite automaton (\textsf{GNFA})}
+  A \vocab{generalized nondeterministic finite automaton (\textsf{GNFA})}
   is an \textsf{NFA} that can have regular expressions as transition labels.
 \end{definition}
 
 \begin{example}
-	This is a \textsf{GNFA}, and it accepts \(\mathtt{abbbabab}\):
-	\begin{center}
-		\begin{tikzpicture}[automaton, node distance=2cm]
-			\node[state, initial] (q0) {};
-			\node[state, right=of q0] (q1) {};
-			\node[state, accepting, below right=of q0] (q2) {};
+  This is a \textsf{GNFA}, and it accepts \(\mathtt{abbbabab}\):
+  \begin{center}
+    \begin{tikzpicture}[automaton, node distance=2cm]
+      \node[state, initial] (q0) {};
+      \node[state, right=of q0] (q1) {};
+      \node[state, accepting, below right=of q0] (q2) {};
 
-			\path (q0) edge node{\(\mathtt{ab}^*\)} (q1);
-			\path[loop above] (q1) edge node{\(\mathtt{bb}\)} (q1);
-			\path (q0) edge node[swap]{\(\eps\)} (q2);
-			\path (q1) edge node[pos=0.3]{\((\mathtt a \union \mathtt{ab})^*\)} (q2);
-		\end{tikzpicture}
-	\end{center}
+      \path (q0) edge node{\(\mathtt{ab}^*\)} (q1);
+      \path[loop above] (q1) edge node{\(\mathtt{bb}\)} (q1);
+      \path (q0) edge node[swap]{\(\eps\)} (q2);
+      \path (q1) edge node[pos=0.3]{\((\mathtt a \union \mathtt{ab})^*\)} (q2);
+    \end{tikzpicture}
+  \end{center}
 \end{example}
 
 \begin{proof}[\textsf{GNFA} \(\implies\) regex]
-	Suppose we have a \textsf{GNFA}.
+  Suppose we have a \textsf{GNFA}.
   For convenience, assume that the starting state is not accepting.
   (We can just add another starting state with an \(\eps\) arrow
   pointing to it otherwise.)
@@ -145,17 +145,17 @@ we will define another version of them that will make things more convenient.
   and there are only arrows going into a single accepting state.
   We can ensure this by adding \(\eps\) arrows.
 
-	We proceed by induction.
+  We proceed by induction.
   The smallest machine that satisfies these conditions
   is one that has \(k = 2\) states, and it looks like this
-	\begin{center}
-		\begin{tikzpicture}[automaton]
-			\node[state, initial] (q0) {};
-			\node[state, accepting, right=of q0] (q1) {};
-			\path (q0) edge node{\(r\)} (q1);
-		\end{tikzpicture}
-	\end{center}
-	where \(r\) is some regular expression.
+  \begin{center}
+    \begin{tikzpicture}[automaton]
+      \node[state, initial] (q0) {};
+      \node[state, accepting, right=of q0] (q1) {};
+      \path (q0) edge node{\(r\)} (q1);
+    \end{tikzpicture}
+  \end{center}
+  where \(r\) is some regular expression.
   This is the regular expression for this \textsf{GNFA}.
 
     Now suppose that all \textsf{GNFA}s with at most \((k-1)\) states
@@ -165,28 +165,28 @@ we will define another version of them that will make things more convenient.
     Let's remove some state \(g_x\).
     For all states \(q_i, q_j \neq g_x\) in \(G\),
     we an make the following change to fix the machine:
-	\begin{center}
-		\begin{tikzpicture}[automaton]
-			\node[state] (qi) {\(q_i\)};
-			\node[state, right=2cm of qi] (qj) {\(q_j\)};
-			\node[state] (qx) at ($(qi)!0.5!(qj) + (0, 1.4)$) {\(q_x\)};
+  \begin{center}
+    \begin{tikzpicture}[automaton]
+      \node[state] (qi) {\(q_i\)};
+      \node[state, right=2cm of qi] (qj) {\(q_j\)};
+      \node[state] (qx) at ($(qi)!0.5!(qj) + (0, 1.4)$) {\(q_x\)};
 
-			\path (qi) edge node{\(r_1\)} (qx);
-			\path[loop above] (qx) edge node{\(r_2\)} (qx);
-			\path (qx) edge node{\(r_3\)} (qj);
-			\path (qi) edge node[swap]{\(r_4\)} (qj);
+      \path (qi) edge node{\(r_1\)} (qx);
+      \path[loop above] (qx) edge node{\(r_2\)} (qx);
+      \path (qx) edge node{\(r_3\)} (qj);
+      \path (qi) edge node[swap]{\(r_4\)} (qj);
 
-			\draw[lightgray] ($(qi) + (-0.6, -0.6)$) rectangle ($(qx) + (1.6, 1.3)$);
-			
-			\node (arr) at ($(qx) + (2.4, -0.3)$) {\(\implies\)};
+      \draw[lightgray] ($(qi) + (-0.6, -0.6)$) rectangle ($(qx) + (1.6, 1.3)$);
+      
+      \node (arr) at ($(qx) + (2.4, -0.3)$) {\(\implies\)};
 
-			\node[state] (qip) at ($(arr) + (1.4, 0)$) {\(q_i\)};
-			\node[state, right=3cm of qip] (qjp) {\(q_j\)};
-			\path (qip) edge node{\(r_1 (r_2)^* r_3 \union r_4\)} (qjp);
-			\draw[lightgray] ($(qip) + (-0.6, -0.6)$) rectangle ($(qjp) + (0.6, 0.7)$);
-		\end{tikzpicture}
-	\end{center}
-	This gives a machine with \(k - 1\) states,
+      \node[state] (qip) at ($(arr) + (1.4, 0)$) {\(q_i\)};
+      \node[state, right=3cm of qip] (qjp) {\(q_j\)};
+      \path (qip) edge node{\(r_1 (r_2)^* r_3 \union r_4\)} (qjp);
+      \draw[lightgray] ($(qip) + (-0.6, -0.6)$) rectangle ($(qjp) + (0.6, 0.7)$);
+    \end{tikzpicture}
+  \end{center}
+  This gives a machine with \(k - 1\) states,
   and it accepts the same language, as desired.
 \end{proof}
 
@@ -211,38 +211,38 @@ we can write \(s = xyz\) where
 \end{itemize}
 \end{proposition}
 \begin{proof}
-	Let \(M\) be a \textsf{DFA} for a regular language \(A\),
+  Let \(M\) be a \textsf{DFA} for a regular language \(A\),
   and let \(p\) be the number of states of \(M\).
   Let \(s \in A\) have length \(\size s \geq p\).
-	
-	Consider the states that the machine will visit
+  
+  Consider the states that the machine will visit
   while going through the string.
   Since \(\size s \geq p\), the machine will visit at least \(p + 1\) states.
   By the pigeonhole principle, the machine will visit
   some state \(q\) at least twice.
-	\begin{center}
-		\begin{tikzpicture}[automaton,
+  \begin{center}
+    \begin{tikzpicture}[automaton,
                         decoration={snake, amplitude=0.5mm, post length=1mm}]
-			\node[state, initial] (q0) {};
-			\node[state, above right=of q0] (q1) {\(q\)};
-			\node[state, accepting, below right=of q1] (q2) {};
-			
-			\path (q0) edge[decorate] node{\(x\)} (q1);
-			\path (q1) edge[decorate] node{\(y\)} (q2);
-			\path (q1) edge[decorate, in=40, out=140, looseness=20]
+      \node[state, initial] (q0) {};
+      \node[state, above right=of q0] (q1) {\(q\)};
+      \node[state, accepting, below right=of q1] (q2) {};
+      
+      \path (q0) edge[decorate] node{\(x\)} (q1);
+      \path (q1) edge[decorate] node{\(y\)} (q2);
+      \path (q1) edge[decorate, in=40, out=140, looseness=20]
                  node[above=0.1]{\(z\)} (q1);
-		\end{tikzpicture}
-	\end{center}
-	Then, that means there is a nonempty string \(y\) that transitions from state \(q\) to \(q\), so we can repeat is as many times as possible.
+    \end{tikzpicture}
+  \end{center}
+  Then, that means there is a nonempty string \(y\) that transitions from state \(q\) to \(q\), so we can repeat is as many times as possible.
 \end{proof}
 
 We can now use the pumping lemma to prove things!
 \begin{claim}
-	Let \(D = \set{\mathtt a^k \mathtt b^k \mid k \in \NN}\).
+  Let \(D = \set{\mathtt a^k \mathtt b^k \mid k \in \NN}\).
   Then \(D\) is not regular.
 \end{claim}
 \begin{proof}
-	Assume for the sake of contradiction that \(D\) is regular.
+  Assume for the sake of contradiction that \(D\) is regular.
   Then let the pumping length be \(p\), and consider
   \(s = \mathtt a^p \mathtt b^p \in D\).
   By the pumping lemma, we can write \(s = xyz\)

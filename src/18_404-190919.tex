@@ -4,11 +4,11 @@
 \begin{document}
 \section{CFGs and PDAs}
 \begin{proposition}
-	A language \(A\) is a \textsf{CFL} if and only if \(A = L(P)\)
+  A language \(A\) is a \textsf{CFL} if and only if \(A = L(P)\)
   for some pushdown automata \(P\).
 \end{proposition}
 \begin{proof}[\(\textsf{CFG} \to \textsf{PDA}\)]
-	The idea is that we can simulate a \textsf{CFG} using the stack
+  The idea is that we can simulate a \textsf{CFG} using the stack
   to remember the intermediate strings.
   Initially, we insert the starting variable in the stack,
   and then when we see a variable at the top of a stack,
@@ -18,69 +18,69 @@
   If the \textsf{CFG} can generate the string,
   then eventually, we will remove everything in the stack.
   Overall, we have the following \textsf{PDA}:
-	\begin{center}
-		\begin{tikzpicture}[automaton, node distance=1.3cm]
-			\node[state, initial]                (q0) {};
-			\node[state, below=of q0]            (q1) {};
-			\node[state, accepting, below=of q1] (q2) {};
-			
-			\path (q0) edge node{\(\eps, \eps \to \texttt \$ S\)} (q1);
-			\path[loop right] (q1) edge
-				node{\(\eps, \text{$A \to A'$ for all rules $A \to A'$}\)} (q1);
-			\path[loop left] (q1) edge node{\(a, a \to \eps\)} (q1);
-			\path (q1) edge node{\(\eps, \texttt \$ \to \eps\)} (q2);
-		\end{tikzpicture}
-	\end{center}
+  \begin{center}
+    \begin{tikzpicture}[automaton, node distance=1.3cm]
+      \node[state, initial]                (q0) {};
+      \node[state, below=of q0]            (q1) {};
+      \node[state, accepting, below=of q1] (q2) {};
+      
+      \path (q0) edge node{\(\eps, \eps \to \texttt \$ S\)} (q1);
+      \path[loop right] (q1) edge
+        node{\(\eps, \text{$A \to A'$ for all rules $A \to A'$}\)} (q1);
+      \path[loop left] (q1) edge node{\(a, a \to \eps\)} (q1);
+      \path (q1) edge node{\(\eps, \texttt \$ \to \eps\)} (q2);
+    \end{tikzpicture}
+  \end{center}
 \end{proof}
 
 \begin{proposition}[Pumping Lemma for \textsf{CFL}s]
-	Given a \textsf{CFL} \(A\), there exists a \vocab{pumping length} \(p\)
+  Given a \textsf{CFL} \(A\), there exists a \vocab{pumping length} \(p\)
   such that for all \(s \in A\) where \(\size s > p\),
   we can write \(s = uvxyz\) such that
-	\begin{itemize}[nosep]
-		\item \(uv^i x y^i z \in A\) for all \(i \in \set{0, 1, \dots}\),
-		\item \(\size{vy} > 0\), and
-		\item \(\size{vxy} \leq p\).
-	\end{itemize}
+  \begin{itemize}[nosep]
+    \item \(uv^i x y^i z \in A\) for all \(i \in \set{0, 1, \dots}\),
+    \item \(\size{vy} > 0\), and
+    \item \(\size{vxy} \leq p\).
+  \end{itemize}
 \end{proposition}
 \begin{proof}
-	The idea is that given a \textsf{CFG} \(G\),
+  The idea is that given a \textsf{CFG} \(G\),
   there is some maximum rule length, so given some final string length,
   we can find a lower bound for the parse tree height.
   Therefore, for a sufficiently large final string length,
   we have a sufficiently tall parse tree.
-	
-	\begin{center}
-		\begin{tikzpicture}[scale=0.9]
-			\node[inner sep=0.15em] (R) at (0, 0) {\(R\)};
-			\draw (R) -- +(2, -2)
-				+(-2, -2) -- (R);
+  
+  \begin{center}
+    \begin{tikzpicture}[scale=0.9]
+      \node[inner sep=0.15em] (R) at (0, 0) {\(R\)};
+      \draw (R) -- +(2, -2)
+        +(-2, -2) -- (R);
 
-			\node[inner sep=0.15em] (R2) at (0.1, -1) {\(R\)};
-			\draw (R2) -- +(1, -1)
-				+(-1, -1) -- (R2);
+      \node[inner sep=0.15em] (R2) at (0.1, -1) {\(R\)};
+      \draw (R2) -- +(1, -1)
+        +(-1, -1) -- (R2);
 
-			\draw ($(R) + (-2, -2)$) -- node[below]{\(v\)} ($(R2) + (-1, -1)$);
-			\draw ($(R2) + (-1, -1)$) -- node[below]{\(x\)} ($(R2) + (1, -1)$);
-			\draw ($(R2) + (1, -1)$) -- node[below]{\(y\)} ($(R) + (2, -2)$);
+      \draw ($(R) + (-2, -2)$) -- node[below]{\(v\)} ($(R2) + (-1, -1)$);
+      \draw ($(R2) + (-1, -1)$) -- node[below]{\(x\)} ($(R2) + (1, -1)$);
+      \draw ($(R2) + (1, -1)$) -- node[below]{\(y\)} ($(R) + (2, -2)$);
 
-			\node[below right=0.7 and 2 of R] (arr) {\(\to\)};
+      \node[below right=0.7 and 2 of R] (arr) {\(\to\)};
 
-			\node[inner sep=0.15em, above right=0.7 and 2 of arr] (R3) {\(R\)};
-			\draw (R3) -- +(2, -2)
-				+(-2, -2) -- (R3);
+      \node[inner sep=0.15em, above right=0.7 and 2 of arr] (R3) {\(R\)};
+      \draw (R3) -- +(2, -2)
+        +(-2, -2) -- (R3);
 
-			\node[inner sep=0.15em] (R4) at ($(R3) + (0.1, -1)$) {\(R\)};
-			\draw (R4) -- +(2, -2)
-				+(-2, -2) -- (R4);
-			\draw ($(R3) + (-2, -2)$) -- node[below]{\(v\)} ($(R4) + (-1, -1)$);
-			\draw ($(R4) + (1, -1)$) -- node[below]{\(y\)} ($(R3) + (2, -2)$);
+      \node[inner sep=0.15em] (R4) at ($(R3) + (0.1, -1)$) {\(R\)};
+      \draw (R4) -- +(2, -2)
+        +(-2, -2) -- (R4);
+      \draw ($(R3) + (-2, -2)$) -- node[below]{\(v\)} ($(R4) + (-1, -1)$);
+      \draw ($(R4) + (1, -1)$) -- node[below]{\(y\)} ($(R3) + (2, -2)$);
 
-			\draw ($(R4) + (-2, -2)$) -- node[below]{\(vxy\)} ($(R4) + (2, -2)$);
-		\end{tikzpicture}
-	\end{center}
+      \draw ($(R4) + (-2, -2)$) -- node[below]{\(vxy\)} ($(R4) + (2, -2)$);
+    \end{tikzpicture}
+  \end{center}
 
-	If \(n = \size V\) is the number of variables,
+  If \(n = \size V\) is the number of variables,
   then consider a path from the initial variable to some terminal
   that has more than \(n\) variables.
   By pigeonhole, there exists some variable \(R\) that occurs more than once.
@@ -90,28 +90,28 @@
   and using a similar strategy,
   we can replace the earlier \(R\) with any \(v^i x y^i\).
 
-	More formally, if \(b\) is the longest length
+  More formally, if \(b\) is the longest length
   of the right sides of all rules, then for a tree of height \(h\),
   the string length \(s\) satisfies \(s \leq b^h\).
   This means if we let \(p = b^{\size V + 1}\),
   we must have \(h \geq \size V + 1\),
   and there must be some repeated variable.
 
-	Another thing we might need to worry about is
+  Another thing we might need to worry about is
   if we have some rules of the form
-	\[
-		R \to S \to \dots \to R.
-	\]
-	To fix this, we can just say that given some string \(s \in A\),
+  \[
+    R \to S \to \dots \to R.
+  \]
+  To fix this, we can just say that given some string \(s \in A\),
   we will take the shortest parse tree for \(s\),
   i.e.\ we don't waste any time with rules that don't do anything.
 \end{proof}
 
 \begin{corollary}
-	The language \(B = \set{\mathtt a^k \mathtt b^k \mathtt c^k}\) is not a \textsf{CFL}.
+  The language \(B = \set{\mathtt a^k \mathtt b^k \mathtt c^k}\) is not a \textsf{CFL}.
 \end{corollary}
 \begin{proof}
-	For the sake of contradiction suppose \(B\) is regular.
+  For the sake of contradiction suppose \(B\) is regular.
   Then consider \(s = \mathtt a^p \mathtt b^p \mathtt c^p \in B\),
   where \(p\) is the pumping length.
   By the pumping lemma, we can write
@@ -126,11 +126,11 @@
 \end{proof}
 
 \begin{corollary}
-	The language \(C = \set{ww \mid w \in \set{\mathtt a, \mathtt b}^*}\)
+  The language \(C = \set{ww \mid w \in \set{\mathtt a, \mathtt b}^*}\)
   is not context free.
 \end{corollary}
 \begin{proof}
-	For the sake of contradiction, suppose that \(C\) is regular.
+  For the sake of contradiction, suppose that \(C\) is regular.
   Then consider \(s = \mathtt a^p \mathtt b^p \mathtt a^p \mathtt b^p \in C\),
   where \(p\) is the pumping length.
   By the pumping lemma, we can write \(s = uvwxy\) where \(\size{vwy} \leq p\).
@@ -150,11 +150,11 @@ that it can move left and right on,
 and it accepts/rejects by entering special halting states.
 
 \begin{example}
-	Recall the language \(B = \set{\mathtt a^k \mathtt b^k \mathtt c^k}\).
+  Recall the language \(B = \set{\mathtt a^k \mathtt b^k \mathtt c^k}\).
   We claim that there is a Turing machine for \(B\).
 
-	\tcblower
-	The idea is that on the first pass (staring from the leftmost position),
+  \tcblower
+  The idea is that on the first pass (staring from the leftmost position),
   the machine tests to make sure that the input is of the form
   \(\mathtt a^* \mathtt b^* \mathtt c^*\).
   Then, after that we can make multiple passes,
@@ -163,22 +163,22 @@ and it accepts/rejects by entering special halting states.
 \end{example}
 
 \begin{definition}
-	A \vocab{Turing machine (\textsf{TM})} is a tuple
+  A \vocab{Turing machine (\textsf{TM})} is a tuple
   \((Q, \Sigma, \Gamma, \delta, q_0, q_{\text{acc}}, q_{\text{reg}})\)
   such that
-	\begin{itemize}[nosep]
-		\item \(Q\) is the set of states,
-		\item \(\Sigma\) is the input alphabet not containing \blank,
-		\item \(\Gamma\) is the tape alphabet with
+  \begin{itemize}[nosep]
+    \item \(Q\) is the set of states,
+    \item \(\Sigma\) is the input alphabet not containing \blank,
+    \item \(\Gamma\) is the tape alphabet with
           \(\blank \in \Gamma\) and \(\Sigma \subseteq \Gamma\),
-		\item \(\delta \colon Q \times \Gamma \to
+    \item \(\delta \colon Q \times \Gamma \to
                           Q \times \Gamma \times \set{\mathrm L, \mathrm R}\)
           is the transition function,
-		\item \(q_0 \in Q\) is the start state,
-		\item \(q_{\text{accept}} \in Q\) is the accept state, and
-		\item \(q_{\text{reject}} \in Q\) is the reject state,
+    \item \(q_0 \in Q\) is the start state,
+    \item \(q_{\text{accept}} \in Q\) is the accept state, and
+    \item \(q_{\text{reject}} \in Q\) is the reject state,
           where \(q_{\text{accept}} \neq q_{\text{reject}}\).
-	\end{itemize}
+  \end{itemize}
 \end{definition}
 
 The Turing machine begins its computation with the input on
@@ -200,11 +200,11 @@ More formally, for all \(u, v \in \Gamma^*\),
 if for some \(a, b, c \in \Gamma\)
 we have \(\delta(q_i, b) = (q_j, c, \mathrm L)\), then
 \[
-	ua q_i bv \quad\text{yields}\quad u q_i acv,
+  ua q_i bv \quad\text{yields}\quad u q_i acv,
 \]
 and if \(\delta(q_i, b) = (q_j, c, \mathrm R)\), then
 \[
-	ua q_i bv \quad\text{yields}\quad uac q_j v.
+  ua q_i bv \quad\text{yields}\quad uac q_j v.
 \]
 If the head is at the left end, then receiving an \(\mathrm L\)
 will not move the head.
@@ -223,7 +223,7 @@ there exists configurations \(C_1, \dots, C_k\) such that \(C_1 = q_0 w\),
 \(C_i\) yields \(C_{i + 1}\), and \(C_k\) is an accepting configuration.
 Then the \vocab{language of \(M\)} is
 \[
-	L(M) \coloneqq \set{w \in \Sigma^* \mid \text{$M$ accepts $w$}}.
+  L(M) \coloneqq \set{w \in \Sigma^* \mid \text{$M$ accepts $w$}}.
 \]
 We also say that \(M\) \vocab{recognizes} \(L(M)\).
 

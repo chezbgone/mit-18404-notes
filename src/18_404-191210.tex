@@ -6,7 +6,7 @@
 \section{\texorpdfstring{\(\texttt\#\textit{SAT} \in \mathsf{IP}\)}{\#SAT in IP}}
 Consider the problem
 \[
-	\textsf\#\textit{SAT} = \set{
+  \textsf\#\textit{SAT} = \set{
     \angles{\phi, k} \mid \text{$\phi$ has exactly $k$ satisfying assignments}
   }.
 \]
@@ -16,18 +16,18 @@ let \(\numphi(a_1, \dots, a_i)\) be the number of satisfying assignments
 with presets \(x_1 = a_1\), \(x_2 = a_2\), \ldots, \(x_i = a_i\).
 Then,
 \begin{itemize}
-	\item \(\numphi(a_1, \dots, a_i) = \numphi(a_1, \dots, a_i, \mathtt 0) +
+  \item \(\numphi(a_1, \dots, a_i) = \numphi(a_1, \dots, a_i, \mathtt 0) +
                                      \numphi(a_1, \dots, a_i, \mathtt 1)\), and
-	\item \(\numphi(a_1, \dots, a_m) = \phi(a_1, \dots, a_m)\).
+  \item \(\numphi(a_1, \dots, a_m) = \phi(a_1, \dots, a_m)\).
 \end{itemize}
 
 There is a straightforward exponential protocol for \(\texttt\#\textit{SAT}\).
 Suppose that \(P\) claims that \(\angles{\phi, k} \in \texttt\#\textit{SAT}\).
 \begin{enumerate}[start=0]
-	\item \(P\) sends \(\numphi()\), and \(V\) checks \(k = \numphi()\).
-	\item \(P\) sends \(\numphi(\mathtt 0), \numphi(\mathtt 1)\),
+  \item \(P\) sends \(\numphi()\), and \(V\) checks \(k = \numphi()\).
+  \item \(P\) sends \(\numphi(\mathtt 0), \numphi(\mathtt 1)\),
     and \(V\) checks \(\numphi() = \numphi(\mathtt 0) + \numphi(\mathtt 1)\).
-	\item \(P\) sends \(\numphi(\mathtt{00}),
+  \item \(P\) sends \(\numphi(\mathtt{00}),
                       \numphi(\mathtt{01}),
                       \numphi(\mathtt{10}),
                       \numphi(\mathtt{11})\),
@@ -35,14 +35,14 @@ Suppose that \(P\) claims that \(\angles{\phi, k} \in \texttt\#\textit{SAT}\).
                                             \numphi(\mathtt{01})\)
                  and \(\numphi(\mathtt 1) = \numphi(\mathtt{10}) +
                                             \numphi(\mathtt{11})\).
-	\item[\(\vdots\)]
-	\item[\(m\).] \(P\) sends \(\numphi(\mathtt{0}^m), \dots,
+  \item[\(\vdots\)]
+  \item[\(m\).] \(P\) sends \(\numphi(\mathtt{0}^m), \dots,
                               \numphi(\mathtt 1^m)\), and \(V\) checks
     \(\numphi(\mathtt 0^{m - 1}) = \numphi(\mathtt 0^m) +
                                    \numphi(\mathtt 0^{m - 1} \mathtt 1), \dots,
       \numphi(\mathtt 1^{m - 1}) = \numphi(\mathtt 1^{m - 1} \mathtt 0) +
                                    \numphi(\mathtt 1^m)\).
-	\item[\(m + 1\).] \(V\) checks \(\numphi(\mathtt 0^m) = \phi(\mathtt 0^m),
+  \item[\(m + 1\).] \(V\) checks \(\numphi(\mathtt 0^m) = \phi(\mathtt 0^m),
                             \dots, \numphi(\mathtt 1^m) \phi(\mathtt 1^m)\).
 \end{enumerate}
 
@@ -52,61 +52,61 @@ by both \(\mathtt 0\) and \(\mathtt 1\).
 To fix this, the key idea is to extend by a non-boolean value instead.
 We will use the standard arithmetization:
 \begin{itemize}[nosep]
-	\item \(x \land y \to xy\)
-	\item \(\ol x \to 1 - x\)
-	\item \(x \lor y \to x + y - xy\)
-	\item \(\phi \to \text{some polynomial $P_\phi$ with degree
+  \item \(x \land y \to xy\)
+  \item \(\ol x \to 1 - x\)
+  \item \(x \lor y \to x + y - xy\)
+  \item \(\phi \to \text{some polynomial $P_\phi$ with degree
     less than $\size \phi$}\)
 \end{itemize}
 Moreover, we can extend \(\numphi\) to be
 \[
-	\numphi(a_1, \dots, a_i) =
+  \numphi(a_1, \dots, a_i) =
     \sum_{\mathclap{a_{i + 1}, \dots, a_{m} \in \set{\mathtt 0, \mathtt 1}}}
       P_\phi(a_1, \dots, a_i, a_{i + 1}, \dots, a_{m})
 \]
 over \(a_1, \dots, a_i \in \FF_q\).
 Note that we still have
 \begin{itemize}
-	\item \(\numphi(a_1, \dots, a_i) = \numphi(a_1, \dots, a_i, \mathtt 0) +
+  \item \(\numphi(a_1, \dots, a_i) = \numphi(a_1, \dots, a_i, \mathtt 0) +
                                      \numphi(a_1, \dots, a_i, \mathtt 1)\), and
-	\item \(\numphi(a_1, \dots, a_m) = \phi(a_1, \dots, a_m)\).
+  \item \(\numphi(a_1, \dots, a_m) = \phi(a_1, \dots, a_m)\).
 \end{itemize}
 Now consider the new protocol:
 \begin{enumerate}[start=0, nosep]
-	\item \(P\) sends \(\numphi()\) and \(V\) checks \(k = \numphi()\).
+  \item \(P\) sends \(\numphi()\) and \(V\) checks \(k = \numphi()\).
 
-	\item \begin{enumerate}
-		\item \(P\) sends \(\numphi(z)\) as a polynomial and
+  \item \begin{enumerate}
+    \item \(P\) sends \(\numphi(z)\) as a polynomial and
           \(V\) checks \(\numphi() = \numphi(\texttt 0) + \numphi(\texttt 1)\).
           \(V\) can get \(\numphi(\mathtt 0)\) and \(\numphi(\mathtt 1)\)
           by plugging into \(\numphi(z)\).
 
-		\item \(V\) requests a random \(r_1 \in \FF_q\) and
+    \item \(V\) requests a random \(r_1 \in \FF_q\) and
           \(P\) sends \(\numphi(r_1)\).
-	\end{enumerate}
+  \end{enumerate}
 
-	\item \begin{enumerate}
-		\item \(P\) sends \(\numphi(r_1, z)\) and
+  \item \begin{enumerate}
+    \item \(P\) sends \(\numphi(r_1, z)\) and
           \(V\) checks \(\numphi(r_1) = \numphi(r_1, \texttt 0) +
                                         \numphi(r_1, \texttt 1)\).
 
-		\item \(V\) requests a random \(r_2 \in \FF_q\) and
+    \item \(V\) requests a random \(r_2 \in \FF_q\) and
           \(P\) sends \(\numphi(r_1, r_2)\).
-	\end{enumerate}
+  \end{enumerate}
 
-	\item[\(\vdots\)]
+  \item[\(\vdots\)]
 
-	\item[\(m\).] \begin{enumerate}
-		\item \(P\) sends \(\numphi(r_1, \dots, r_{m - 1}, z)\) and
+  \item[\(m\).] \begin{enumerate}
+    \item \(P\) sends \(\numphi(r_1, \dots, r_{m - 1}, z)\) and
           \(V\) checks \(\numphi(r_1, \dots, r_{m - 1}) =
                 \numphi(r_1, \dots, r_{m - 1}, \texttt 0) +
                 \numphi(r_1, \dots, r_{m - 1}, \texttt 1)\).
 
-		\item \(V\) requests a random \(r_m \in \FF_q\) and
+    \item \(V\) requests a random \(r_m \in \FF_q\) and
           \(P\) sends \(\numphi(r_1, \dots, r_m)\).
-	\end{enumerate}
+  \end{enumerate}
 
-	\item[\(m + 1\).] \(V\) checks
+  \item[\(m + 1\).] \(V\) checks
                     \(\numphi(r_1, \dots, r_m) = P_{\phi(r_1, \dots, r_m)}\)
                     and \textsc{accept}s if true.
 \end{enumerate}

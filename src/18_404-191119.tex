@@ -6,49 +6,49 @@
 \section{Hierarchy Theorems}
 So far, we have that
 \[
-	\mathsf{L} \subseteq
-	\mathsf{NL} \subseteq
-	\mathsf{P} \subseteq
-	\mathsf{NP} \subseteq
-	\mathsf{PSPACE} = \mathsf{NPSPACE}.
+  \mathsf{L} \subseteq
+  \mathsf{NL} \subseteq
+  \mathsf{P} \subseteq
+  \mathsf{NP} \subseteq
+  \mathsf{PSPACE} = \mathsf{NPSPACE}.
 \]
 Today we will show that \(\mathsf{NL} \subsetneq \mathsf{PSPACE}\). First, we will work with space as it is slightly easier, and then prove similar results for time.
 
 \subsection{Space}
 \begin{definition}
-	A function \(f \colon \NN \to \NN\), where \(f(n) = O(\log n)\) is \vocab{space constructible} if \(\mathtt 1^n \mapsto f(n)\) is computable in \(O(f(n))\) space.
+  A function \(f \colon \NN \to \NN\), where \(f(n) = O(\log n)\) is \vocab{space constructible} if \(\mathtt 1^n \mapsto f(n)\) is computable in \(O(f(n))\) space.
 \end{definition}
 \begin{example}
-	Most functions like \(\log n\) or \(\exp n\) are space constructible. However, \(f(n) = \log \log \log n\) is not space constructible. In particular, if a \textsf{TM} runs in \(O(\log \log \log n)\) space, then it can only recognize a regular language, which is basically having no tape. This implies that any \textsf{TM} that has a space complexity less than \(O(\log \log \log n)\) can only recognize a regular language. This space is called a \vocab{gap}.
+  Most functions like \(\log n\) or \(\exp n\) are space constructible. However, \(f(n) = \log \log \log n\) is not space constructible. In particular, if a \textsf{TM} runs in \(O(\log \log \log n)\) space, then it can only recognize a regular language, which is basically having no tape. This implies that any \textsf{TM} that has a space complexity less than \(O(\log \log \log n)\) can only recognize a regular language. This space is called a \vocab{gap}.
 \end{example}
 
 
 \begin{theorem}[Space hierarchy theorem]<space_hierarchy>
-	If \(f \colon \NN \to \NN\) is space constructible, there exists a language \(A\) decidable in \(O(f(n))\) space but not \(o(f(n))\) space.
+  If \(f \colon \NN \to \NN\) is space constructible, there exists a language \(A\) decidable in \(O(f(n))\) space but not \(o(f(n))\) space.
 \end{theorem}
 \begin{proof}
-	The idea is to find a machine \(D\) that runs in space \(O(f(n))\) and such that \(L(D) \neq L(M)\) for all \(M\) running in \(o(f(n))\) space. We can easily force \(D\) to run in \(O(f(n))\) space by just using \(f(n)\) space. To ensure that \(L(D)\) is not decidable in \(o(f(n))\) space, we will use the idea from diagonalization. In particular, If \(M\) is a machine potentially deciding \(L(D)\) in \(o(f(n))\) space, we will make \(M\) and \(D\) disagree on \(\angles M\).
-	
-	Consider the following machine:
-	\begin{enumerate}[start=0]
-		\item On input \(w\):
-		\item Let \(n \gets \size w\).
-		\item Since \(f\) is space constructible, compute \(f(n)\) and mark off this much tape. If the later steps try to use more then \textsc{reject}.
-		\item If \(w\) is not of the form \(\angles M \mathtt 1 \mathtt 0^n\) for some \textsf{TM} \(M\), then \textsc{reject}.
-		\item Simulate \(M\) on \(w\) for \(2^{f(n)}\) steps. If it reaches this point, \textsc{reject}.
-		\item If \(M\) accepts, then \textsc{reject}. If \(M\) rejects, then \textsc{accept}.
-	\end{enumerate}
+  The idea is to find a machine \(D\) that runs in space \(O(f(n))\) and such that \(L(D) \neq L(M)\) for all \(M\) running in \(o(f(n))\) space. We can easily force \(D\) to run in \(O(f(n))\) space by just using \(f(n)\) space. To ensure that \(L(D)\) is not decidable in \(o(f(n))\) space, we will use the idea from diagonalization. In particular, If \(M\) is a machine potentially deciding \(L(D)\) in \(o(f(n))\) space, we will make \(M\) and \(D\) disagree on \(\angles M\).
+  
+  Consider the following machine:
+  \begin{enumerate}[start=0]
+    \item On input \(w\):
+    \item Let \(n \gets \size w\).
+    \item Since \(f\) is space constructible, compute \(f(n)\) and mark off this much tape. If the later steps try to use more then \textsc{reject}.
+    \item If \(w\) is not of the form \(\angles M \mathtt 1 \mathtt 0^n\) for some \textsf{TM} \(M\), then \textsc{reject}.
+    \item Simulate \(M\) on \(w\) for \(2^{f(n)}\) steps. If it reaches this point, \textsc{reject}.
+    \item If \(M\) accepts, then \textsc{reject}. If \(M\) rejects, then \textsc{accept}.
+  \end{enumerate}
 
-	The reason why we only run \(M\) for \(2^{f(n)}\) is because we don't want it loop. We arbitrarily choose to reject if \(M\) loops (because \(M\) is not a decider anyway).
+  The reason why we only run \(M\) for \(2^{f(n)}\) is because we don't want it loop. We arbitrarily choose to reject if \(M\) loops (because \(M\) is not a decider anyway).
 
-	Now suppose that \(M\) runs in \(o(f(n))\) space. Then consider running the machine on \(\angles M\). The algorithm will not reject in steps 3 or 4, and in step 5, it will do the opposite of what \(M\) on \(\angles M\) does. Therefore, \(M\) cannot decide the language of this machine.
+  Now suppose that \(M\) runs in \(o(f(n))\) space. Then consider running the machine on \(\angles M\). The algorithm will not reject in steps 3 or 4, and in step 5, it will do the opposite of what \(M\) on \(\angles M\) does. Therefore, \(M\) cannot decide the language of this machine.
 \end{proof}
 
 \begin{corollary}
-	\(\mathsf{NL} \subsetneq \mathsf{PSPACE}\).
+  \(\mathsf{NL} \subsetneq \mathsf{PSPACE}\).
 \end{corollary}
 \begin{proof}
-	By Savitch's theorem, \(\mathsf{NL} \subseteq \SPACE((\log n)^2)\). By the space hierarchy theorem, \(\SPACE((\log n)^2) \subsetneq \SPACE(n) \subseteq \mathsf{PSPACE}\). Therefore, \(\mathsf{NL} \subsetneq \mathsf{PSPACE}\).
+  By Savitch's theorem, \(\mathsf{NL} \subseteq \SPACE((\log n)^2)\). By the space hierarchy theorem, \(\SPACE((\log n)^2) \subsetneq \SPACE(n) \subseteq \mathsf{PSPACE}\). Therefore, \(\mathsf{NL} \subsetneq \mathsf{PSPACE}\).
 \end{proof}
 
 
@@ -56,27 +56,27 @@ Today we will show that \(\mathsf{NL} \subsetneq \mathsf{PSPACE}\). First, we wi
 Our results for time will be very similar to space.
 
 \begin{definition}
-	A function \(t \colon \NN \to \NN\) is \vocab{time constructible} if \(\mathtt 1^n \mapsto t(n)\) is computable in \(O(t(n))\) time.
+  A function \(t \colon \NN \to \NN\) is \vocab{time constructible} if \(\mathtt 1^n \mapsto t(n)\) is computable in \(O(t(n))\) time.
 \end{definition}
 
 \begin{theorem}[Time hierarchy theorem]
-	If \(t\colon \NN \to \NN\) is time constructible, then there exists a language \(A\) decidable in \(O(t(n))\) time but not \(o(t(n)/\log n)\) time.
+  If \(t\colon \NN \to \NN\) is time constructible, then there exists a language \(A\) decidable in \(O(t(n))\) time but not \(o(t(n)/\log n)\) time.
 \end{theorem}
 
 The reason why we have an extra factor of \(\log n\) is because in order to use the same proof, we must keep a counter of the number of steps used near the head. It is possible for a stronger theorem to be true, but we cannot use the same proof as we did in space.
 
 \begin{proof}
-	The proof is very similar to the proof for \cref{thm:space_hierarchy}. Let \(D\) be the machine:
-	\begin{enumerate}[start=0]
-		\item On input \(w\):
-		\item Let \(n \gets \size w\).
-		\item Since \(t\) is space constructible, compute \(t(n)\) and make a binary counter with the value \(\ceil{t(n) / \log t(n)}\).
-		\item If \(w\) is not of the form \(\angles M \mathtt 1 \mathtt 0^n\) for some \textsf{TM} \(M\), then \textsc{reject}.
-		\item Simulate \(M\) on \(w\) for \(\ceil{t(n) / \log t(n)}\) steps using the counter, and moving the counter with the head.
-		\item If \(M\) accepts, then \textsc{reject}. If \(M\) rejects, then \textsc{accept}.
-	\end{enumerate}
+  The proof is very similar to the proof for \cref{thm:space_hierarchy}. Let \(D\) be the machine:
+  \begin{enumerate}[start=0]
+    \item On input \(w\):
+    \item Let \(n \gets \size w\).
+    \item Since \(t\) is space constructible, compute \(t(n)\) and make a binary counter with the value \(\ceil{t(n) / \log t(n)}\).
+    \item If \(w\) is not of the form \(\angles M \mathtt 1 \mathtt 0^n\) for some \textsf{TM} \(M\), then \textsc{reject}.
+    \item Simulate \(M\) on \(w\) for \(\ceil{t(n) / \log t(n)}\) steps using the counter, and moving the counter with the head.
+    \item If \(M\) accepts, then \textsc{reject}. If \(M\) rejects, then \textsc{accept}.
+  \end{enumerate}
 
-	The factor of \(\log t(n)\) comes from the binary counter and moving it to the head at every step that we're simulating \(M\). Otherwise, everything else is the same.
+  The factor of \(\log t(n)\) comes from the binary counter and moving it to the head at every step that we're simulating \(M\). Otherwise, everything else is the same.
 \end{proof}
 
 

@@ -6,63 +6,63 @@
 \section{Branching Programs}
 
 \begin{definition}
-	A \vocab{branching program} (\textsf{BP}) is a directed acyclic graph where all nodes are labeled with a variable, and have two outgoing edges labeled \(\mathtt 0\) and \(\mathtt 1\). There are two other output nodes labeled \(\mathtt 0\) and \(\mathtt 1\) that have no outgoing edges. Branching programs generally represent a boolean function, where we query each variable when we get to each node and follow the corresponding edge.
+  A \vocab{branching program} (\textsf{BP}) is a directed acyclic graph where all nodes are labeled with a variable, and have two outgoing edges labeled \(\mathtt 0\) and \(\mathtt 1\). There are two other output nodes labeled \(\mathtt 0\) and \(\mathtt 1\) that have no outgoing edges. Branching programs generally represent a boolean function, where we query each variable when we get to each node and follow the corresponding edge.
 \end{definition}
 
 \begin{example}[Branching program]
-	\centering
-	\begin{tikzpicture}[automaton]
-		\node[state, initial, initial text={}] (x1) {\(x_1\)};
-		\node[state, below left=of x1] (x2) {\(x_2\)};
-		\node[state, below right=of x1] (x3) {\(x_3\)};
-		\node[state, below left=of x2] (x32) {\(x_3\)};
-		\node[state, below left=of x3] (x4) {\(x_4\)};
-		\node[state, below right=of x3] (x22) {\(x_2\)};
-		\node[state, below left=of x4] (out0) {\(\mathtt 0\)};
-		\node[state, below right=of x4] (out1) {\(\mathtt 1\)};
+  \centering
+  \begin{tikzpicture}[automaton]
+    \node[state, initial, initial text={}] (x1) {\(x_1\)};
+    \node[state, below left=of x1] (x2) {\(x_2\)};
+    \node[state, below right=of x1] (x3) {\(x_3\)};
+    \node[state, below left=of x2] (x32) {\(x_3\)};
+    \node[state, below left=of x3] (x4) {\(x_4\)};
+    \node[state, below right=of x3] (x22) {\(x_2\)};
+    \node[state, below left=of x4] (out0) {\(\mathtt 0\)};
+    \node[state, below right=of x4] (out1) {\(\mathtt 1\)};
 
-		\begin{scope}[inner sep=1pt]
-			\draw (x1) edge node{\(\mathtt 0\)} (x2);
-			\draw (x1) edge node[swap]{\(\mathtt 1\)} (x3);
-			\draw (x2) edge node{\(\mathtt 0\)} (x32);
-			\draw (x2) edge node[swap]{\(\mathtt 1\)} (x4);
-			\draw (x3) edge node{\(\mathtt 0\)} (x4);
-			\draw (x3) edge node[swap]{\(\mathtt 1\)} (x22);
+    \begin{scope}[inner sep=1pt]
+      \draw (x1) edge node{\(\mathtt 0\)} (x2);
+      \draw (x1) edge node[swap]{\(\mathtt 1\)} (x3);
+      \draw (x2) edge node{\(\mathtt 0\)} (x32);
+      \draw (x2) edge node[swap]{\(\mathtt 1\)} (x4);
+      \draw (x3) edge node{\(\mathtt 0\)} (x4);
+      \draw (x3) edge node[swap]{\(\mathtt 1\)} (x22);
 
-			\draw (x32) edge node[swap]{\(\mathtt 0\)} (out0);
-			\draw (x32) edge node[near start]{\(\mathtt 1\)} (out1);
+      \draw (x32) edge node[swap]{\(\mathtt 0\)} (out0);
+      \draw (x32) edge node[near start]{\(\mathtt 1\)} (out1);
 
-			\draw (x4) edge node[swap, near start]{\(\mathtt 0\)} (out0);
-			\draw (x4) edge node[near start]{\(\mathtt 1\)} (out1);
+      \draw (x4) edge node[swap, near start]{\(\mathtt 0\)} (out0);
+      \draw (x4) edge node[near start]{\(\mathtt 1\)} (out1);
 
-			\draw (x22) edge node[swap, near start]{\(\mathtt 0\)} (out0);
-			\draw (x22) edge node{\(\mathtt 1\)} (out1);
-		\end{scope}
-	\end{tikzpicture}
+      \draw (x22) edge node[swap, near start]{\(\mathtt 0\)} (out0);
+      \draw (x22) edge node{\(\mathtt 1\)} (out1);
+    \end{scope}
+  \end{tikzpicture}
 \end{example}
 
 We call a branching program \vocab{read-once} if every path from the start to one of the output nodes contains each variable at most once. We will abbreviate read-once branching programs as \textsf{ROBP}s. Then consider the problem \(\textit{EQ}_{\textsf{ROBP}}\).
 
 \begin{claim}
-	\(\textit{EQ}_{\textsf{ROBP}} \in \mathsf{BPP}\).
+  \(\textit{EQ}_{\textsf{ROBP}} \in \mathsf{BPP}\).
 \end{claim}
 One attempt at proving this is to try the following algorithm:
 \begin{enumerate}[start=0]
-	\item On input \(\angles{B_1, B_2}\):
-	\item Pick random boolean assignments to \(x_1, \dots, x_m\) and run \(B_1, B_2\) on these assignments.
-	\item If they disagree then \textsc{reject}, else \textsc{accept}.
+  \item On input \(\angles{B_1, B_2}\):
+  \item Pick random boolean assignments to \(x_1, \dots, x_m\) and run \(B_1, B_2\) on these assignments.
+  \item If they disagree then \textsc{reject}, else \textsc{accept}.
 \end{enumerate}
 It turns out that this does not work because the two branching programs might only disagree on one input, so the algorithm will get that specific instance wrong with probability \(1 - 2^m\).
 
 Instead to prove this, we will need a lemma that follows from the fundamental theorem of algebra.
 \begin{lemma}[Schwartz-Zippel Lemma]
-	If \(p \in \FF_q[x_1, \dots, x_m]\) is nonzero and has degree at most \(d\) in each variable, then over \(r_1, \dots, r_m \in \FF_q\),
-	\[
-		\PP[p(x_1, \dots, x_m) = 0] \leq \frac{md}{q}.
-	\]
+  If \(p \in \FF_q[x_1, \dots, x_m]\) is nonzero and has degree at most \(d\) in each variable, then over \(r_1, \dots, r_m \in \FF_q\),
+  \[
+    \PP[p(x_1, \dots, x_m) = 0] \leq \frac{md}{q}.
+  \]
 \end{lemma}
 \begin{proof}[Sketch]
-	Induct on \(m\). Write \(p(x_1, \dots, x_m)\) as a polynomial in \(F[x_1, \dots, x_{m - 1}][x_m]\) and use the fundamental theorem of algebra.
+  Induct on \(m\). Write \(p(x_1, \dots, x_m)\) as a polynomial in \(F[x_1, \dots, x_{m - 1}][x_m]\) and use the fundamental theorem of algebra.
 \end{proof}
 
 

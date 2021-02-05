@@ -4,88 +4,88 @@
 \begin{document}
 \section{More Undecidability}
 \begin{proposition}
-	The language \(\mathit{ALL}_{\textsf{CFG}} = \set{
-		\angles G \mid \text{\textsf{CFG} $G$ such that $L(G) = \Sigma^*$}
-	}\) is undecidable.
+  The language \(\mathit{ALL}_{\textsf{CFG}} = \set{
+    \angles G \mid \text{\textsf{CFG} $G$ such that $L(G) = \Sigma^*$}
+  }\) is undecidable.
 \end{proposition}
 \begin{proof}
-	We will reduce \(A_{\textsf{TM}}\) to \(\textit{ALL}_{\textsf{CGF}}\) using computation history. The idea is to construct a \textsf{PDA} whose language is all strings except the accepting computation history for \(M\) on \(w\).
+  We will reduce \(A_{\textsf{TM}}\) to \(\textit{ALL}_{\textsf{CGF}}\) using computation history. The idea is to construct a \textsf{PDA} whose language is all strings except the accepting computation history for \(M\) on \(w\).
 
-	Suppose that the \textsf{TM} \(R\) decides \(\textit{ALL}_{\textsf{CFG}}\). Consider the following \textsf{TM} \(S\) that decides \(A_{\textsf{TM}}\):
-	\begin{enumerate}[start=0]
-		\item On input \(\angles{M, w}\):
-		\item Construct the \textsf{PDA} \(P_{M, w}\) that does the following:
-		\begin{enumerate}[(1), start=0, nosep]
-			\item On input \(C_1 \texttt\# C_2^{\mathcal R} \texttt\# C_3 \texttt\# C_4^{\mathcal R} \texttt\# \dots \texttt\# C_k\):
-			\item Nondeterministically accept if any of the following hold:
-			\begin{itemize}[nosep]
-				\item \(C_1\) is not the starting configuration of \(M\) on \(w\),
-				\item \(C_k\) is not an accepting state,
-				\item for some \(i\), \(C_i\) does not yield \(C_{i + 1}\).
-			\end{itemize}
-		\end{enumerate}
-		\item Convert \(P_{M, w}\) to \(G_{M, w}\).
-		\item Run \(R\) on \(G_{M, w}\).
-		\item If \(R\) accepts then \textsc{reject}, if \(R\) rejects, then \textsc{accept}.
-	\end{enumerate}
+  Suppose that the \textsf{TM} \(R\) decides \(\textit{ALL}_{\textsf{CFG}}\). Consider the following \textsf{TM} \(S\) that decides \(A_{\textsf{TM}}\):
+  \begin{enumerate}[start=0]
+    \item On input \(\angles{M, w}\):
+    \item Construct the \textsf{PDA} \(P_{M, w}\) that does the following:
+    \begin{enumerate}[(1), start=0, nosep]
+      \item On input \(C_1 \texttt\# C_2^{\mathcal R} \texttt\# C_3 \texttt\# C_4^{\mathcal R} \texttt\# \dots \texttt\# C_k\):
+      \item Nondeterministically accept if any of the following hold:
+      \begin{itemize}[nosep]
+        \item \(C_1\) is not the starting configuration of \(M\) on \(w\),
+        \item \(C_k\) is not an accepting state,
+        \item for some \(i\), \(C_i\) does not yield \(C_{i + 1}\).
+      \end{itemize}
+    \end{enumerate}
+    \item Convert \(P_{M, w}\) to \(G_{M, w}\).
+    \item Run \(R\) on \(G_{M, w}\).
+    \item If \(R\) accepts then \textsc{reject}, if \(R\) rejects, then \textsc{accept}.
+  \end{enumerate}
 
-	The way that \(P_{M, w}\) works is that on each branch of nondeterminism, \(P_{M, w}\) checks each condition for the input to be a valid computation history. To check that \(C_i\) yields \(C_{i + 1}\) for each \(i\), we require the input to have every other \(C_i\) be reversed, so that we can compare adjacent \(C_i\)s.
+  The way that \(P_{M, w}\) works is that on each branch of nondeterminism, \(P_{M, w}\) checks each condition for the input to be a valid computation history. To check that \(C_i\) yields \(C_{i + 1}\) for each \(i\), we require the input to have every other \(C_i\) be reversed, so that we can compare adjacent \(C_i\)s.
 \end{proof}
 
 \section{Recursion Theorem}
 Sometimes we think about machines that can construct replicas of themselves. We see this in biology! In fact, in computing, there exists a \textsf{TM} \(\mathit{SELF}\) that prints out its own description \(\angles{\textit{SELF}}\).  To show that we can do this, we need a lemma.
 
 \begin{lemma}
-	There exists a computable function \(q \colon \Sigma^* \to \Sigma^*\) mapping \(w \mapsto \angles{P_w}\), where \(P_w\) prints \(w\).
+  There exists a computable function \(q \colon \Sigma^* \to \Sigma^*\) mapping \(w \mapsto \angles{P_w}\), where \(P_w\) prints \(w\).
 \end{lemma}
 \begin{proof}
-	This is straightforward.
+  This is straightforward.
 \end{proof}
 
 Now to construct \(\mathit{SELF}\), suppose that it is composed of two \textsf{TM}s \(A\) and \(B\) that compute in that order. Let \(A\) print \(P_{\angles B}\). Then, let \(B\) compute the function \(q\) as described above on the contents of the tape (which is \(P_{\angles B}\)), giving \(\angles A\). Then, prepend \(\angles A\) to the tape. This means that we \(\mathit{SELF}\) prints \(\angles A \angles B\), which is just what we want.
 
 We can even implement this in English!
 \begin{algorithm*}
-	Print out two copies of the following, the second copy in quotes.
+  Print out two copies of the following, the second copy in quotes.
 
-	``Print out two copies of the following, the second copy in quotes.''
+  ``Print out two copies of the following, the second copy in quotes.''
 \end{algorithm*}
 
 This gives us the following theorem:
 \begin{theorem}
-	A \textsf{TM} can obtain its own description.
+  A \textsf{TM} can obtain its own description.
 \end{theorem}
 
 \begin{corollary}
-	The language \(A_{\textsf{TM}}\) is undecidable.
+  The language \(A_{\textsf{TM}}\) is undecidable.
 \end{corollary}
 \begin{proof}
-	Suppose for the sake of contradiction that \(H\) decides \(A_{\textsf{TM}}\). Then construct the \textsf{TM} \(R\) as follows:
-	\begin{enumerate}[start=0]
-		\item On input \(w\):
-		\item Get its own description \(\angles{R}\).
-		\item Run \(H\) on \(\angles{R, w}\).
-		\item Output the opposite of what \(H\) outputs.
-	\end{enumerate}
-	
-	This is a contradiction, because if we consider some input \(w\), \(R\) cannot accept nor reject, as a contradiction would arise in both cases.
+  Suppose for the sake of contradiction that \(H\) decides \(A_{\textsf{TM}}\). Then construct the \textsf{TM} \(R\) as follows:
+  \begin{enumerate}[start=0]
+    \item On input \(w\):
+    \item Get its own description \(\angles{R}\).
+    \item Run \(H\) on \(\angles{R, w}\).
+    \item Output the opposite of what \(H\) outputs.
+  \end{enumerate}
+  
+  This is a contradiction, because if we consider some input \(w\), \(R\) cannot accept nor reject, as a contradiction would arise in both cases.
 \end{proof}
 
 \begin{proposition}
-	The language \(\mathit{MIN}_{\textsf{TM}} = \set{
-		\angles{M} \mid \text{$\angles M$ is the shortest description among all equivalent \textsf{TM}s}
-	}\) is unrecognizable.
+  The language \(\mathit{MIN}_{\textsf{TM}} = \set{
+    \angles{M} \mid \text{$\angles M$ is the shortest description among all equivalent \textsf{TM}s}
+  }\) is unrecognizable.
 \end{proposition}
 \begin{proof}
-	Suppose for the sake of contradiction that \(\mathit{MIN}_{\textsf{TM}}\) is recognizable. Then some Turing enumerator \(E\) enumerates \(\mathit{MIN}_{\textsf{TM}}\). Consider the following \textsf{TM} \(C\):
-	\begin{enumerate}[start=0]
-		\item On input \(w\):
-		\item Get \(\angles{C}\).
-		\item Run \(E\) until we get some description \(\angles D\) longer than \(\angles C\).
-		\item Output what \(D\) outputs when run on \(w\).
-	\end{enumerate}
+  Suppose for the sake of contradiction that \(\mathit{MIN}_{\textsf{TM}}\) is recognizable. Then some Turing enumerator \(E\) enumerates \(\mathit{MIN}_{\textsf{TM}}\). Consider the following \textsf{TM} \(C\):
+  \begin{enumerate}[start=0]
+    \item On input \(w\):
+    \item Get \(\angles{C}\).
+    \item Run \(E\) until we get some description \(\angles D\) longer than \(\angles C\).
+    \item Output what \(D\) outputs when run on \(w\).
+  \end{enumerate}
 
-	This gives a contradiction, because \(D\) cannot be minimal, as \(C\) does the same thing as \(D\).
+  This gives a contradiction, because \(D\) cannot be minimal, as \(C\) does the same thing as \(D\).
 \end{proof}
 
 

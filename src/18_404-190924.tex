@@ -3,37 +3,37 @@
 
 \begin{document}
 \begin{definition}
-	A language \(L\) is \vocab{Turing-recognizable} if there exists
+  A language \(L\) is \vocab{Turing-recognizable} if there exists
   some Turing machine \(M\) such that \(L = L(M)\).
 
-	\tcblower
-	A machine \(M\) is a \vocab{decider} if it always halts on all inputs.
+  \tcblower
+  A machine \(M\) is a \vocab{decider} if it always halts on all inputs.
   We then say that \(M\) \vocab{decides} \(L(M)\).
 
-	Moreover, a language \(L\) is \vocab{Turing-decidable} if
+  Moreover, a language \(L\) is \vocab{Turing-decidable} if
   there exists some Turing machine that decides \(L\).
 \end{definition}
 
 \section{Variants of Turing Machines}
 \begin{definition}
-	A \vocab{multitape Turing machine} is the same as a Turing machine,
+  A \vocab{multitape Turing machine} is the same as a Turing machine,
   but there are some finite number \(k\) of tapes,
   and the transition function is
-	\[
-		\delta \colon Q \times \Gamma^k \to
+  \[
+    \delta \colon Q \times \Gamma^k \to
                   Q \times \Gamma^k \times \set{\mathrm L, \mathrm R}^k.
-	\]
-	The input is initially on the first string, while the others are blank.
+  \]
+  The input is initially on the first string, while the others are blank.
 \end{definition}
 
 \begin{proposition}
-	A language \(A\) is \(L(M)\) for some multitape \textsf{TM} \(M\)
+  A language \(A\) is \(L(M)\) for some multitape \textsf{TM} \(M\)
   if and only if \(A\) is Turing-recognizable.
 \end{proposition}
 \begin{proof}
-	The proof of the reverse direction is immediate.
-	
-	To prove the forward direction, we want to take
+  The proof of the reverse direction is immediate.
+  
+  To prove the forward direction, we want to take
   a given multitape \textsf{TM} \(M\) and
   convert it to a single tape \textsf{TM}.
   The idea is to keep track of all of the tapes on one tape,
@@ -42,45 +42,45 @@
   we find what multitape state the single tape \textsf{TM}
   corresponds to and update each tape accordingly.
 
-	More formally, let the alphabet be
+  More formally, let the alphabet be
   \(\Gamma' = \Gamma \union \set{\marksymb{\gamma} \mid \gamma \in \Gamma}\),
-	\begin{enumerate}[nosep]
-		\item If the input is \(w = w_1 w_2 \ldots w_n\), initialize the tape with
-		\[
-			\marksymb{w_1} w_2 \ldots w_n
+  \begin{enumerate}[nosep]
+    \item If the input is \(w = w_1 w_2 \ldots w_n\), initialize the tape with
+    \[
+      \marksymb{w_1} w_2 \ldots w_n
       \hash\marksymb{\blank}\hash\marksymb{\blank}\hash \ldots
       \hash\marksymb{\blank}\hash\marksymb{\blank}\hash \ldots.
-		\]
+    \]
 
-		\item For each step that \(M\) takes:
-		\begin{enumerate}[nosep]
-			\item Scan tape to get the symbols that \(M\) is currently on,
+    \item For each step that \(M\) takes:
+    \begin{enumerate}[nosep]
+      \item Scan tape to get the symbols that \(M\) is currently on,
       marked by dots.
-			\item Update tape according to the transition function of \(M\).
-		\end{enumerate}
+      \item Update tape according to the transition function of \(M\).
+    \end{enumerate}
 
-		\item Repeat until accepted or rejected.
+    \item Repeat until accepted or rejected.
           Or just let it loop forever. \qedhere
-	\end{enumerate}
+  \end{enumerate}
 \end{proof}
 
 \begin{definition}
-	A \vocab{nondeterministic Turing machine (\textsf{NTM})}
+  A \vocab{nondeterministic Turing machine (\textsf{NTM})}
   is the same as a standard Turing machine, but the transition function is
-	\[
-		\delta \colon Q \times \Gamma
+  \[
+    \delta \colon Q \times \Gamma
            \to \mathcal{P}(Q \times \Gamma \times \set{\mathrm L, \mathrm R}).
-	\]
+  \]
 \end{definition}
 
 \begin{proposition}
-	A language \(A\) is \(L(N)\) for some \textsf{NTM}
+  A language \(A\) is \(L(N)\) for some \textsf{NTM}
   if and only if \(A\) is Turing recognizable.
 \end{proposition}
 \begin{proof}[Idea]
-	The proof of the reverse direction is immediate.
+  The proof of the reverse direction is immediate.
 
-	To build a Turing machine from a \textsf{NTM},
+  To build a Turing machine from a \textsf{NTM},
   we just perform breadth first search on the configurations.
   Note that we should not use depth first search because
   if a branch loops forever,
@@ -88,7 +88,7 @@
 \end{proof}
 
 \begin{definition}
-	An \vocab{enumerator} is a Turing machine that generates strings.
+  An \vocab{enumerator} is a Turing machine that generates strings.
   One way to think about them is that they have two tapes,
   \(T_{\text{compute}}\) and \(T_{\text{print}}\),
   and whenever the machine reaches a special state \(q_{\text{print}}\),
@@ -98,54 +98,55 @@
 \end{definition}
 
 \begin{proposition}
-	A language \(A\) is a language for some enumerator
+  A language \(A\) is a language for some enumerator
   if and only if \(A\) is Turing recognizable.
 \end{proposition}
 \begin{proof}
-	We will first prove that if we have an enumerator \(E\) with \(A = L(E)\),
+  We will first prove that if we have an enumerator \(E\) with \(A = L(E)\),
   then there exists a \textsf{TM} that recognizes it.
   In particular, the machine \(M\) works as follows:
-	\begin{enumerate}[nosep, start=0]
-		\item On input \(w\):
-		\item Run \(E\). If \(E\) ever prints \(w\), then accept.
-	\end{enumerate}
-	This will accept all of the strings in \(A\).
+  \begin{enumerate}[nosep, start=0]
+    \item On input \(w\):
+    \item Run \(E\). If \(E\) ever prints \(w\), then accept.
+  \end{enumerate}
+  This will accept all of the strings in \(A\).
 
-	Now suppose that we're given a language \(A\)
+  Now suppose that we're given a language \(A\)
   that some \textsf{TM} \(M\) recognizes.
   We want to construct an enumerator for \(A\).
   To do so, note that \(\Sigma^*\) is countable,
   so let \(\Sigma^* = \set{s_1, s_2, \dots}\).
   Then, we have the following enumerator:
-	\begin{enumerate}[nosep]
-		\item For \(i = 1, 2, \dots\):
-		\begin{enumerate}[nosep]
-			\item Start \(M_i\), a copy of \(M\), on \(s_i\)
-			\item Let all of \(M_1, \dots, M_i\) compute one more step.
-			\item If any of the \(M_i\)s accept, print \(s_i\).
-		\end{enumerate}
-	\end{enumerate}
-	If \(M\) accepts \(s_k\), then the enumerator will eventually print it. Moreover, this does not loop forever on one input.
+  \begin{enumerate}[nosep]
+    \item For \(i = 1, 2, \dots\):
+    \begin{enumerate}[nosep]
+      \item Start \(M_i\), a copy of \(M\), on \(s_i\)
+      \item Let all of \(M_1, \dots, M_i\) compute one more step.
+      \item If any of the \(M_i\)s accept, print \(s_i\).
+    \end{enumerate}
+  \end{enumerate}
+  If \(M\) accepts \(s_k\), then the enumerator will eventually print it.
+  Moreover, this does not loop forever on one input.
 \end{proof}
 
 We've been describing our Turing machines with words
 instead of their states and transition functions.
 It turns out that this is fine, because of the Church-Turing Thesis.
 \begin{claim}[Church-Turing Thesis]
-	Our intuitive idea of what an algorithm can compute
+  Our intuitive idea of what an algorithm can compute
   is precisely what Turing machines can compute.
 \end{claim}
 
 \begin{example}
-	If we have the language
-	\[
-		D = \set{
+  If we have the language
+  \[
+    D = \set{
       p \in \ZZ[x_1, \dotsc, x_k] \mid
       \text{
         \(p(a_1, \dotsc, a_k) = 0\) for some \(a_1, \dotsc, a_k \in \ZZ\)}
       },
-	\]
-	then \(D\) is not decidable because we don't have
+  \]
+  then \(D\) is not decidable because we don't have
   a good (decidable) algorithm for it.
 \end{example}
 In particular, we can find a \textsf{TM} that recognizes \(D\),
@@ -153,7 +154,7 @@ but not one that decides \(D\).
 An easy way to see this is to just test all elements in \(\ZZ^k\) in order.
 
 \begin{example}
-	Let \(A = \set{\angles{G} \mid \text{$G$ is a finite connected graph}}\).
+  Let \(A = \set{\angles{G} \mid \text{$G$ is a finite connected graph}}\).
   Then \(A\) is decidable.
 \end{example}
 An easy way to see this is to just run
@@ -162,15 +163,15 @@ and then test whether the first connected component
 is the same as the whole graph.
 The implementation is as follows:
 \begin{enumerate}[start=0]
-	\item On input \(\angles{G}\):
-	\item Select some node of \(G\) and mark it.
-	\item Repeat the following:
-	\begin{enumerate}[nosep]
-		\item For each unmarked node of \(G\),
+  \item On input \(\angles{G}\):
+  \item Select some node of \(G\) and mark it.
+  \item Repeat the following:
+  \begin{enumerate}[nosep]
+    \item For each unmarked node of \(G\),
           mark it if it is connected to a marked node.
-		\item If no new nodes were marked, stop this loop.
-	\end{enumerate}
-	\item If all nodes are marked \textsc{accept}, otherwise \textsc{reject}.
+    \item If no new nodes were marked, stop this loop.
+  \end{enumerate}
+  \item If all nodes are marked \textsc{accept}, otherwise \textsc{reject}.
 \end{enumerate}
 
 \section{Closure Properties}
@@ -179,15 +180,15 @@ Let's go over their closure properties.
 
 \begin{center}
   \newcommand{\AcapBCTF}{yes if intersected with a regular language}
-	\begin{tabular}{r c c c c c c}
+  \begin{tabular}{r c c c c c c}
     \toprule
-		class        & \(A^*\) & \(A \circ B\) & \(A \union B\) & \(A \intersect B\)     & \(\ol A\) & \(A \setminus B\) \\ \midrule
-		regular      & yes     & yes           & yes            & yes                    & yes       & yes               \\
-		context-free & yes     & yes           & yes            & no\footnote{\AcapBCTF} & no        & no                \\
-		decidable    & yes     & yes           & yes            & yes                    & yes       & yes               \\
-		recognizable & yes     & yes           & yes            & yes                    & no        & no                \\
+    class        & \(A^*\) & \(A \circ B\) & \(A \union B\) & \(A \intersect B\)     & \(\ol A\) & \(A \setminus B\) \\ \midrule
+    regular      & yes     & yes           & yes            & yes                    & yes       & yes               \\
+    context-free & yes     & yes           & yes            & no\footnote{\AcapBCTF} & no        & no                \\
+    decidable    & yes     & yes           & yes            & yes                    & yes       & yes               \\
+    recognizable & yes     & yes           & yes            & yes                    & no        & no                \\
     \bottomrule
-	\end{tabular}
+  \end{tabular}
 \end{center}
 
 

@@ -5,75 +5,75 @@
 \section{Context-Free Grammars}
 We will introduce a stronger model of computation.
 \begin{example}
-	Consider a set of substitution rules like the following:
-	\begin{align*}
-		S &\to \mathtt 0 S \mathtt 1 \\
-		S &\to R \\
-		R &\to \eps
-	\end{align*}
-	We have capital letters designating variables,
+  Consider a set of substitution rules like the following:
+  \begin{align*}
+    S &\to \mathtt 0 S \mathtt 1 \\
+    S &\to R \\
+    R &\to \eps
+  \end{align*}
+  We have capital letters designating variables,
   and numbers or lowercase letters designating terminals.
   Start with the starting variable (usually the first one in the first line),
   and then make substitutions according to the rules.
 
-	For instance, we can have
-	\[
-		S
-			\to \mathtt 0 S \mathtt 1
-			\to \mathtt 0 \mathtt 0 S \mathtt 1 \mathtt 1
-			\to \mathtt 0 \mathtt 0 \eps \mathtt 1 \mathtt 1 = \mathtt{0011}
-	\]
+  For instance, we can have
+  \[
+    S
+      \to \mathtt 0 S \mathtt 1
+      \to \mathtt 0 \mathtt 0 S \mathtt 1 \mathtt 1
+      \to \mathtt 0 \mathtt 0 \eps \mathtt 1 \mathtt 1 = \mathtt{0011}
+  \]
 
-	Then, the language that this grammar \(G_1\) describes is
+  Then, the language that this grammar \(G_1\) describes is
   \(L(G_1) = \set{\mathtt 0^k \mathtt 1^k \mid k \geq 0}\).
 \end{example}
 
 \begin{example}
-	Consider the grammar
-	\begin{align*}
-		E &\to E + T \mid T \\
-		T &\to T \times F \mid T \\
-		F &\to \texttt ( e \texttt ) \mid \mathtt a,
-	\end{align*}
-	where the variables are \(\set{E, T, F}\) and the terminals are
+  Consider the grammar
+  \begin{align*}
+    E &\to E + T \mid T \\
+    T &\to T \times F \mid T \\
+    F &\to \texttt ( e \texttt ) \mid \mathtt a,
+  \end{align*}
+  where the variables are \(\set{E, T, F}\) and the terminals are
   \(\set{\texttt (, \texttt ), +, \times, \mathtt a}\).
 
-	One string that this grammar can generate is
-	\[
-		E
-			\to E + T
-			\to T + T
-			\to T + T \times F
-			\to F + F \times \mathtt a
-			\to \mathtt a + \mathtt a \times \mathtt a.
-	\]
+  One string that this grammar can generate is
+  \[
+    E
+      \to E + T
+      \to T + T
+      \to T + T \times F
+      \to F + F \times \mathtt a
+      \to \mathtt a + \mathtt a \times \mathtt a.
+  \]
 \end{example}
 
 \begin{definition}
-	A \vocab{context-free grammar (CFG)} is \(G = (V, \Sigma, R, S)\) where
-	\begin{itemize}[nosep]
-		\item \(V\) is a finite set of variables,
-		\item \(\Sigma\) is a finite set of terminals
-		\item \(R\) is a finite set of rules, and
-		\item \(S \in V\) is a start variable.
-	\end{itemize}
+  A \vocab{context-free grammar (CFG)} is \(G = (V, \Sigma, R, S)\) where
+  \begin{itemize}[nosep]
+    \item \(V\) is a finite set of variables,
+    \item \(\Sigma\) is a finite set of terminals
+    \item \(R\) is a finite set of rules, and
+    \item \(S \in V\) is a start variable.
+  \end{itemize}
 
-	If \(u, v, w\) are strings of variables and terminals,
+  If \(u, v, w\) are strings of variables and terminals,
   and \(A \to w\) is a rule, we write \(uAv \Rightarrow uwv\)
   (read \(uAv\) \vocab{yields} \(uwv\)).
   In particular, \(u \Rightarrow v\) if we can get from \(u\) to \(v\)
   with one substitution.
 
-	We also write \(u \overset{*}{\Rightarrow} v\)
+  We also write \(u \overset{*}{\Rightarrow} v\)
   (read \(u\) \vocab{derives} \(v\)) if there exists a chain
-	\[
-		u \Rightarrow u_1 \Rightarrow u_2 \Rightarrow \dots \Rightarrow v.
-	\]
+  \[
+    u \Rightarrow u_1 \Rightarrow u_2 \Rightarrow \dots \Rightarrow v.
+  \]
 
-	Then, the \vocab{language} of a grammar \(G\) is
-	\[
-		L(G) = \set{w \mid S \overset{*}{\Rightarrow} w}.
-	\]
+  Then, the \vocab{language} of a grammar \(G\) is
+  \[
+    L(G) = \set{w \mid S \overset{*}{\Rightarrow} w}.
+  \]
 \end{definition}
 
 \section{Pushdown Automata}
@@ -92,65 +92,65 @@ In addition to reading the input, the states can also control a stack,
 which is an object that has an infinite amount of memory to store things.
 The catch is that the machine can only read and write to the top of the stack.
 \begin{center}
-	\begin{tikzpicture}
-		\node[rectangle]                         (sc) [draw] {state control};
-		\node[right=1.8cm of sc]                 (input) {};
-		\node[below right=2cm and 0.6cm of sc] (stack) {};
+  \begin{tikzpicture}
+    \node[rectangle]                         (sc) [draw] {state control};
+    \node[right=1.8cm of sc]                 (input) {};
+    \node[below right=2cm and 0.6cm of sc] (stack) {};
 
-		\draw (input) rectangle ($(input) + (3, 0.6)$);
-		\draw ($(input) + (0.6, 0)$) -- ($(input) + (0.6, 0.6)$);
-		\draw ($(input) + (1.2, 0)$) -- ($(input) + (1.2, 0.6)$);
-		\path ($(input) + (1.5, 0.6)$) node[above] {input};
-		\path[->, bend left, shorten >=2pt] (sc.east) edge ($(input) + (0, 0.6)$);
+    \draw (input) rectangle ($(input) + (3, 0.6)$);
+    \draw ($(input) + (0.6, 0)$) -- ($(input) + (0.6, 0.6)$);
+    \draw ($(input) + (1.2, 0)$) -- ($(input) + (1.2, 0.6)$);
+    \path ($(input) + (1.5, 0.6)$) node[above] {input};
+    \path[->, bend left, shorten >=2pt] (sc.east) edge ($(input) + (0, 0.6)$);
 
-		\draw (stack) rectangle ($(stack) + (0.6, 1.8)$);
-		\draw[shorten >=0pt] ($(stack) + (0, 0.6)$) -- ($(stack) + (0.6, 0.6)$);
-		\draw[shorten >=0pt] ($(stack) + (0, 1.2)$) -- ($(stack) + (0.6, 1.2)$);
-		\path ($(stack) + (0.6, 0.9)$) node[right] {stack};
-		\path ($(stack) + (0.3, 0)$) node[below] {\(\vdots\)};
-		\path[->, bend left=20, shorten >=2pt] (sc.east) edge ($(stack) + (0.3, 1.8)$);
-	\end{tikzpicture}
+    \draw (stack) rectangle ($(stack) + (0.6, 1.8)$);
+    \draw[shorten >=0pt] ($(stack) + (0, 0.6)$) -- ($(stack) + (0.6, 0.6)$);
+    \draw[shorten >=0pt] ($(stack) + (0, 1.2)$) -- ($(stack) + (0.6, 1.2)$);
+    \path ($(stack) + (0.6, 0.9)$) node[right] {stack};
+    \path ($(stack) + (0.3, 0)$) node[below] {\(\vdots\)};
+    \path[->, bend left=20, shorten >=2pt] (sc.east) edge ($(stack) + (0.3, 1.8)$);
+  \end{tikzpicture}
 \end{center}
 
 \begin{example}
-	There exists a \textsf{PDA} that recognizes \(\set{\mathtt 0^k \mathtt 1^k}\).
+  There exists a \textsf{PDA} that recognizes \(\set{\mathtt 0^k \mathtt 1^k}\).
 
-	\tcblower
-	Consider the \textsf{PDA} that pushes a \(\mathtt 0\) onto the stack
+  \tcblower
+  Consider the \textsf{PDA} that pushes a \(\mathtt 0\) onto the stack
   when it reads a \(\mathtt 0\) at the beginning,
   and pops a \(\mathtt 0\) from the stack when
   it reads a \(\mathtt 1\) after the string of \(\mathtt 0\)s.
   This accepts \(\set{\mathtt 0^k \mathtt 1^k}\).
-	\begin{center}
-		\begin{tikzpicture}[automaton, node distance=2.2cm]
-			\node[state, initial]                (q0) {};
-			\node[state, right=of q0]            (q1) {};
-			\node[state, right=of q1]            (q2) {};
-			\node[state, accepting, right=of q2] (q3) {};
+  \begin{center}
+    \begin{tikzpicture}[automaton, node distance=2.2cm]
+      \node[state, initial]                (q0) {};
+      \node[state, right=of q0]            (q1) {};
+      \node[state, right=of q1]            (q2) {};
+      \node[state, accepting, right=of q2] (q3) {};
 
-			\path (q0) edge node{\(\eps, \eps \to \texttt \$\)} (q1);
-			\path[loop above] (q1) edge node{\(\mathtt 0, \eps \to \mathtt 0\)} (q1);
-			\path (q1) edge node{\(\eps, \eps \to \eps\)} (q2);
-			\path[loop above] (q2) edge node{\(\mathtt 1, \mathtt 0 \to \eps\)} (q2);
-			\path (q2) edge node{\(\eps, \texttt \$ \to \eps\)} (q3);
-		\end{tikzpicture}
-	\end{center}
+      \path (q0) edge node{\(\eps, \eps \to \texttt \$\)} (q1);
+      \path[loop above] (q1) edge node{\(\mathtt 0, \eps \to \mathtt 0\)} (q1);
+      \path (q1) edge node{\(\eps, \eps \to \eps\)} (q2);
+      \path[loop above] (q2) edge node{\(\mathtt 1, \mathtt 0 \to \eps\)} (q2);
+      \path (q2) edge node{\(\eps, \texttt \$ \to \eps\)} (q3);
+    \end{tikzpicture}
+  \end{center}
 \end{example}
 
 
 \begin{definition}
-	A \vocab{pushdown automata (\textsf{PDA})} is
+  A \vocab{pushdown automata (\textsf{PDA})} is
   \(M = (Q, \Sigma, \Gamma, \delta, q_0, F)\) where
-	\begin{itemize}[nosep]
-		\item \(Q\) is finite set of states,
-		\item \(\Sigma\) is a finite input alphabet,
-		\item \(\Gamma\) is a finite stack alphabet,
-		\item \(\delta \colon Q \times \Sigma_\eps \times \Gamma_\eps
+  \begin{itemize}[nosep]
+    \item \(Q\) is finite set of states,
+    \item \(\Sigma\) is a finite input alphabet,
+    \item \(\Gamma\) is a finite stack alphabet,
+    \item \(\delta \colon Q \times \Sigma_\eps \times \Gamma_\eps
                       \to \mathcal P(Q \times \Gamma_\eps)\)
           is the transition function,
-		\item \(q_0 \in Q\) is the start state, and
-		\item \(F \subseteq Q\) is the set of accepting states.
-	\end{itemize}
+    \item \(q_0 \in Q\) is the start state, and
+    \item \(F \subseteq Q\) is the set of accepting states.
+  \end{itemize}
 \end{definition}
 
 Then, we say that
@@ -159,43 +159,43 @@ accepts some input \(w = w_1 w_2 \dots w_n \in \Sigma^n\)
 if there exists a sequence of states \(r_0, \dots, r_n\)
 and a sequence of strings \(s_0, \dots, s_n \in \Gamma^*\) such that
 \begin{itemize}
-	\item \(r_0 = q_0\),
-	\item \(s_0 = \eps\),
-	\item \(r_n \in F\),
-	\item \((q_i, b) \in \delta(q_{i - 1}, w_i, a)\), \(s_{j - 1} = at\), and
+  \item \(r_0 = q_0\),
+  \item \(s_0 = \eps\),
+  \item \(r_n \in F\),
+  \item \((q_i, b) \in \delta(q_{i - 1}, w_i, a)\), \(s_{j - 1} = at\), and
         \(s_j = bt\) for some \(a, b \in \Gamma_\eps\)
         and \(t \in \Gamma_\eps^*\) for \(1 \leq i \leq n\), and
-	\item \(r_n \in F\).
+  \item \(r_n \in F\).
 \end{itemize}
 
 \begin{example}
-	There exists a \textsf{PDA} that recognizes
+  There exists a \textsf{PDA} that recognizes
   \(B = \set{w w^R \mid w \in \set{\mathtt 0, \mathtt 1}^*}\),
   where \(w^R\) is the reverse of \(w\).
 
-	\tcblower
-	Let \(\Gamma = \Sigma\),
+  \tcblower
+  Let \(\Gamma = \Sigma\),
   and let the \textsf{PDA} push the characters it reads onto the stack.
   Then at an arbitrary time,
   the \textsf{PDA} starts popping the read characters from the stack.
   By nondeterminism, this should work.
 
-	\begin{center}
-		\begin{tikzpicture}[automaton, node distance=2.2cm]
-			\node[state, initial]                (q0) {};
-			\node[state, right=of q0]            (q1) {};
-			\node[state, right=of q1]            (q2) {};
-			\node[state, accepting, right=of q2] (q3) {};
+  \begin{center}
+    \begin{tikzpicture}[automaton, node distance=2.2cm]
+      \node[state, initial]                (q0) {};
+      \node[state, right=of q0]            (q1) {};
+      \node[state, right=of q1]            (q2) {};
+      \node[state, accepting, right=of q2] (q3) {};
 
-			\path (q0) edge node{\(\eps, \eps \to \texttt \$\)} (q1);
-			\path[loop above] (q1) edge node{\(a, \eps \to a\)} (q1);
-			\path (q1) edge node{\(\eps, \eps \to \eps\)} (q2);
-			\path[loop above] (q2) edge node{\(a, a \to \eps\)} (q2);
-			\path (q2) edge node{\(\eps, \texttt \$ \to \eps\)} (q3);
-		\end{tikzpicture}
-	\end{center}
+      \path (q0) edge node{\(\eps, \eps \to \texttt \$\)} (q1);
+      \path[loop above] (q1) edge node{\(a, \eps \to a\)} (q1);
+      \path (q1) edge node{\(\eps, \eps \to \eps\)} (q2);
+      \path[loop above] (q2) edge node{\(a, a \to \eps\)} (q2);
+      \path (q2) edge node{\(\eps, \texttt \$ \to \eps\)} (q3);
+    \end{tikzpicture}
+  \end{center}
 
-	The reason why we push a \(\texttt \$\) onto the stack at the beginning
+  The reason why we push a \(\texttt \$\) onto the stack at the beginning
   is so that the machine has a way to tell if it is at the bottom of the stack.
   This is a common idea that will appear often.
 \end{example}

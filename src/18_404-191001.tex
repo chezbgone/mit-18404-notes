@@ -4,54 +4,54 @@
 \begin{document}
 \section{Decidability of \texorpdfstring{\(A_{\textsf{TM}}\)}{A\_TM} and Friends}
 \begin{theorem}
-	\(A_{\textsf{TM}} = \set{\angles{M, w} \mid \text{$M$ is a \textsf{TM} accepting $w$}}\) is not decidable.
+  \(A_{\textsf{TM}} = \set{\angles{M, w} \mid \text{$M$ is a \textsf{TM} accepting $w$}}\) is not decidable.
 \end{theorem}
 \begin{proof}
-	Suppose for the sake of contradiction that there exists a \textsf{TM} \(H\) that decides \(A_{\textsf{TM}}\). Let's construct another \textsf{TM} \(D\) that does the following:
-	\begin{enumerate}[start=0]
-		\item On input \(\angles{M}\), where \(M\) is a \textsf{TM}:
-		\item Run \(H\) on \(\angles{M, \angles{M}}\).
-		\item If \(H\) accepts then \textsc{reject}, else \textsc{accept}.
-	\end{enumerate}
-	
-	Intuitively, \(D\) accepts \(\angles{M}\) if and only if \(M\) on \(\angles M\) does not accept.
+  Suppose for the sake of contradiction that there exists a \textsf{TM} \(H\) that decides \(A_{\textsf{TM}}\). Let's construct another \textsf{TM} \(D\) that does the following:
+  \begin{enumerate}[start=0]
+    \item On input \(\angles{M}\), where \(M\) is a \textsf{TM}:
+    \item Run \(H\) on \(\angles{M, \angles{M}}\).
+    \item If \(H\) accepts then \textsc{reject}, else \textsc{accept}.
+  \end{enumerate}
+  
+  Intuitively, \(D\) accepts \(\angles{M}\) if and only if \(M\) on \(\angles M\) does not accept.
 
-	Now consider running \(D\) on \(\angles{D}\). Then \(D\) accepts if and only if \(D\) on \(\angles{D}\) does not accept. This is a contradiction.
+  Now consider running \(D\) on \(\angles{D}\). Then \(D\) accepts if and only if \(D\) on \(\angles{D}\) does not accept. This is a contradiction.
 \end{proof}
 
 The motivation comes from Cantor's diagonalization argument. In particular, consider the table:
 \[
-	\begin{array}{r | c c c c c} % chktex 44
-		    & \angles{M_1} & \angles{M_2} & \angles{M_3} & \cdots & \angles{D} \\ \hline % chktex 44
-		M_1 & \textsc{acc} & \textsc{rej} & \textsc{acc} & \cdots & \\
-		M_2 & \textsc{acc} & \textsc{acc} & \textsc{acc} & \cdots & \\
-		M_3 & \textsc{rej} & \textsc{rej} & \textsc{rej} & \cdots & \\
-		\vdots\,\, & \vdots & \vdots & \vdots & \ddots & \vdots \\
-		D & \textsc{rej} & \textsc{rej} & \textsc{acc} & \cdots & ? \\
-	\end{array}
+  \begin{array}{r | c c c c c} % chktex 44
+        & \angles{M_1} & \angles{M_2} & \angles{M_3} & \cdots & \angles{D} \\ \hline % chktex 44
+    M_1 & \textsc{acc} & \textsc{rej} & \textsc{acc} & \cdots & \\
+    M_2 & \textsc{acc} & \textsc{acc} & \textsc{acc} & \cdots & \\
+    M_3 & \textsc{rej} & \textsc{rej} & \textsc{rej} & \cdots & \\
+    \vdots\,\, & \vdots & \vdots & \vdots & \ddots & \vdots \\
+    D & \textsc{rej} & \textsc{rej} & \textsc{acc} & \cdots & ? \\
+  \end{array}
 \]
 The \textsf{TM} \(D\) gives the opposite of the entries on the main diagonal, which yields a problem when we get to the row for \(D\).
 
 \begin{note}
-	Sometimes we \emph{do} input programs into themselves! For example, compilers.
+  Sometimes we \emph{do} input programs into themselves! For example, compilers.
 \end{note}
 
 \begin{theorem}
-	 If \(A\) and \(\ol{A}\) are both Turing recognizable, then \(A\) is decidable.
+   If \(A\) and \(\ol{A}\) are both Turing recognizable, then \(A\) is decidable.
 \end{theorem}
 \begin{proof}
-	Let \(R\) be a recognizer for \(A\) and \(S\) be a recognizer for \(\ol A\). Then, consider the following \textsf{TM}:
-	\begin{enumerate}[start=0]
-		\item On input string \(w\):
-		\item Start running \(R\) and \(S\) on \(w\).
-		\item Let \(R\) and \(S\) alternate taking steps until one accepts.
-		\item If \(R\) accepts, then \textsc{accept}, and if \(S\) accepts, then \textsc{reject}.
-	\end{enumerate}
-	Note that this is a decider because one of \(R\) and \(S\) must accept, halting the \textsf{TM}.
+  Let \(R\) be a recognizer for \(A\) and \(S\) be a recognizer for \(\ol A\). Then, consider the following \textsf{TM}:
+  \begin{enumerate}[start=0]
+    \item On input string \(w\):
+    \item Start running \(R\) and \(S\) on \(w\).
+    \item Let \(R\) and \(S\) alternate taking steps until one accepts.
+    \item If \(R\) accepts, then \textsc{accept}, and if \(S\) accepts, then \textsc{reject}.
+  \end{enumerate}
+  Note that this is a decider because one of \(R\) and \(S\) must accept, halting the \textsf{TM}.
 \end{proof}
 
 \begin{corollary}
-	\(\ol{A_{\textsf{TM}}}\) is not Turing recognizable.
+  \(\ol{A_{\textsf{TM}}}\) is not Turing recognizable.
 \end{corollary}
 
 
