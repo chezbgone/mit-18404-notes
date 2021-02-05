@@ -3,11 +3,20 @@
 
 \begin{document}
 \section{Decision Problems}
-Sometimes, we want to work with objects that are not strings. If \(A\) is an object, then let's say that \(\angles A\) is an \vocab{encoding} of \(A\) into a string over \(\Sigma\). If we have multiple objects \(A_1, \dots, A_k\), then we can encode all of them into one string using \(\angles{A_1, \dots, A_k}\). Note that \(\angles{A_1, \dots, A_k}\) is not necessarily just \(\angles{A_1}, \dotsc, \angles{A_k}\) concatenated, because it might not be clear where each one ends.
+Sometimes, we want to work with objects that are not strings.
+If \(A\) is an object, then let's say that \(\angles A\)
+is an \vocab{encoding} of \(A\) into a string over \(\Sigma\).
+If we have multiple objects \(A_1, \dots, A_k\),
+then we can encode all of them into one string
+using \(\angles{A_1, \dots, A_k}\).
+Note that \(\angles{A_1, \dots, A_k}\) is
+not necessarily just \(\angles{A_1}, \dotsc, \angles{A_k}\) concatenated,
+because it might not be clear where each one ends.
 
 \subsection{DFAs}
 \subsubsection{Acceptance Problem}
-Given a \textsf{DFA}, we would like to determine whether it will accept some string \(w\).
+Given a \textsf{DFA}, we would like to determine
+whether it will accept some string \(w\).
 In particular, let
 \[
 	A_{\textsf{DFA}} = \set{
@@ -15,7 +24,8 @@ In particular, let
 		\text{$B$ is a \textsf{DFA} that accepts $w$}
 	}.
 \]
-Therefore, if testing if \(a \in A\) is equivalent to determining if some \textsf{DFA} accepts some word.
+Therefore, if testing if \(a \in A\) is equivalent to
+determining if some \textsf{DFA} accepts some word.
 
 \begin{proposition}
 	\(A_\textsf{DFA}\) is decidable.
@@ -35,9 +45,12 @@ We can define a similar language for \textsf{NFA}s.
 		\text{$B$ is a \textsf{NFA} that accepts $w$}
 	}\) is decidable.
 \end{corollary}
-To prove this, we can just do the same thing as above, and simulate the \textsf{NFA}. However, we can do something clever and just reduce it to the previous problem.
+To prove this, we can just do the same thing as above,
+and simulate the \textsf{NFA}.
+However, we can do something clever and just reduce it to the previous problem.
 \begin{proof}[Sketch]
-	Convert \(B\) to a \textsf{DFA} \(B'\) and then use the fact that \(A_{\textsf{DFA}}\) is decidable.
+	Convert \(B\) to a \textsf{DFA} \(B'\) and then
+  use the fact that \(A_{\textsf{DFA}}\) is decidable.
 \end{proof}
 
 \subsubsection{Emptiness Problem}
@@ -47,14 +60,16 @@ To prove this, we can just do the same thing as above, and simulate the \textsf{
 	}\). Then \(E_{\textsf{DFA}}\) is decidable.
 \end{proposition}
 \begin{proof}
-	The idea is to just perform a graph search on the states. Consider the \textsf{TM} \(M\) with input \(\angles B\), described by:
+	The idea is to just perform a graph search on the states.
+  Consider the \textsf{TM} \(M\) with input \(\angles B\), described by:
 	\begin{itemize}
 		\item Mark the start state
 		\item Repeat until nothing new is marked:
 		\begin{itemize}[nosep]
 			\item Mark state \(q\) if some previously marked state points to \(q\).
 		\end{itemize}
-		\item \textsc{Accept} if no accept node is marked, otherwise \textsc{reject}. \qedhere
+		\item \textsc{Accept} if no accept node is marked,
+          otherwise \textsc{reject}. \qedhere
 	\end{itemize}
 \end{proof}
 
@@ -65,17 +80,23 @@ To prove this, we can just do the same thing as above, and simulate the \textsf{
 	}\). Then \(EQ_{\textsf{DFA}}\) is decidable.
 \end{proposition}
 \begin{proof}
-	The key idea is that if \(L(B) = L(C)\), then we know that the symmetric difference is empty, i.e.
+	The key idea is that if \(L(B) = L(C)\),
+  then we know that the symmetric difference is empty, i.e.
 	\[
-		L(B) \mathbin{\Delta} L(C) = \ol{L(B)} \intersect L(C) \union L(B) \intersect \ol{L(C)} = \nullset.
+		L(B) \mathbin{\Delta} L(C)
+      = \ol{L(B)} \intersect L(C) \union L(B) \intersect \ol{L(C)}
+      = \nullset.
 	\]
-	Therefore, we consider the following \textsf{TM} with input \(\angles{B, C}\):
+	Therefore, we consider the following \textsf{TM}
+  with input \(\angles{B, C}\):
 	\begin{itemize}
 		\item Let \(D\) be the \textsf{DFA} such that
 		\[
 			L(D) = \ol{L(B)} \intersect L(C) \union L(B) \intersect \ol{L(C)}.
 		\]
-		\item Test if \(\angles{D} \in E_{\textsf{DFA}}\), i.e. if \(L(D)\) is empty. If yes then \textsc{accept}; \textsc{reject} if no. \qedhere
+		\item Test if \(\angles{D} \in E_{\textsf{DFA}}\),
+          i.e.\ if \(L(D)\) is empty.
+          If yes then \textsc{accept}; \textsc{reject} if no. \qedhere
 	\end{itemize}
 \end{proof}
 
@@ -88,8 +109,14 @@ To prove this, we can just do the same thing as above, and simulate the \textsf{
 \begin{proof}
 	Consider the following \textsf{TM} with input \(\angles{G, w}\):
 	\begin{itemize}
-		\item Convert \(G\) to Chomsky's Normal form. We know that to derive a string of length $n$, it will take \(2n - 1\) steps (\(n - 1\) to get the correct number of symbols, and \(n\) to convert variables).
-		\item Try all the derivations of length \(2n - 1\). If any of them yield \(w\), then \textsc{accept}, else \textsc{reject}. \qedhere
+		\item Convert \(G\) to Chomsky's Normal form.
+          We know that to derive a string of length $n$,
+          it will take \(2n - 1\) steps
+          (\(n - 1\) to get the correct number of symbols,
+          and \(n\) to convert variables).
+		\item Try all the derivations of length \(2n - 1\).
+          If any of them yield \(w\), then \textsc{accept},
+          else \textsc{reject}. \qedhere
 	\end{itemize}
 \end{proof}
 
@@ -97,7 +124,8 @@ To prove this, we can just do the same thing as above, and simulate the \textsf{
 	Every \textsf{CFL} is decidable.
 \end{proposition}
 \begin{proof}
-	Let \(A\) be a \textsf{CFL} generated by the \textsf{CFG} \(G\). Consider the \textsf{TM} \(M_G\) with input \(w\):
+	Let \(A\) be a \textsf{CFL} generated by the \textsf{CFG} \(G\).
+  Consider the \textsf{TM} \(M_G\) with input \(w\):
 	\begin{itemize}
 		\item Test if \(\angles{G, w} \in A_{\textsf{CFG}}\).
 		\item If yes then \textsc{accept}; \textsc{reject} if no. \qedhere
@@ -106,11 +134,17 @@ To prove this, we can just do the same thing as above, and simulate the \textsf{
 
 \begin{proposition}
 	Let \(E_{\textsf{CFG}} = \set{
-		\angles{G} \mid \text{$G$ is a \textsf{CFG} and $L(G) = \nullset$.}
+		\angles{G} \mid \text{$G$ is a \textsf{CFG} and $L(G) = \nullset$}
 	}\). Then \(E_{\textsf{CFG}}\) is decidable.
 \end{proposition}
 \begin{proof}
-	Suppose we are given a list of rules. We can mark all the terminals, and then if everything on the right side of a rule is marked, then this means we can get the left side. Repeat until nothing new is marked. Then, if the initial variable is marked then \textsc{accept}; else \textsc{reject}.
+	Suppose we are given a list of rules.
+  We can mark all the terminals,
+  and then if everything on the right side of a rule is marked,
+  then this means we can get the left side.
+  Repeat until nothing new is marked.
+  Then, if the initial variable is marked then \textsc{accept};
+  else \textsc{reject}.
 \end{proof}
 
 \begin{proposition}
@@ -118,7 +152,10 @@ To prove this, we can just do the same thing as above, and simulate the \textsf{
 		\angles{G, H} \mid \text{$G, H$ are \textsf{CFG}s and $L(G) = L(H)$}
 	}\). Then \(\mathit{EQ}_{\textsf{CFG}}\) is undecidable.
 \end{proposition}
-We can't use the same trick of using the symmetric difference we used last time for \textsf{DFA}s, because \textsf{CFG}s are not closed under complements or intersection! We'll prove this proposition later.
+We can't use the same trick of using the symmetric difference
+we used last time for \textsf{DFA}s,
+because \textsf{CFG}s are not closed under complements or intersection!
+We'll prove this proposition later.
 
 \begin{proposition}
 	Let \(A_{\textsf{TM}} = \set{
@@ -126,11 +163,13 @@ We can't use the same trick of using the symmetric difference we used last time 
 	}\). Then \(A_{\textsf{TM}}\) is Turing recognizable.
 \end{proposition}
 \begin{proof}
-	The idea is to just make the machine do it. In particular, the following machine recognizes \(A_{\textsf{TM}}\):
+	The idea is to just make the machine do it.
+  In particular, the following machine recognizes \(A_{\textsf{TM}}\):
 	\begin{enumerate}[nosep, start=0]
 		\item On input \(\angles{M, w}\):
 		\item Simulate \(M\) on \(w\).
-		\item If \(M\) accepts, then \textsc{accept}, if \(M\) rejects, then \textsc{reject}. \qedhere
+		\item If \(M\) accepts, then \textsc{accept},
+          if \(M\) rejects, then \textsc{reject}. \qedhere
 	\end{enumerate}
 \end{proof}
 
