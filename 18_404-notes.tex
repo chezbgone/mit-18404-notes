@@ -1,0 +1,69 @@
+\documentclass{chezreport}
+\usepackage{standalone}
+
+\NewDocumentCommand{\blank}{}{\raisebox{0.4ex}{\texttt{\char32}}}
+\NewDocumentCommand{\marksymb}{m}{\overset{\scalebox{0.6}{\ensuremath\bullet}}{#1}}
+
+\NewDocumentCommand{\mapredu}{}{\mathrel{\leq_m}}
+\NewDocumentCommand{\polyredu}{}{\mathrel{\leq_p}}
+\NewDocumentCommand{\logredu}{}{\mathrel{\leq_L}}
+\NewDocumentCommand{\HALT}{}{\mathit{HALT}}
+\NewDocumentCommand{\REGEXup}{}{\textsf{REGEX}\mathord\uparrow}
+\DeclareMathOperator{\TIME}{TIME}
+\DeclareMathOperator{\SPACE}{SPACE}
+\DeclareMathOperator{\NSPACE}{NSPACE}
+
+\DeclareMathOperator{\numphi}{\textsf\#\phi}
+
+\usetikzlibrary{automata, decorations.pathmorphing}
+\tikzset{automaton/.style={->, shorten >=1pt, node distance=1.5cm, on grid,
+                           auto, double distance=2pt,
+                           every state/.style={minimum size=1.5em,
+                           inner sep=1pt}}}
+
+\title{18.404 Notes}
+\author{Jason Chen \\ Lecturer: Michael Sipser}
+\date{Last Updated: \today}
+
+\begin{document}
+\maketitle
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\chapter{Automata and Languages}
+\input{src/18_404-190905}
+\input{src/18_404-190910}
+\input{src/18_404-190912}
+\input{src/18_404-190917}
+\input{src/18_404-190919}
+
+% Computability Theory
+\input{src/18_404-190924}
+\input{src/18_404-190926}
+\input{src/18_404-191001}
+\input{src/18_404-191003}
+\input{src/18_404-191008}
+\input{src/18_404-191010}
+
+% Complexity theory
+\input{src/18_404-191017}
+\input{src/18_404-191022}
+\input{src/18_404-191029}
+\input{src/18_404-191031}
+\input{src/18_404-191105}
+\input{src/18_404-191107}
+\input{src/18_404-191112}
+\input{src/18_404-191114}
+\input{src/18_404-191119}
+\input{src/18_404-191121}
+\input{src/18_404-191126}
+\input{src/18_404-191203}
+\input{src/18_404-191205}
+\input{src/18_404-191210}
+% insert here
+
+
+%\input{exam-stuff}
+
+
+\end{document}

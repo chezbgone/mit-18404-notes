@@ -1,0 +1,157 @@
+\documentclass{standalone}
+\usepackage{chez}
+
+\begin{document}
+\section{Nondeterministic Time Complexity}
+Recall that from last time that \(\mathit{PATH} \in \mathsf{P}\). Consider the similar problem
+\[
+	\mathit{HAMPATH} = \set{\angles{G, s, t} \mid \text{directed graph $G$ has a path from $s$ to $t$ visiting each node exactly once}}.
+\]
+It turns out that whether this problem is in \(\mathsf P\) or not is open. However, it seems that it if we are given a solution to this problem, we can check this solution in polynomial time. Let's rigorize this idea.
+
+Recall that a nondeterministic Turing machine is defined just as we expect. Everything is the same except that the transition function is
+\[
+	\delta \colon Q \times \Gamma \to \mathcal P(Q \times \Gamma \times \set{\mathrm L, \mathrm R}).
+\]
+
+\begin{definition}
+	Given an \textsf{NTM} \(M\), we say that \(M\) \vocab{runs in time \(t(n)\)} for a function \(t\colon \NN \to \NN\) if for all strings \(w\) of length \(n\), all branches of \(M\) on \(w\) must halt within \(t(n)\) steps. Then let
+	\[
+		\mathrm{NTIME}(t(n)) = \set{
+			B \mid \text{some 1-tape \textsf{NTM} decides $B$ in \(O(t(n))\) time}
+		}.
+	\]
+\end{definition}
+
+\begin{definition}
+	Let the \vocab{nondeterministic polynomial time languages} be \(\mathsf{NP} = \bigunion_k \mathrm{NTIME}(n^k)\). In particular, this is the set of languages for which there exists a \textsf{NTM} that decide them in polynomial time of the input size.
+\end{definition}
+
+Note that we have \(\mathsf{P} \subseteq \mathsf{NP}\), because every \textsf{TM} is a \textsf{NTM}. However, the problem of \(\mathsf{NP} \subseteq \mathsf{P}\) is open.
+
+\begin{example}
+	\(\mathit{HAMPATH} \in \textsf{NP}\).
+	\tcblower
+	Consider the following \textsf{NTM}:
+	\begin{enumerate}[start=0]
+		\item On input \(\angles{G, s, t}\):
+		\item Let \(V\) be the nodes and \(E\) be the edges of \(G\). Also let \(m \gets \size V\).
+		\item Nondeterministically select a list of nodes \(v_1, \dots, v_m\) from \(V\).
+		\item Check \(v_1 = s\), \(v_m = t\), \((v_i, v_{i + 1}) \in E\) for each \(i\), and there are no repetitions in the list of \(v_i\).
+		\item If all checks passed then \textsc{accept}, otherwise \textsc{reject}.
+	\end{enumerate}
+	Selecting a list of node \(v_1, \dotsc, v_m\) takes \(m^2\) time, and the checking step takes \(O(m)\) time. Therefore, this runs in polynomial time.
+\end{example}
+
+\begin{example}
+	\(\mathit{COMPOSITES} = \set{
+		x \mid \text{$x$ is a binary string representing a composite number}
+	} \in \mathsf{NP}\). Here, we are taking \(n\) to be the length of \(x\). In fact, \(\mathit{COMPOSITES} \in \mathsf{P}\), but this is difficult to prove\footnotemark. Note that this gives the surprising fact that \(\mathit{PRIMES}\) is also in \(\mathsf{P}\)!
+	\tcblower
+	Consider the following \textsf{NTM}:
+	\begin{enumerate}[start=0]
+		\item On input \(x\):
+		\item Select some \(0 < q < x\) nondeterministically.
+		\item If \(q \mid x\) then \textsc{accept}, otherwise \textsc{reject}.
+	\end{enumerate}
+\end{example}
+\nopagebreak \footnotetext{see the \href{https://en.wikipedia.org/wiki/AKS_primality_test}{AKS primality test}}
+
+We also would like to rigorize what we mean by ``checking'' whether a solution works or not. We also have to be careful about how we measure an \textsf{NTM}'s runtime. We will consider the maximum time it takes to decide if a word is in the language. Fortunately, we can fix both of these problems at the same time. In particular, we can consider the computation tree that the \textsf{NTM} can take:
+\begin{center}
+	\begin{tikzpicture}[every node/.style={draw, circle}]
+		\node (root) {};
+		\node[below left=1 and 0.6 of root]  (L) {};
+		\node[below right=1 and 0.7 of root] (R) {};
+		\node[below left=1 and 0.5 of L]     (LL) {};
+		\node[below=0.91 of L]                (LM) {};
+		\node[below right=1 and 0.5 of L, double]    (LR) {};
+		\node[below left=1 and 0.3 of LL]    (LLL) {};
+		\node[below right=1 and 0.3 of LL]   (LLR) {};
+		\node[below left=1 and 0.1 of R]     (RL) {};
+		\node[below right=1 and 0.3 of R]    (RR) {};
+		\node[below left=1 and 0.2 of RL]    (RLL) {};
+		\node[below right=1 and 0.2 of RL]    (RLR) {};
+
+		\begin{scope}[->, shorten >=1pt]
+			\definecolor{pathcolor}{rgb}{0.2, 0.6, 1}
+			\path[draw, color=pathcolor] (root) -- (L);
+			\path[draw] (root) -- (R);
+			\path[draw] (L) -- (LL);
+			\path[draw] (L) -- (LM);
+			\path[draw, color=pathcolor] (L) -- (LR);
+			\path[draw] (R) -- (RL);
+			\path[draw] (R) -- (RR);
+			\path[draw] (LL) -- (LLL);
+			\path[draw] (LL) -- (LLR);
+			\path[draw] (RL) -- (RLL);
+			\path[draw] (RL) -- (RLR);
+		\end{scope}
+	\end{tikzpicture}
+\end{center}
+If the \textsf{NTM} accepts, then we will say that the runtime is the depth of the node. Otherwise, the \textsf{NTM} rejects, and we will say that the runtime is the full height of the tree. Moreover, if the \textsf{NTM} accepts, there exists some path from the starting node to an accepting state. Note that a deterministic \textsf{TM} can simulate this \textsf{NTM} if it were told this path, i.e. which decisions to make whenever the tree branches. This motivates the following definition:
+
+\begin{definition}
+	A \vocab{verifier} for a language \(A\) is a Turing machine \(M\) such that
+	\[
+		A = \set{
+			w \mid \text{there exists some string $c$ such that \(M\) accepts $\angles{w, c}$}
+		}.
+	\]
+	The string \(c\) is called the \vocab{certificate}. Then, we say that \(A\) is \vocab{polynomially verifiable} if there exists some verifier \(M\) that runs in polynomial time with respect to the length of \(w\).
+\end{definition}
+
+The string \(c\) can be thought of extra information that helps \(M\) compute \(A\). It can even be the answer to the problem! For example, a verifier for \(\mathit{HAMPATH}\) can take the input \(\angles{G, s, t, (v_1, \dots, v_m)}\), and just check whether \((v_1, \dots, v_m)\) is a valid path connecting \(s\) to \(t\).
+
+In general, \(A \in \mathsf{P}\) if and only if testing whether \(x \in A\) is decidable in polynomial time. Similarly, \(A \in \mathsf{NP}\) if and only if \(A\) is polynomially verifiable.
+
+\begin{problem}[P vs. NP]
+	Does there exist a problem \(p \in \mathsf{NP}\) but \(p \notin \mathsf{P}\)? In other words, does \(\mathsf{P} = \mathsf{NP}\)? This problem is open.
+\end{problem}
+
+
+\subsection{CFLs}
+Recall that all \textsf{CFL}s are decidable, because we can find a context-free grammar in Chomsky normal form and test all of the possible grammars. We can show that \textsf{CFL}s are in \(\mathsf{NP}\) by nondeterministically selecting a derivation of length \(2n - 1\). However, we can say something stronger.
+
+\begin{proposition}
+	If \(A\) is a \textsf{CFL}, then \(A \in \mathsf{P}\).
+\end{proposition}
+\begin{proof}
+	We use the idea of dynamic programming. Since \(A\) is context-free, there exists some context-free grammar \(G\) in Chomsky normal form that generates it. Consider the following \textsf{TM}:
+	\begin{enumerate}[start=0]
+		\item On input \(w\):
+		\item Let \(n \gets \size w\).
+		\item For all lengths \(k = 1, 2, \dots, n\):
+		\begin{enumerate}[nosep]
+			\item Check whether each substring of length \(k\) can be each variable of the \textsf{CFG} by using the rules in the \textsf{CFG} and the subproblems.
+			\item Remember the results and use old results if possible.
+		\end{enumerate}
+	\end{enumerate}
+	This is the bottom-up approach corresponding to selecting a point to split \(w\) and then determining whether each part is in \(A\) with dynamic programming.
+\end{proof}
+
+The key idea of dynamic programming is that we save answers to smaller subproblems to reuse later.
+
+\begin{example}
+	We can show that \(L = (\mathtt{aa} \union \mathtt{aba} \union \mathtt{aaab})^* \in \mathsf P\).
+
+	\tcblower
+	Suppose we wish to check if \(w = \mathtt{aaaba} \in L\). We can use a bottom-up approach. We consider all possible prefixes of \(w\), and determine what it produces by adding one instance of \((\mathtt{aa} \union \mathtt{aba} \union \mathtt{aaab})\).
+	\[
+		\begin{array}{r r r r} \toprule
+			               & \circ \mathtt{aa} & \circ\mathtt{aba} & \circ\mathtt{aaab}  \\ \midrule
+			\eps           & \mathtt{aa}       & \mathtt{aba}      & \mathtt{aaab}       \\
+			\mathtt{a}     &  \\
+			\mathtt{aa}    & \mathtt{aaaa}     & \mathtt{aaaba}    & \mathtt{aaaaab}     \\
+			\mathtt{aaa}   &  \\
+			\mathtt{aaab}  & \mathtt{aaabaa}   & \mathtt{aaababa}  & \mathtt{aaabaaab}   \\
+			\mathtt{aaaba} &  \\ \bottomrule
+		\end{array}
+	\]
+	For the rows starting with \(\mathtt{a}\) and \(\mathtt{aaa}\), we cannot find it in the table, so we skip the row. For \(\mathtt{aaaba}\), we find it in the table, so we \textsc{accept}.
+\end{example}
+
+
+
+
+\end{document}

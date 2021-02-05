@@ -1,0 +1,57 @@
+\documentclass{scrartcl}
+\usepackage{chez}
+
+\begin{document}
+\chapter{Important things for the exam maybe}
+\begin{itemize}
+	\item \(\mathsf{REG} \subsetneq \mathsf{CFL} \subsetneq \mathsf{P} \subseteq \mathsf{NP} \subseteq \mathsf{IP} = \mathsf{PSPACE} = \mathsf{NPSPACE} \subseteq \mathsf{EXP} \subseteq \mathsf{EXPSPACE} \subsetneq \mathsf{Decid}\)
+	\item \(\mathsf{REG} \subsetneq \mathsf{L} \subseteq \mathsf{NL} = \mathsf{coNL} \subseteq \mathsf{L}^2 \subsetneq \mathsf{PSPACE}\)
+	\item \(\mathsf{NL} \subseteq \mathsf{P} \subseteq \mathsf{NP} \intersect \mathsf{coNP}\)
+	\item \(\mathsf{coNP} \subseteq \mathsf{PSPACE}\)
+	\item \(\mathsf{P} \subsetneq \mathsf{EXP}\)
+	\item \(\mathsf{PSPACE} = \mathsf{NPSPACE} \subsetneq \mathsf{EXPSPACE}\)
+	\item \(\mathsf{P} \subseteq \mathsf{BPP} \subseteq \mathsf{PSPACE}\)
+	\item \(\set{\text{regular languages}} \subseteq \TIME(n)\)
+	\item \(\set{\text{context-free languages}} \subseteq \TIME(n^5)\)
+	\item \(\mathsf{NL} = \mathsf{coNL}\)
+	\item Deterministic classes are closed under complement (e.g. \(\mathsf{P} = \mathsf{coP}\))
+	\item Prototypical examples of \(A\)-complete problems:
+	\begin{itemize}[nosep]
+		\item \(\mathsf{NP}\)-complete \(\textit{SAT}, \textit{$k$-SAT}, \textit{CLIQUE}, \textit{HAMPATH}\)
+		\item \(\mathsf{PSPACE}\)-complete \(\textit{TQBF}, \textit{GG}\)
+		\item \(\mathsf{NL}\)-complete \(\textit{PATH}, \ol{\textit{PATH}}\)
+		\item \(\mathsf{EXPSPACE}\)-complete \(\textit{EQ}_{\REGEXup}\)
+	\end{itemize}
+	\item \(\mathsf{NP} \subseteq \mathsf{P}^{\textit{SAT}}\)
+	\item \(\mathsf{P}^{\textit{SAT}} \subseteq \mathsf{NP}\) is open
+	\item \(\mathsf{NP} = \mathsf{coNP}\) is open
+	\item \(\mathsf{L} = \mathsf{NL}\) is open
+	\item Closure properties
+	\begin{center}
+		\begin{tabular}{c c c c c c c c} \toprule
+			Class (\(X, Y\)) & \(\ol{X}\) & \(X^*\) & \(X^{\mathcal R}\) & \(X \union Y\) & \(X \intersect Y\) & \(X \circ Y\) & \(X \setminus Y\) \\ \midrule
+			\(\mathsf{L}\) & Y & ?\footnote{Only if \(\mathsf{L} = \mathsf{NL}\)} & Y & Y & Y & Y & Y \\
+			\(\mathsf{NL} = \mathsf{coNL}\) & Y & Y & Y & Y & Y & Y & Y \\
+			\(\mathsf{P}\) & Y & Y & Y & Y & Y & Y & Y \\
+			\(\mathsf{NP}\) & ? & Y & Y & Y & Y & Y & ? \\
+			\(\mathsf{coNP}\) & ? & Y & Y & Y & Y & Y & ? \\
+			\(\mathsf{BPP}\) & Y & Y & Y & Y & Y & Y & Y \\
+			\(\mathsf{IP} = \mathsf{PSPACE} = \mathsf{NPSPACE}\) & Y & Y & Y & Y & Y & Y & Y \\
+			\(\mathsf{EXP}\) & Y & Y & Y & Y & Y & Y & Y \\
+			\(\mathsf{EXPSPACE}\) & Y & Y & Y & Y & Y & Y & Y \\ \bottomrule
+		\end{tabular}
+	\end{center}
+	\item \(\textit{ISO}\) is open
+	\item Converting a regex to an \textsf{NFA} is in \(L\).
+	\item Characterization of \(EQ\) problems
+	\begin{itemize}
+		\item \(A_{\textsf{DFA}} \in \mathsf{L}\)
+	\end{itemize}
+	\item Characterization of \(A\) problems
+	\begin{itemize}
+		\item \(A_{\textsf{DFA}} \in \mathsf{L}\)
+	\end{itemize}
+\end{itemize}
+
+\end{document}
+

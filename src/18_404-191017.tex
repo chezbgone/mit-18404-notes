@@ -1,0 +1,105 @@
+\documentclass{standalone}
+\usepackage{chez}
+
+\begin{document}
+\chapter{Complexity Theory}
+\section{Introduction to Complexity Theory}
+From the 1930s to the 1950s, people studied computability theory, which is about determining what languages are recognizable and decidable. Then, from the 1960s to now, people study complexity theory, which studies which problems are decidable easily (in time, space, etc.).
+
+Everything we will be looking at from now on will be decidable. What we will be thinking about is how much resources we need to decide it.
+
+First, some motivating examples:
+\begin{example}
+	Let \(A = \set{\mathtt a^k \mathtt b^k}\). This is decidable because it is context free. We want to figure out how much time (number of steps) it takes to determine whether some string is in \(A\). By convention, we take all the inputs of length \(n\), and consider the input that takes the most time. We bound this function on \(n\), and call this the \vocab{worst case time complexity}.
+\end{example}
+
+\begin{claim}
+	\(\set{\mathtt a^k \mathtt b^k}\) can be decided by a 1-tape \textsf{TM} that uses \(O(n^2)\) steps for inputs of length \(n\).
+\end{claim}
+\begin{proof}
+	Consider the Turing machine described by the following:
+	\begin{enumerate}[start=0]
+		\item On input \(w\):
+		\item Scan the input to make sure it is of the form \(\mathtt a^* \mathtt b^*\). If not, then \textsc{reject}.
+		\item Repeat until everything is crossed off:
+		\begin{enumerate}[nosep]
+			\item Scan tape and cross off one \(\texttt a\) and one \(\texttt b\).
+			\item If the \(\texttt a\)s finish before the \(\texttt b\)s or vice versa, then \textsc{reject}.
+		\end{enumerate}
+		\item If the loop finishes, \textsc{accept}.
+	\end{enumerate}
+	This \textsf{TM} indeed takes \(O(n^2)\) time.
+\end{proof}
+
+Can we do better? The loop in step 2 seems a bit inefficient. Instead of crossing off one \(\mathtt a\) and \(\mathtt b\) at a time, we can try to cross off every other letter. If the number of \(\mathtt a\)s we cross off has the same parity as the number of \(\mathtt b\)s we cross off each time, then there will be the same number of \(\mathtt a\) and \(\mathtt b\). This takes \(O(n \log n)\) time. Note that we took out the base in the log because \(\log_2 n = \log n / \log 2\), and \(\log 2\) is just a constant.
+
+Can we do even better? In particular, can we find a \textsf{TM} that uses \(o(n \log n)\)?
+\begin{note}
+	We can think of \(O\) as \(\leq\), \(o\) as \(<\), and \(\Theta\) as \(=\).
+\end{note}
+It turns out \(O(n \log n)\) is optimal. Proving a certain algorithm is optimal is often hard, so we will not prove it here.
+
+Another idea that we might have is to keep a counter. We cannot store this in the state control because the state control must be finite. Therefore, we must keep it on the tape. Deciding where to put the counter is crucial. If the position is fixed, then we will spend \(O(n)\) time travelling to the counter, which is bad. Therefore, we can keep the counter with the head. The counter head will be of length \(O(\log n)\), and we will have to move the counter on each step, which takes \(O(n \log n)\) time. This gives us the same answer!
+
+\begin{claim}
+	A 2-tape \textsf{TM} can decide \(A\) in \(O(n)\) time.
+\end{claim}
+This is clear because while scanning over the \(\mathtt a\)s, we can copy them to the second tape, and then compare them to the \(\mathtt b\)s on the first tape.
+
+This shows us that the model of computation we have will affect the complexity! This is bad, because this means our results depend on the model of computation. However, we can fix this by showing that the models only differ by a polynomial, and then saying that we don't care about polynomial differences.
+
+\begin{proposition}
+	Every multitape \textsf{TM} that runs in \(O(f(n))\) time has an equivalent 1-tape \textsf{TM} that runs in \(O(f(n)^2)\).
+\end{proposition}
+\begin{proof}
+	Remember that if we have a multitape \textsf{TM} \(M\), we constructed a 1-tape \textsf{TM} \(S\) by storing the multitape contents on a single tape one after another.
+
+	When \(M\) makes one step, \(S\) makes a complete pass through its whole tape. The length of the tape is \(O(f(n))\), because at each step, \(M\) can only write one symbol to each tape. Therefore, on each step of \(M\), \(S\) takes \(O(f(n))\) steps. Since \(M\) takes \(f(n)\) steps, \(S\) will run in \(O(f(n)^2)\).
+\end{proof}
+Note that this only squared the time. It turns out that if we decide to ignore polynomial factors, i.e. two running times \(f\) and \(g\) are equivalent if \(f = O(P(g))\) for some polynomial \(P\), then the models of computation we care about are equivalent.
+
+\begin{definition}
+	We say that a \textsf{TM} \vocab{runs in time \(t(n)\)} for a function \(t \colon \NN \to \NN\) if the \textsf{TM} halts on all inputs of length \(n\) in \(t(n)\) steps. Then, let
+	\[
+		\TIME(t(n)) = \set{B \mid \text{%
+			some \textsf{TM} decides $B$ in $O(t(n))$ time%
+		}}.
+	\]
+\end{definition}
+
+There is the idea that we have nested sets of languages based on the time in which they can be decided:
+\[
+	\TIME(n)
+		\subseteq \TIME(n \log \log n)
+		\subseteq \TIME(n \log n)
+		\subseteq \TIME(n^2)
+		\subseteq \cdots.
+\]
+
+\begin{definition}
+	Let the \vocab{polynomial time languages} be \(\mathsf P = \bigunion_k \TIME(n^k)\). These are the languages which have machines that decide them in polynomial time of the input size.
+\end{definition}
+
+Note that this has nice properties we care about:
+\begin{itemize}
+	\item model independent (for reasonable deterministic models\footnote{i.e. can't do an exponential (non-polynomial) amount of work on each step})
+	\item roughly corresponds to practical solvability.
+\end{itemize}
+
+\begin{example}
+	\[
+		\mathit{PATH} = \set{
+			\angles{G, s, t} \mid \text{%
+				$G$ is a directed graph with a path from $s$ to $t$%
+			}
+		} \in \mathsf{P}.
+	\]
+	\tcblower
+	Run depth first search. This takes \(O(\size V + \size E)\) time, which is a polynomial in the input size.
+\end{example}
+
+
+
+
+\end{document}
+
