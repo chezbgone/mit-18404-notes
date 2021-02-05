@@ -4,10 +4,13 @@
 \begin{document}
 \section{More on Regular Expressions}
 \begin{proposition}
-	The set of languages that regular expressions determine is exactly all regular languages.
+	The set of languages that regular expressions determine is
+  exactly all regular languages.
 \end{proposition}
 \begin{proof}[Regular expressions \(\implies\) regular]
-	It is fairly clear that all regular expressions determine regular languages. In particular, for the atomic regular expressions, we can find the \textsf{NFA}s:
+	It is fairly clear that all regular expressions determine regular languages.
+  In particular, for the atomic regular expressions,
+  we can find the \textsf{NFA}s:
 	\begin{itemize}
 		\item \(a\) for \(a \in \Sigma_\eps\)
 		\begin{center}
@@ -26,11 +29,13 @@
 		\end{center}
 	\end{itemize}
 
-	For the composite regular expressions, we just can use the regular operations for \textsf{NFA}s.
+	For the composite regular expressions,
+  we just can use the regular operations for \textsf{NFA}s.
 \end{proof}
 
 \begin{example}
-	If we want to build an \textsf{NFA} for \((\mathtt a \union \mathtt{ab})^*\), we can just build it up from smaller parts:
+	If we want to build an \textsf{NFA} for \((\mathtt a \union \mathtt{ab})^*\),
+  we can just build it up from smaller parts:
 	\begin{itemize}[nosep]
 		\item \(\mathtt a\)
 		\begin{center}
@@ -108,9 +113,11 @@
 	\end{itemize}
 \end{example}
 
-To prove that all \textsf{NFA}s can be represented by a regular expression, we will define another version of them that will make things more convenient.
+To prove that all \textsf{NFA}s can be represented by a regular expression,
+we will define another version of them that will make things more convenient.
 \begin{definition}
-	A \vocab{generalized nondeterministic finite automaton (\textsf{GNFA})} is an \textsf{NFA} that can have regular expressions as transition labels.
+	A \vocab{generalized nondeterministic finite automaton (\textsf{GNFA})}
+  is an \textsf{NFA} that can have regular expressions as transition labels.
 \end{definition}
 
 \begin{example}
@@ -130,9 +137,17 @@ To prove that all \textsf{NFA}s can be represented by a regular expression, we w
 \end{example}
 
 \begin{proof}[\textsf{GNFA} \(\implies\) regex]
-	Suppose we have a \textsf{GNFA}. For convenience, assume that the starting state is not accepting (we can just add another starting state with an \(\eps\) arrow pointing to it otherwise). Also, assume that there are only arrows out of the initial state, and there are only arrows going into a single accepting state. We can ensure this by adding \(\eps\) arrows.
+	Suppose we have a \textsf{GNFA}.
+  For convenience, assume that the starting state is not accepting.
+  (We can just add another starting state with an \(\eps\) arrow
+  pointing to it otherwise.)
+  Also, assume that there are only arrows out of the initial state,
+  and there are only arrows going into a single accepting state.
+  We can ensure this by adding \(\eps\) arrows.
 
-	We proceed by induction. The smallest machine that satisfies these conditions is one that has \(k = 2\) states, and it looks like this
+	We proceed by induction.
+  The smallest machine that satisfies these conditions
+  is one that has \(k = 2\) states, and it looks like this
 	\begin{center}
 		\begin{tikzpicture}[automaton]
 			\node[state, initial] (q0) {};
@@ -140,9 +155,16 @@ To prove that all \textsf{NFA}s can be represented by a regular expression, we w
 			\path (q0) edge node{\(r\)} (q1);
 		\end{tikzpicture}
 	\end{center}
-	where \(r\) is some regular expression. This is the regular expression for this \textsf{GNFA}.
+	where \(r\) is some regular expression.
+  This is the regular expression for this \textsf{GNFA}.
 
-	Now suppose that all \textsf{GNFA}s with at most \((k-1)\) states has an equivalent regular expression. Consider some \textsf{GNFA} \(G\) with \(k\) states. Our goal is to make a new \textsf{GNFA} with \(k - 1\) states. Let's remove some state \(g_x\). For all states \(q_i, q_j \neq g_x\) in \(G\), we an make the following change to fix the machine:
+    Now suppose that all \textsf{GNFA}s with at most \((k-1)\) states
+    has an equivalent regular expression.
+    Consider some \textsf{GNFA} \(G\) with \(k\) states.
+    Our goal is to make a new \textsf{GNFA} with \(k - 1\) states.
+    Let's remove some state \(g_x\).
+    For all states \(q_i, q_j \neq g_x\) in \(G\),
+    we an make the following change to fix the machine:
 	\begin{center}
 		\begin{tikzpicture}[automaton]
 			\node[state] (qi) {\(q_i\)};
@@ -164,33 +186,51 @@ To prove that all \textsf{NFA}s can be represented by a regular expression, we w
 			\draw[lightgray] ($(qip) + (-0.6, -0.6)$) rectangle ($(qjp) + (0.6, 0.7)$);
 		\end{tikzpicture}
 	\end{center}
-	This gives a machine with \(k - 1\) states, and it accepts the same language, as desired.
+	This gives a machine with \(k - 1\) states,
+  and it accepts the same language, as desired.
 \end{proof}
 
 \section{Non-regularity}
-Let \(B = \set{w \mid \text{$w$ has an equal number of $\mathtt a$s and $\mathtt b$s}}\) and \(C = \set{w \mid \text{$w$ has an equal number of $\mathtt{ab}$s and $\mathtt{ba}$s substrings}}\). It turns out that \(B\) is not regular but \(C\) is regular. It's not obviously clear how to determine this, so it would be nice to have a method to determine whether a language is regular or not.
+Let \(B = \set{w \mid \text{$w$ has an equal number of
+                            $\mathtt a$s and $\mathtt b$s}}\) and
+    \(C = \set{w \mid \text{$w$ has an equal number of
+                            $\mathtt{ab}$s and $\mathtt{ba}$s substrings}}\).
+It turns out that \(B\) is not regular but \(C\) is regular.
+It's not obviously clear how to determine this,
+so it would be nice to have a method to determine
+whether a language is regular or not.
 
 \begin{proposition}[Pumping Lemma]
-	If \(A\) is a regular language, there exists some \(p \in \NN\) called the \vocab{pumping length} such that if \(s \in A\) with \(\size s \geq p\), we can write \(s = xyz\) where
-	\begin{itemize}[nosep]
-		\item \(xy^i z \in A\) for \(i \in \set{0, 1, 2, \dots}\),
-		\item \(y \neq \eps\), and
-		\item \(\size{xy} \leq p\).
-	\end{itemize}
+If \(A\) is a regular language, there exists some \(p \in \NN\) called
+the \vocab{pumping length} such that if \(s \in A\) with \(\size s \geq p\),
+we can write \(s = xyz\) where
+\begin{itemize}[nosep]
+\item \(xy^i z \in A\) for \(i \in \set{0, 1, 2, \dots}\),
+\item \(y \neq \eps\), and
+\item \(\size{xy} \leq p\).
+\end{itemize}
 \end{proposition}
 \begin{proof}
-	Let \(M\) be a \textsf{DFA} for a regular language \(A\), and let \(p\) be the number of states of \(M\). Let \(s \in A\) have length \(\size s \geq p\).
+	Let \(M\) be a \textsf{DFA} for a regular language \(A\),
+  and let \(p\) be the number of states of \(M\).
+  Let \(s \in A\) have length \(\size s \geq p\).
 	
-	Consider the states that the machine will visit while going through the string. Since \(\size s \geq p\), the machine will visit at least \(p + 1\) states. By the pigeonhole principle, the machine will visit some state \(q\) at least twice.
+	Consider the states that the machine will visit
+  while going through the string.
+  Since \(\size s \geq p\), the machine will visit at least \(p + 1\) states.
+  By the pigeonhole principle, the machine will visit
+  some state \(q\) at least twice.
 	\begin{center}
-		\begin{tikzpicture}[automaton, decoration={snake, amplitude=0.5mm, post length=1mm}]
+		\begin{tikzpicture}[automaton,
+                        decoration={snake, amplitude=0.5mm, post length=1mm}]
 			\node[state, initial] (q0) {};
 			\node[state, above right=of q0] (q1) {\(q\)};
 			\node[state, accepting, below right=of q1] (q2) {};
 			
 			\path (q0) edge[decorate] node{\(x\)} (q1);
 			\path (q1) edge[decorate] node{\(y\)} (q2);
-			\path (q1) edge[decorate, in=40, out=140, looseness=20] node[above=0.1]{\(z\)} (q1);
+			\path (q1) edge[decorate, in=40, out=140, looseness=20]
+                 node[above=0.1]{\(z\)} (q1);
 		\end{tikzpicture}
 	\end{center}
 	Then, that means there is a nonempty string \(y\) that transitions from state \(q\) to \(q\), so we can repeat is as many times as possible.
@@ -198,10 +238,17 @@ Let \(B = \set{w \mid \text{$w$ has an equal number of $\mathtt a$s and $\mathtt
 
 We can now use the pumping lemma to prove things!
 \begin{claim}
-	Let \(D = \set{\mathtt a^k \mathtt b^k \mid k \in \NN}\). Then \(D\) is not regular.
+	Let \(D = \set{\mathtt a^k \mathtt b^k \mid k \in \NN}\).
+  Then \(D\) is not regular.
 \end{claim}
 \begin{proof}
-	Assume for the sake of contradiction that \(D\) is regular. Then let the pumping length be \(p\), and consider \(s = \mathtt a^p \mathtt b^p \in D\). By the pumping lemma, we can write \(s = xyz\) where \(y = \mathtt a^n\) for some \(n > 0\). Then, this gives \(\mathtt a^{p + kn}\mathtt b^{p} \in D\) for all \(k \in \set{0, 1, \dots}\), which is a contradiction.
+	Assume for the sake of contradiction that \(D\) is regular.
+  Then let the pumping length be \(p\), and consider
+  \(s = \mathtt a^p \mathtt b^p \in D\).
+  By the pumping lemma, we can write \(s = xyz\)
+  where \(y = \mathtt a^n\) for some \(n > 0\).
+  Then, this gives \(\mathtt a^{p + kn}\mathtt b^{p} \in D\)
+  for all \(k \in \set{0, 1, \dots}\), which is a contradiction.
 \end{proof}
 
 

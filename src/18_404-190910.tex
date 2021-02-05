@@ -6,9 +6,16 @@
 \begin{proposition}<concat_of_regular_is_regular>
 	If \(A\) and \(B\) are regular, then so is \(A \circ B\).
 \end{proposition}
-We can attempt to prove using the same method as \cref{prop:union_of_regular_is_regular}. Suppose that \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) accepts \(A\) and \(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\) recognizes \(B\). Then, intuitively, we want to run \(M_A\), and then run \(M_B\) on the input. However, it's not clear how the new machine can decide when to split the input.
+We can attempt to prove using the same method as
+\cref{prop:union_of_regular_is_regular}.
+Suppose that \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) accepts \(A\) and
+\(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\) recognizes \(B\).
+Then, intuitively, we want to run \(M_A\), and then run \(M_B\) on the input.
+However, it's not clear how the new machine can decide when to split the input.
 
-In particular, for a given \textsf{DFA} \(M\), there is only one possible path that \(M\) will take for a specific input. So \(M\) is not able to test all potential split points.
+In particular, for a given \textsf{DFA} \(M\),
+there is only one possible path that \(M\) will take for a specific input.
+So \(M\) is not able to test all potential split points.
 
 \section{Nondeterministic Finite Automata}
 To fix this problem, let's allow the machine to make decisions.
@@ -25,22 +32,36 @@ To fix this problem, let's allow the machine to make decisions.
 		\path             (q3) edge node{\(\mathtt a, \eps\)} (q4);
 	\end{tikzpicture}
 \end{center}
-The idea is that at a particular state (e.g. \(q_1\)), there may be multiple edges that the machine could take (e.g. back to \(q_1\) or to \(q_2\) when the input is \(\mathtt a\)). To think about a path that the machine takes while going through an input, we keep track of a subset of the states that the machine could be at. Moreover, if there exists an arrow exiting with an \(\eps\), then we include both the current state as well as the state that the \(\eps\) arrow goes to, as the machine can be at both.
+The idea is that at a particular state (e.g.\ \(q_1\)),
+there may be multiple edges that the machine could take
+(e.g.\ back to \(q_1\) or to \(q_2\) when the input is \(\mathtt a\)).
+To think about a path that the machine takes while going through an input,
+we keep track of a subset of the states that the machine could be at.
+Moreover, if there exists an arrow exiting with an \(\eps\),
+then we include both the current state as well as
+the state that the \(\eps\) arrow goes to, as the machine can be at both.
 
 \begin{example}
-	In the machine described by the diagram above, \(\mathtt{ab}\) and \(\mathtt{aba}\) are accepted, while \(\mathtt{ba}\) and \(\mathtt{abaa}\) are rejected.
+	In the machine described by the diagram above,
+  \(\mathtt{ab}\) and \(\mathtt{aba}\) are accepted,
+  while \(\mathtt{ba}\) and \(\mathtt{abaa}\) are rejected.
 \end{example}
 
 \begin{definition}
-	A \vocab{nondeterministic finite automata} (\textsf{NFA}) is tuple \((Q, \Sigma, \delta, q_0, F)\) where
+	A \vocab{nondeterministic finite automata} (\textsf{NFA}) is
+  tuple \((Q, \Sigma, \delta, q_0, F)\) where
 	\begin{itemize}[nosep]
 		\item \(Q\) is a finite set of states,
 		\item \(\Sigma\) is a finite alphabet,
-		\item \(\delta \colon Q \times \Sigma_\eps \to \mathcal P(Q)\) is the transition function,
+		\item \(\delta \colon Q \times \Sigma_\eps \to \mathcal P(Q)\) is
+          the transition function,
 		\item \(q_0 \in Q\) is the start state, and
 		\item \(F\) is the set of accepting states.
 	\end{itemize}
-	where \(\Sigma_\eps = \Sigma \union \set \eps\). Then, we say that the \textsf{NFA} \vocab{accepts} a string \(s = s_1 s_2 \dots s_n \in \Sigma^n\) if there exists a sequence of states \(r_0, \dots, r_n\) such that
+	where \(\Sigma_\eps = \Sigma \union \set \eps\).
+  Then, we say that the \textsf{NFA} \vocab{accepts} a string
+  \(s = s_1 s_2 \dots s_n \in \Sigma^n\) if there exists
+  a sequence of states \(r_0, \dots, r_n\) such that
 	\begin{itemize}[nosep]
 		\item \(r_0 = q_0\),
 		\item \(r_n \in F\), and
@@ -52,22 +73,35 @@ The idea is that at a particular state (e.g. \(q_1\)), there may be multiple edg
 	If \(N\) is a \textsf{NFA}, then \(L(N)\) is regular.
 \end{proposition}
 \begin{proof}
-	Let \(N = (Q, \Sigma, \delta, q_0, F)\). We will show that there exists a \textsf{DFA} \(M\) that is equivalent to \(N\). The idea (again) is to keep track of the subset of the states that \(N\) can be at. Therefore, we let
+	Let \(N = (Q, \Sigma, \delta, q_0, F)\).
+  We will show that there exists a \textsf{DFA} \(M\)
+  that is equivalent to \(N\).
+  The idea (again) is to keep track of the subset of
+  the states that \(N\) can be at.
+  Therefore, we let
 	\begin{itemize}
 		\item \(Q' = \mathcal P(Q)\),
-		\item \(\delta' \colon (R, \sigma) \mapsto \bigunion_{r \in R} \delta(r, \sigma)\),
+		\item \(\delta' \colon (R, \sigma)
+                    \mapsto \bigunion_{r \in R} \delta(r, \sigma)\),
 		\item \(q_0' = \set{q_0}\), and
 		\item \(F' = \set{q \in Q' \mid q \intersect F \neq \nullset}\).
 	\end{itemize}
 	The desired \textsf{DFA} is then \((Q', \Sigma, \delta', q_0', F')\).
 \end{proof}
 \begin{remark}
-	We ignored \(\eps\) in this proof, but the idea is to consider \(E(R)\) for \(R \in Q'\) to be the set of states that can be reached by following \(\eps\) arrows, and then let \(\delta' \colon (R, \sigma) \mapsto E\parens{\bigunion_{r \in R} \delta(r, \sigma)}\).
+	We ignored \(\eps\) in this proof, but the idea is to consider
+  \(E(R)\) for \(R \in Q'\) to be the set of states
+  that can be reached by following \(\eps\) arrows, and then let
+  \(\delta' \colon (R, \sigma)
+            \mapsto E\parens{\bigunion_{r \in R} \delta(r, \sigma)}\).
 \end{remark}
 
 We can then write a new and better proof for one of our old propositions!
-\begin{proof}[Closure of Regular Languages under \(\union\), \Cref{prop:union_of_regular_is_regular}]
-	Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) recognizes \(A\) and \(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\) recognizes \(B\). Then consider the following machine:
+\begin{proof}[Closure of Regular Languages under \(\union\),
+              \Cref{prop:union_of_regular_is_regular}]
+	Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) recognizes \(A\) and
+          \(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\) recognizes \(B\).
+          Then consider the following machine:
 	\begin{center}
 		\begin{tikzpicture}[automaton]
 			\node[state, initial] (q0) {};
@@ -94,7 +128,9 @@ We can then write a new and better proof for one of our old propositions!
 \end{proof}
 
 \begin{proof}[\Cref{prop:concat_of_regular_is_regular}]
-	Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) recognizes \(A\) and \(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\) recognizes \(B\). Then consider the following machine:
+	Suppose \(M_A = (Q_A, \Sigma, \delta_A, q_A, F_A)\) recognizes \(A\) and
+          \(M_B = (Q_B, \Sigma, \delta_B, q_B, F_B)\) recognizes \(B\).
+          Then consider the following machine:
 	\begin{center}
 		\begin{tikzpicture}[automaton]
 			\node[state, initial]                                      (q1) {\(q_A\)};
@@ -123,7 +159,8 @@ We can then write a new and better proof for one of our old propositions!
 	Let \(A\) be a regular language. Then \(A^*\) is regular.
 \end{proposition}
 \begin{proof}
-	Let \(M = (Q, \Sigma, \delta, q_0, F)\) recognize \(A\). Then consider the following machine:
+	Let \(M = (Q, \Sigma, \delta, q_0, F)\) recognize \(A\).
+  Then consider the following machine:
 	\begin{center}
 		\begin{tikzpicture}[automaton]
 			\node[state, accepting, initial]                (q0)  {};
@@ -139,13 +176,23 @@ We can then write a new and better proof for one of our old propositions!
 			\path[bend left=35]  (q12) edge node{\(\eps\)}       (q1);
 		\end{tikzpicture}
 	\end{center}
-	This accepts \(A^*\). Note that we did not make \(q_0\) accepting, but rather added a new start state. This is because within \(M\), there may be a sequence in \(A\) that ends on \(q_0\).
+	This accepts \(A^*\).
+  Note that we did not make \(q_0\) accepting,
+  but rather added a new start state.
+  This is because within \(M\), there may be a sequence in \(A\)
+  that ends on \(q_0\).
 \end{proof}
 
 \subsection{Regular Expressions}
-Suppose we have an alphabet \(\Sigma\). We want to find an easier way to describe languages. In particular, we can use smaller languages to build more complicated languages. We can use regular operations to do this.
+Suppose we have an alphabet \(\Sigma\).
+We want to find an easier way to describe languages.
+In particular, we can use smaller languages to
+build more complicated languages. We can use regular operations to do this.
 
-A regular expression is an expression that uses the regular operations that build on languages. For example, we want something like \((\mathtt{01} \union \mathtt 0)^*\) to be a regular expression.
+A regular expression is an expression that uses
+the regular operations that build on languages.
+For example, we want something like
+\((\mathtt{01} \union \mathtt 0)^*\) to be a regular expression.
 
 \begin{definition}
 	An expression \(R\) is a \vocab{regular expression} if either:
@@ -164,15 +211,28 @@ Note that each of the atomic regular expressions represent languages:
 	\item \(\nullset\) represents \(\nullset\).
 \end{itemize}
 \begin{remark}
-	The expressions \(\eps\) and \(\nullset\) do not represent the same language! \(\eps\) is the language that contains the empty string, and \(\nullset\) is the empty language.
+	The expressions \(\eps\) and \(\nullset\) do not represent the same language!
+  \(\eps\) is the language that contains the empty string,
+  and \(\nullset\) is the empty language.
 \end{remark}
 
 \begin{example}
-	Consider the regular expression \(R = (\mathtt{01} \union \mathtt 0)^*\). We have \(\mathtt{01} \union \mathtt 0 \to \set{\mathtt{01}, \mathtt 0}\), so \(R\) represents the language
+	Consider the regular expression \(R = (\mathtt{01} \union \mathtt 0)^*\).
+  We have \(\mathtt{01} \union \mathtt 0 \to \set{\mathtt{01}, \mathtt 0}\),
+  so \(R\) represents the language
 	\[
-		\set{\eps, \mathtt{0}, \mathtt{01}, \mathtt{00}, \mathtt{001}, \mathtt{0100}, \dots}.
+		\set{
+      \eps,
+      \mathtt{0},
+      \mathtt{01},
+      \mathtt{00},
+      \mathtt{001},
+      \mathtt{0100},
+      \dots
+    }.
 	\]
-	This is the language of all strings such that whenever a \(\mathtt 1\) appears, there is a \(\mathtt{0}\) before it.
+	This is the language of all strings such that
+  whenever a \(\mathtt 1\) appears, there is a \(\mathtt{0}\) before it.
 \end{example}
 
 

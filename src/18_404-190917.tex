@@ -11,7 +11,10 @@ We will introduce a stronger model of computation.
 		S &\to R \\
 		R &\to \eps
 	\end{align*}
-	We have capital letters designating variables, and numbers or lowercase letters designating terminals. Start with the starting variable (usually the first one in the first line), and then make substitutions according to the rules.
+	We have capital letters designating variables,
+  and numbers or lowercase letters designating terminals.
+  Start with the starting variable (usually the first one in the first line),
+  and then make substitutions according to the rules.
 
 	For instance, we can have
 	\[
@@ -21,7 +24,8 @@ We will introduce a stronger model of computation.
 			\to \mathtt 0 \mathtt 0 \eps \mathtt 1 \mathtt 1 = \mathtt{0011}
 	\]
 
-	Then, the language that this grammar \(G_1\) describes is \(L(G_1) = \set{\mathtt 0^k \mathtt 1^k \mid k \geq 0}.\)
+	Then, the language that this grammar \(G_1\) describes is
+  \(L(G_1) = \set{\mathtt 0^k \mathtt 1^k \mid k \geq 0}\).
 \end{example}
 
 \begin{example}
@@ -31,7 +35,8 @@ We will introduce a stronger model of computation.
 		T &\to T \times F \mid T \\
 		F &\to \texttt ( e \texttt ) \mid \mathtt a,
 	\end{align*}
-	where the variables are \(\set{E, T, F}\) and the terminals are \(\set{\texttt (, \texttt ), +, \times, \mathtt a}\).
+	where the variables are \(\set{E, T, F}\) and the terminals are
+  \(\set{\texttt (, \texttt ), +, \times, \mathtt a}\).
 
 	One string that this grammar can generate is
 	\[
@@ -53,9 +58,14 @@ We will introduce a stronger model of computation.
 		\item \(S \in V\) is a start variable.
 	\end{itemize}
 
-	If \(u, v, w\) are strings of variables and terminals and \(A \to w\) is a rule, we write \(uAv \Rightarrow uwv\) (read \(uAv\) \vocab{yields} \(uwv\)). In particular, \(u \Rightarrow v\) if we can get from \(u\) to \(v\) with one substitution.
+	If \(u, v, w\) are strings of variables and terminals,
+  and \(A \to w\) is a rule, we write \(uAv \Rightarrow uwv\)
+  (read \(uAv\) \vocab{yields} \(uwv\)).
+  In particular, \(u \Rightarrow v\) if we can get from \(u\) to \(v\)
+  with one substitution.
 
-	We also write \(u \overset{*}{\Rightarrow} v\) (read \(u\) \vocab{derives} \(v\)) if there exists a chain
+	We also write \(u \overset{*}{\Rightarrow} v\)
+  (read \(u\) \vocab{derives} \(v\)) if there exists a chain
 	\[
 		u \Rightarrow u_1 \Rightarrow u_2 \Rightarrow \dots \Rightarrow v.
 	\]
@@ -67,11 +77,20 @@ We will introduce a stronger model of computation.
 \end{definition}
 
 \section{Pushdown Automata}
-Context-free grammars for context-free languages are similar to regular expressions for regular languages in the sense that they both generate strings in the language. \textsf{DFA}s and \textsf{NFA}s work in the opposite way, i.e. they recognize strings in the language.
+Context-free grammars for context-free languages are
+similar to regular expressions for regular languages
+in the sense that they both generate strings in the language.
+\textsf{DFA}s and \textsf{NFA}s work in the opposite way,
+i.e.\ they recognize strings in the language.
 
-We'll introduce a machine that can recognize context-free languages in the same way that \textsf{DFA}s and \textsf{NFA}s recognize regular languages.
+We'll introduce a machine that can recognize context-free languages in
+the same way that \textsf{DFA}s and \textsf{NFA}s recognize regular languages.
 
-The idea is that there is a state control, which contains the states and transitions that we are familiar with. In addition to reading the input, the states can also control a stack, which is an object that has an infinite amount of memory to store things. The catch is that the machine can only read and write to the top of the stack.
+The idea is that there is a state control,
+which contains the states and transitions that we are familiar with.
+In addition to reading the input, the states can also control a stack,
+which is an object that has an infinite amount of memory to store things.
+The catch is that the machine can only read and write to the top of the stack.
 \begin{center}
 	\begin{tikzpicture}
 		\node[rectangle]                         (sc) [draw] {state control};
@@ -97,7 +116,11 @@ The idea is that there is a state control, which contains the states and transit
 	There exists a \textsf{PDA} that recognizes \(\set{\mathtt 0^k \mathtt 1^k}\).
 
 	\tcblower
-	Consider the \textsf{PDA} that pushes a \(\mathtt 0\) onto the stack when it reads a \(\mathtt 0\) at the beginning, and pops a \(\mathtt 0\) from the stack when it reads a \(\mathtt 1\) after the string of \(\mathtt 0\)s. This accepts \(\set{\mathtt 0^k \mathtt 1^k}\).
+	Consider the \textsf{PDA} that pushes a \(\mathtt 0\) onto the stack
+  when it reads a \(\mathtt 0\) at the beginning,
+  and pops a \(\mathtt 0\) from the stack when
+  it reads a \(\mathtt 1\) after the string of \(\mathtt 0\)s.
+  This accepts \(\set{\mathtt 0^k \mathtt 1^k}\).
 	\begin{center}
 		\begin{tikzpicture}[automaton, node distance=2.2cm]
 			\node[state, initial]                (q0) {};
@@ -116,31 +139,46 @@ The idea is that there is a state control, which contains the states and transit
 
 
 \begin{definition}
-	A \vocab{pushdown automata (\textsf{PDA})} is \(M = (Q, \Sigma, \Gamma, \delta, q_0, F)\) where
+	A \vocab{pushdown automata (\textsf{PDA})} is
+  \(M = (Q, \Sigma, \Gamma, \delta, q_0, F)\) where
 	\begin{itemize}[nosep]
 		\item \(Q\) is finite set of states,
 		\item \(\Sigma\) is a finite input alphabet,
 		\item \(\Gamma\) is a finite stack alphabet,
-		\item \(\delta \colon Q \times \Sigma_\eps \times \Gamma_\eps \to \mathcal P(Q \times \Gamma_\eps)\) is the transition function,
+		\item \(\delta \colon Q \times \Sigma_\eps \times \Gamma_\eps
+                      \to \mathcal P(Q \times \Gamma_\eps)\)
+          is the transition function,
 		\item \(q_0 \in Q\) is the start state, and
 		\item \(F \subseteq Q\) is the set of accepting states.
 	\end{itemize}
 \end{definition}
 
-Then, we say that the pushdown automata \(M = (Q, \Sigma, \Gamma, \delta, q_0, F)\) accepts some input \(w = w_1 w_2 \dots w_n \in \Sigma^n\) if there exists a sequence of states \(r_0, \dots, r_n\) and a sequence of strings \(s_0, \dots, s_n \in \Gamma^*\) such that
+Then, we say that
+the pushdown automata \(M = (Q, \Sigma, \Gamma, \delta, q_0, F)\)
+accepts some input \(w = w_1 w_2 \dots w_n \in \Sigma^n\)
+if there exists a sequence of states \(r_0, \dots, r_n\)
+and a sequence of strings \(s_0, \dots, s_n \in \Gamma^*\) such that
 \begin{itemize}
 	\item \(r_0 = q_0\),
 	\item \(s_0 = \eps\),
 	\item \(r_n \in F\),
-	\item \((q_i, b) \in \delta(q_{i - 1}, w_i, a)\), \(s_{j - 1} = at\), and \(s_j = bt\) for some \(a, b \in \Gamma_\eps\) and \(t \in \Gamma_\eps^*\) for \(1 \leq i \leq n\), and
+	\item \((q_i, b) \in \delta(q_{i - 1}, w_i, a)\), \(s_{j - 1} = at\), and
+        \(s_j = bt\) for some \(a, b \in \Gamma_\eps\)
+        and \(t \in \Gamma_\eps^*\) for \(1 \leq i \leq n\), and
 	\item \(r_n \in F\).
 \end{itemize}
 
 \begin{example}
-	There exists a \textsf{PDA} that recognizes \(B = \set{w w^R \mid w \in \set{\mathtt 0, \mathtt 1}^*},\) where \(w^R\) is the reverse of \(w\).
+	There exists a \textsf{PDA} that recognizes
+  \(B = \set{w w^R \mid w \in \set{\mathtt 0, \mathtt 1}^*}\),
+  where \(w^R\) is the reverse of \(w\).
 
 	\tcblower
-	Let \(\Gamma = \Sigma\), and let the \textsf{PDA} push the read characters into the stack. Then at an arbitrary time, the \textsf{PDA} starts popping the read characters from the stack. By nondeterminism, this should work.
+	Let \(\Gamma = \Sigma\),
+  and let the \textsf{PDA} push the characters it reads onto the stack.
+  Then at an arbitrary time,
+  the \textsf{PDA} starts popping the read characters from the stack.
+  By nondeterminism, this should work.
 
 	\begin{center}
 		\begin{tikzpicture}[automaton, node distance=2.2cm]
@@ -157,7 +195,9 @@ Then, we say that the pushdown automata \(M = (Q, \Sigma, \Gamma, \delta, q_0, F
 		\end{tikzpicture}
 	\end{center}
 
-	The reason why we push a \(\texttt \$\) onto the stack at the beginning is so that the machine has a way to tell if it is at the bottom of the stack. This is a common idea that will appear often.
+	The reason why we push a \(\texttt \$\) onto the stack at the beginning
+  is so that the machine has a way to tell if it is at the bottom of the stack.
+  This is a common idea that will appear often.
 \end{example}
 
 \end{document}
