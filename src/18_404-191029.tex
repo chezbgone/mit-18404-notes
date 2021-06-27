@@ -128,7 +128,12 @@ Suppose we have an undirected graph \(G\). Then a \vocab{\(k\)-clique} is a set 
       \draw[fill] (3.5, -5) circle[radius=0.04] node[anchor=west] {\(c_k\)};
     \end{tikzpicture}
   \end{center}
-  We have diamond structures corresponding to each variable, and a node corresponding to each clause. We want to encode the fact that \(\phi\) is either satisfiable or not satisfiable with a Hamiltonian path. Overall, we will start at \(x_1\), and work our way down to \(x_n\). Let's look at one of the diamond structures more closely.
+  We have diamond structures corresponding to each variable,
+  and a node corresponding to each clause.
+  We want to encode the fact that \(\phi\) is either satisfiable or
+  not satisfiable with a Hamiltonian path.
+  Overall, we will start at \(x_1\), and work our way down to \(x_n\).
+  Let's look at one of the diamond structures more closely.
   \begin{center}
     \begin{tikzpicture}[scale=2, ->]
       \definecolor{pathcolor}{rgb}{0.2, 0.6, 1}
@@ -190,11 +195,22 @@ Suppose we have an undirected graph \(G\). Then a \vocab{\(k\)-clique} is a set 
       \node () {\(\cdots\)};
     \end{tikzpicture}
   \end{center}
-  There are two ways in which we can go through a diamond structure. In particular, we can go left initially, go right through the internal nodes, and then left to get to the bottom node. Alternatively, we can go right initially and then everything gets flipped. Intuitively, this can correspond to whether the variable is set to true or false.
+  There are two ways in which we can go through a diamond structure.
+  In particular, we can go left initially, go right through the internal nodes,
+  and then left to get to the bottom node.
+  Alternatively, we can go right initially and then everything gets flipped.
+  Intuitively, this can correspond to whether
+  the variable is set to true or false.
   
-  Now we want to actually encode the information of the formula and clauses being satisfied. In particular, we will visit the node corresponding to the clause if it is satisfied. Then it makes sense that if all the nodes are visited, all of the clauses are satisfied, and furthermore the formula is satisfied.
+  Now we want to actually encode the information of
+  the formula and clauses being satisfied.
+  In particular, we will visit the node corresponding
+  to the clause if it is satisfied.
+  Then it makes sense that if all the nodes are visited,
+  all of the clauses are satisfied, and furthermore the formula is satisfied.
 
-  In particular, if the clause \(c_i\) contains the literal \(x_j\), then we will connect the structure of \(c_i\) to \(x_j\) as follows:
+  In particular, if the clause \(c_i\) contains the literal \(x_j\),
+  then we will connect the structure of \(c_i\) to \(x_j\) as follows:
   \begin{center}
     \begin{tikzpicture}[scale=2, ->]
       \definecolor{pathcolor}{rgb}{0.2, 0.6, 1}
@@ -247,7 +263,8 @@ Suppose we have an undirected graph \(G\). Then a \vocab{\(k\)-clique} is a set 
       \end{scope}
     \end{tikzpicture}
   \end{center}
-  Similarly, if the clause \(c_i\) contains the literal \(\neg x_j\), then we connect the structures like so:
+  Similarly, if the clause \(c_i\) contains the literal \(\neg x_j\),
+  then we connect the structures like so:
   \begin{center}
     \begin{tikzpicture}[scale=2, ->]
       \definecolor{pathcolor}{rgb}{0.2, 0.6, 1}
@@ -301,11 +318,23 @@ Suppose we have an undirected graph \(G\). Then a \vocab{\(k\)-clique} is a set 
     \end{tikzpicture}
   \end{center}
 
-  We have to be a bit careful about which internal nodes we connect the \(c_i\) node to. In particular, if we don't want them to interfere, we can have \(3k + 3\) nodes, where the \(i\)th clause connects to the \(3i\)th node and \((3i + 1)\)th node. This way, there is a buffer node between everything.
+  We have to be a bit careful about
+  which internal nodes we connect the \(c_i\) node to.
+  In particular, if we don't want them to interfere,
+  we can have \(3k + 3\) nodes, where the \(i\)th clause connects to
+  the \(3i\)th node and \((3i + 1)\)th node.
+  This way, there is a buffer node between everything.
 
-  It is clear that if there is a satisfying assignment, then there will exist a Hamiltonian path through this graph, because we will choose which way we go through each diamond structure, and since each clause is satisfied, we we can visit each clause at some point while zig-zagging through the diamond structures.
+  It is clear that if there is a satisfying assignment,
+  then there will exist a Hamiltonian path through this graph,
+  because we will choose which way we go through each diamond structure,
+  and since each clause is satisfied,
+  we we can visit each clause at some point while
+  zig-zagging through the diamond structures.
 
-  Similarly, if there exists a Hamiltonian path, then we can find the assignment of variables by looking at which direction the path takes through the diamond structures.
+  Similarly, if there exists a Hamiltonian path,
+  then we can find the assignment of variables by
+  looking at which direction the path takes through the diamond structures.
 \end{proof}
 
 

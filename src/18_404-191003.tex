@@ -5,23 +5,39 @@
 \section{Reducibility}
 \subsection{Motivation}
 \begin{proposition}
-  The language \(\HALT_{\textsf{TM}} \coloneqq \set{\angles{M, w} \mid \text{\textsf{TM} $M$ halts on $w$}}\) is undecidable.
+  The language
+  \(\HALT_{\textsf{TM}} \coloneqq
+    \set{\angles{M, w} \mid \text{\textsf{TM} $M$ halts on $w$}}\)
+  is undecidable.
 \end{proposition}
-We can use the idea of reducing the problem \(A_{\textsf{TM}}\) to \(\HALT_{\textsf{TM}}\), so that if we prove that \(\HALT_{\textsf{TM}}\) is decidable, then \(A_{\textsf{TM}}\) is decidable, which is a contradiction.
+We can use the idea of reducing the problem
+\(A_{\textsf{TM}}\) to \(\HALT_{\textsf{TM}}\),
+so that if we prove that \(\HALT_{\textsf{TM}}\) is decidable,
+then \(A_{\textsf{TM}}\) is decidable, which is a contradiction.
 \begin{proof}
-  Assume for the sake of contradiction that a \textsf{TM} \(R\) decides \(\HALT_{\textsf{TM}}\). We will construct a \textsf{TM} \(S\) that decides \(A_{\textsf{TM}}\). In particular, let \(S\) be the Turing machine:
+  Assume for the sake of contradiction that
+  a \textsf{TM} \(R\) decides \(\HALT_{\textsf{TM}}\).
+  We will construct a \textsf{TM} \(S\) that decides \(A_{\textsf{TM}}\).
+  In particular, let \(S\) be the Turing machine:
   \begin{enumerate}[start=0]
     \item On input \(\angles{M, w}\).
     \item Run \(R\) on \(\angles{M, w}\).
     \item If \(R\) rejects, then \(M\) loops on \(w\), so \textsc{reject}.
     \item If \(R\) accepts, then \(M\) halts on \(w\), so run \(M\).
-    \item If \(M\) accepts then \textsc{accept}, otherwise \(M\) rejects so \textsc{reject}.
+    \item If \(M\) accepts then \textsc{accept},
+          otherwise \(M\) rejects so \textsc{reject}.
   \end{enumerate}
 
-  Therefore, we have a \textsf{TM} that decides \(A_{\textsf{TM}}\), which contradicts the fact that \(A_{\textsf{TM}}\) is undecidable.
+  Therefore, we have a \textsf{TM} that decides \(A_{\textsf{TM}}\),
+  which contradicts the fact that \(A_{\textsf{TM}}\) is undecidable.
 \end{proof}
 
-If we can reduce a problem \(A\) to another problem \(B\), then this means if we can solve \(B\), then we can solve \(A\). Equivalently, if we can't solve \(A\), then we can't solve \(B\). In particular, the ``can't solve'' here can be replaced with ``undecidable''. Then, we can use this to show that a problem \(X\) is undecidable by showing that \(A_{\textsf{TM}}\) reduces to \(X\).
+If we can reduce a problem \(A\) to another problem \(B\),
+then this means if we can solve \(B\), then we can solve \(A\).
+Equivalently, if we can't solve \(A\), then we can't solve \(B\).
+In particular, the ``can't solve'' here can be replaced with ``undecidable''.
+Then, we can use this to show that a problem \(X\) is undecidable
+by showing that \(A_{\textsf{TM}}\) reduces to \(X\).
 
 \begin{proposition}
   The problem \(E_{\textsf{TM}} = \set{
@@ -31,7 +47,9 @@ If we can reduce a problem \(A\) to another problem \(B\), then this means if we
 \begin{proof}
   The idea is to reduce \(A_{\textsf{TM}}\) to \(E_{\textsf{TM}}\).
 
-  For the sake of contradiction, suppose that some \textsf{TM} \(R\) decides \(E_{\textsf{TM}}\). Then consider the following \textsf{TM} \(S\):
+  For the sake of contradiction,
+  suppose that some \textsf{TM} \(R\) decides \(E_{\textsf{TM}}\).
+  Then consider the following \textsf{TM} \(S\):
   \begin{enumerate}[start=0]
     \item On input \(\angles{M, w}\):
     \item Construct a new \textsf{TM} \(M_w\) that does the following:
@@ -39,39 +57,58 @@ If we can reduce a problem \(A\) to another problem \(B\), then this means if we
       \item On input \(x\):
       \item If \(x \neq w\) then \textsc{reject}.
       \item Run \(M\) on \(x\).
-      \item If \(M\) accepted then \textsc{accept}, if \(M\) rejects then \textsc{reject}.
+      \item If \(M\) accepted then \textsc{accept},
+      if \(M\) rejects then \textsc{reject}.
     \end{enumerate}
     \item Run \(R\) on \(\angles{M_w}\).
-    \item If \(R\) accepts, then \(M_w = \varnothing \implies w \notin L(M)\) so \textsc{reject}.
-    \item If \(R\) rejects, then \(M_w \neq \varnothing \implies M_w = \set{w} \implies w \in L(M)\), so \textsc{accept}.
+    \item If \(R\) accepts,
+      then \(M_w = \varnothing \implies w \notin L(M)\) so \textsc{reject}.
+    \item If \(R\) rejects,
+      then \(M_w \neq \varnothing \implies M_w = \set{w} \implies w \in L(M)\),
+      so \textsc{accept}.
   \end{enumerate}
   This decides \(A_{\textsf{TM}}\), which is a contradiction.
 \end{proof}
 
 \subsection{Formal Definition}
 \begin{definition}
-  A function \(f\) is \vocab{computable} if there exists some \textsf{TM} \(F\) such that \(F\) on input \(w\) halts with \(f(w)\) on the tape.
+  A function \(f\) is \vocab{computable} if there exists
+  some \textsf{TM} \(F\) such that
+  \(F\) on the input \(w\) halts with \(f(w)\) on the tape.
 \end{definition}
 
 \begin{definition}
-  Given languages \(A\) and \(B\) (over the same alphabet \(\Sigma\)), \(A\) is \vocab{mapping reducible} to \(B\) (denoted \(A \mapredu B\)) if there exists a computable function \(f\colon \Sigma^* \to \Sigma^*\) such that for all \(w \in \Sigma^*\),
+  Given languages \(A\) and \(B\) (over the same alphabet \(\Sigma\)),
+  \(A\) is \vocab{mapping reducible} to \(B\) (denoted \(A \mapredu B\))
+  if there exists a computable function \(f\colon \Sigma^* \to \Sigma^*\)
+  such that for all \(w \in \Sigma^*\),
   \[
     w \in A \iff f(w) \in B.
   \]
   Then, we call \(f\) the \vocab{reduction} from \(A\) to \(B\).
 \end{definition}
 
-The intuitive idea of what mapping reducible (\(A \mapredu B\)) means is that \(A\) is an easier problem than \(B\). In particular, if we can solve \(B\), then we can solve \(A\), because to determine if \(w \in A\), we can just determine if \(f(w) \in B\).
+The intuitive idea of what mapping reducible (\(A \mapredu B\)) means is
+that \(A\) is an easier problem than \(B\).
+In particular, if we can solve \(B\), then we can solve \(A\),
+because to determine if \(w \in A\), we can just determine if \(f(w) \in B\).
 
-We can show that this definition of reducibility has the feature we want. In particular, suppose that \(A \mapredu B\) and \(B\) is decidable. Then let \(R\) be a \textsf{TM} that decides \(B\). Then we can construct a machine that decides \(A\):
+We can show that this definition of reducibility has the feature we want.
+In particular, suppose that \(A \mapredu B\) and \(B\) is decidable.
+Then let \(R\) be a \textsf{TM} that decides \(B\).
+Then we can construct a machine that decides \(A\):
 \begin{enumerate}[start=0]
   \item On input \(w\):
   \item Compute \(f(w)\).
   \item Give the same answer as \(R\) on \(f(w)\).
 \end{enumerate}
-Note that if \(f(w) \in B \iff w \in A\), then \(R\) will accept, and similarly for \(f(w) \notin B\). Therefore, \(A\) is also decidable.
+Note that if \(f(w) \in B \iff w \in A\), then \(R\) will accept,
+and similarly for \(f(w) \notin B\).
+Therefore, \(A\) is also decidable.
 
-Moreover, if \(w \in A \iff f(w) \in B\), we also have \(w \in \ol A \iff f(w) \in \ol B\), so \(A \mapredu B \iff \ol A \mapredu \ol B\).
+Moreover, if \(w \in A \iff f(w) \in B\),
+we also have \(w \in \ol A \iff f(w) \in \ol B\),
+so \(A \mapredu B \iff \ol A \mapredu \ol B\).
 
 
 \begin{example}
@@ -99,16 +136,23 @@ Moreover, if \(w \in A \iff f(w) \in B\), we also have \(w \in \ol A \iff f(w) \
 \begin{example}
   Let \(\mathit{EQ}_{\textsf{TM}} = \set{
     \angles{M, N} \mid \text{$M$ and $N$ are \textsf{TM}s with $L(M) = L(N)$}
-  }\). Then \(\mathit{EQ}_{\textsf{TM}}\) and \(\ol{\mathit{EQ}_{\textsf{TM}}}\) are not Turing recognizable.
+  }\).
+  Then \(\mathit{EQ}_{\textsf{TM}}\) and \(\ol{\mathit{EQ}_{\textsf{TM}}}\)
+  are not Turing recognizable.
   \tcblower
   
-  First we will show \(\ol{A_{\textsf{TM}}} \mapredu \mathit{EQ}_{\textsf{TM}}\). It suffices to find a reduction, and here it is:
+  First we will show
+  \(\ol{A_{\textsf{TM}}} \mapredu \mathit{EQ}_{\textsf{TM}}\).
+  It suffices to find a reduction, and here it is:
   \[
     f(\angles{M, w}) = \angles{M_1, M_2},
   \]
-  where \(M_1\) is the machine that runs \(M\) on \(w\) and \(M_2\) is the machine that always rejects.
+  where \(M_1\) is the machine that runs \(M\) on \(w\),
+  and \(M_2\) is the machine that always rejects.
 
-  Similarly, we can show that \(\ol{A_{\textsf{TM}}} \mapredu \ol{\mathit{EQ}_{\textsf{TM}}}\) by using the same map except \(M_2\) is now the machine that always accepts.
+  Similarly, we can show that
+  \(\ol{A_{\textsf{TM}}} \mapredu \ol{\mathit{EQ}_{\textsf{TM}}}\)
+  by using the same map except \(M_2\) is now the machine that always accepts.
 \end{example}
 
 
