@@ -11,12 +11,20 @@
 \begin{proof}
   We already know that \(\mathit{SAT} \in \mathsf{NP}\).
 
-  Let \(A \in \mathsf{NP}\). We want to show that \(A \polyredu \mathit{SAT}\). In particular, we want to find a reduction \(f \colon w \mapsto \phi_w\) such that \(w \in A \iff \phi_w \in \mathit{SAT}\).
+  Let \(A \in \mathsf{NP}\).
+  We want to show that \(A \polyredu \mathit{SAT}\).
+  In particular, we want to find a reduction \(f \colon w \mapsto \phi_w\)
+  such that \(w \in A \iff \phi_w \in \mathit{SAT}\).
 
-  Let \(A\) be decided by an \textsf{NTM} \(M\) in \(O(n^k)\) time. The key idea is that we will try to make \(\phi_w\) be the statement ``\(M\) accepts \(w\)''.
+  Let \(A\) be decided by an \textsf{NTM} \(M\) in \(O(n^k)\) time.
+  The key idea is that we will try to make \(\phi_w\)
+  be the statement ``\(M\) accepts \(w\)''.
 
   \begin{definition*}
-    A \vocab{tableau} for \(M\) on \(w\) is an \(N \times N\) table where row \(i\) is the configuration on the \(i\)th step of an accepting branch of \(M\) on \(w\), where the whole branch is \(N\) steps.
+    A \vocab{tableau} for \(M\) on \(w\) is an \(N \times N\) table
+    where row \(i\) is the configuration on the \(i\)th step
+    of an accepting branch of \(M\) on \(w\),
+    where the whole branch is \(N\) steps.
     \[
       \begin{array}{| c | c | c | c | c | c | c | c |} \hline % chktex 44
         q_0 & w_1 & w_2 & \!\dots\! & w_n & \blank & \blank & \blank \\ \hline % chktex 44
@@ -31,7 +39,8 @@
     \]
   \end{definition*}
 
-  We can then think of the statement ``\(M\) accepts \(w\)'' as the statement ``a tableau for \(M\) on \(w\) exists''.
+  We can then think of the statement ``\(M\) accepts \(w\)''
+  as the statement ``a tableau for \(M\) on \(w\) exists''.
 
   In particular, we can build \(\phi_w\) with the indicator variables
   \[
@@ -47,35 +56,52 @@
 
   Our formula will be of the form
   \[
-    \phi_w = \phi_{\text{cell}} \land \phi_{\text{start}} \land \phi_{\text{move}} \land \phi_{\text{accept}},
+    \phi_w = \phi_{\text{cell}} \land
+             \phi_{\text{start}} \land
+             \phi_{\text{move}} \land
+             \phi_{\text{accept}},
   \]
   where
   \begin{itemize}
     \item \(\phi_{\text{cell}}\) checks that each cell has exactly one symbol,
-    \item \(\phi_{\text{start}}\) checks that we have the right starting configuration,
+    \item \(\phi_{\text{start}}\) checks that we have
+          the right starting configuration,
     \item \(\phi_{\text{move}}\) checks that each move is valid, and
     \item \(\phi_{\text{accept}}\) checks that the final state is accepting.
   \end{itemize}
 
   We can write
   \[
-    \phi_{\text{cell}} = \bigand_{1 \leq i, j \leq N} \brackets*{
+    \phi_{\text{cell}} =
+    \bigand_{1 \leq i, j \leq N} \brackets[\Big]{
       \bigor_{\sigma \in \tilde\Gamma} x_{ij\sigma} \land
-      \bigand_{\substack{\sigma, \tau \in \tilde\Gamma \\ \sigma \neq \tau}} (\ol{x_{ij\sigma}} \lor \ol{x_{ij\tau}})
+      \bigand_{\substack{\sigma, \tau \in \tilde\Gamma \\ \sigma \neq \tau}}
+        (\ol{x_{ij\sigma}} \lor \ol{x_{ij\tau}})
     }.
   \]
-  The outer \(\bigand\) goes through each cell. In particular, the first part inside the bracket says that there must be at least one symbol in each cell, and the second part says that for every pair of symbols \((\sigma, \tau)\), they cannot both be in the cell.
+  The outer \(\bigand\) goes through each cell.
+  In particular, the first part inside the bracket says that
+  there must be at least one symbol in each cell,
+  and the second part says that for every pair of symbols \((\sigma, \tau)\),
+  they cannot both be in the cell.
 
   We have
   \[
-    \phi_{\text{start}} = x_{1, k, w} \land \bigand_{k = 1}^{n} x_{1, k + 1, w_k} \land \bigand_{k = n + 1}^{N - 1} x_{1, k, \blank}.
+    \phi_{\text{start}} =
+      x_{1, k, w} \land
+      \bigand_{k = 1}^{n} x_{1, k + 1, w_k} \land
+      \bigand_{k = n + 1}^{N - 1} x_{1, k, \blank}.
   \]
-  This just requires the first row to be \(q_0 w_1 w_2 \dots w_n \blank \dots\). Similarly,
+  This just requires the first row to be \(q_0 w_1 w_2 \dots w_n \blank \dots\).
+  Similarly,
   \[
     \phi_{\text{accept}} = \bigor_{1 \leq i, j \leq N} x_{i, j, q_{\textsc{accept}}}.
   \]
 
-  The hardest subformula to come up with is \(\phi_{\text{move}}\). The idea is that we check that every \(2 \times 3\) subgrid and make sure that the subgrid is valid. In particular, we have
+  The hardest subformula to come up with is \(\phi_{\text{move}}\).
+  The idea is that we check that every \(2 \times 3\) subgrid
+  and make sure that the subgrid is valid.
+  In particular, we have
   \begin{align*}
     \phi_{\text{move}}
       &= \bigand_{1 \leq i, j \leq N} [\text{subgrid at $(i, j)$ is valid}] \\
@@ -86,12 +112,17 @@
           x_{i, j+2, e} \land x_{i+1, j+2, f}
         }.
   \end{align*}
-  If \(\phi_{\text{move}}\) is true, 
-  Therefore, \(\phi_w\) is an instance of \(\mathit{SAT}\), and a satisfying assignment exists 
+  Note that each part of the formula is bounded in size by \(O(n^{2k})\),
+  so the reduction is indeed polynomial.
+  Therefore, \(\phi_w\) is an instance of \(\mathit{SAT}\),
+  and a satisfying assignment exists if and only if \(M\) accepts \(w\).
 \end{proof}
 
 \subsection{Vertex Cover}
-Suppose we have an undirected graph \(G = (V, E)\). A \vocab{vertex cover} of \(G\) is a set \(X \subseteq V\) such that every edge \(e \in E\) has at least one end point in \(X\). A \vocab{\(k\)-vertex cover} is a vertex cover of size \(k\).
+Suppose we have an undirected graph \(G = (V, E)\).
+A \vocab{vertex cover} of \(G\) is a set \(X \subseteq V\)
+such that every edge \(e \in E\) has at least one end point in \(X\).
+A \vocab{\(k\)-vertex cover} is a vertex cover of size \(k\).
 \begin{example}[Vertex cover]
   The green nodes of the following graph form a \(3\)-vertex cover:
   \begin{center}
@@ -116,19 +147,28 @@ Suppose we have an undirected graph \(G = (V, E)\). A \vocab{vertex cover} of \(
   \end{center}
 \end{example}
 
-It is natural to then ask the question: given a graph \(G\), does it have a \(k\)-vertex cover? In fact, we define
+It is natural to then ask the question: given a graph \(G\),
+does it have a \(k\)-vertex cover?
+In fact, we define
 \[
-  \textit{VERTEX-COVER} = \set{\angles{G, k} \mid \text{graph $G$ has a $k$-vertex cover}}.
+  \textit{VERTEX-COVER} =
+    \set{\angles{G, k} \mid \text{graph $G$ has a $k$-vertex cover}}.
 \]
 
 \begin{proposition}
   \textit{VERTEX-COVER} is \(\mathsf{NP}\)-complete.
 \end{proposition}
 \begin{proof}
-  We will show that \(\textit{3-SAT} \polyredu \textit{VERTEX-COVER}\). Suppose we have an instance \(\phi\) of \textit{3-SAT} with variables \(x_1, \dots, x_k\), and clauses \(c_1, \dots, c_n\), where the clause \(c_i\) contains the literals \(c_i = \ell_{i1} \lor \ell_{i2} \lor \ell_{i3}\). Then consider the graph \(G\) with the following nodes:
+  We will show that \(\textit{3-SAT} \polyredu \textit{VERTEX-COVER}\).
+  Suppose we have an instance \(\phi\) of \textit{3-SAT}
+  with variables \(x_1, \dots, x_k\), and clauses \(c_1, \dots, c_n\),
+  where the clause \(c_i\) contains the literals
+  \(c_i = \ell_{i1} \lor \ell_{i2} \lor \ell_{i3}\).
+  Then consider the graph \(G\) with the following nodes:
   \begin{center}
     \begin{tikzpicture}
-      \begin{scope}[every node/.style={circle, draw, inner sep=1pt, font=\small}]
+      \begin{scope}[every node/.style={circle, draw,
+                                       inner sep=1pt, font=\small}]
         \node (x1) at (0, 0) {\(x_1\)};
         \node (X1) at (1, 0) {\(\ol{x_1}\)};
         \node (x2) at (2, 0) {\(x_2\)};
@@ -136,7 +176,8 @@ It is natural to then ask the question: given a graph \(G\), does it have a \(k\
         \node (xk) at (4.5, 0) {\(x_k\)};
         \node (Xk) at (5.5, 0) {\(\ol{x_k}\)};
 
-        \begin{scope}[scale=1.3, shift={(-0.6, -1.5)}, every node/.append style={font=\scriptsize}]
+        \begin{scope}[scale=1.3, shift={(-0.6, -1.5)},
+                      every node/.append style={font=\scriptsize}]
           \node (ell11) at (0, 0) {\(\ell_{11}\)};
           \node (ell12) at (1.2, 0) {\(\ell_{12}\)};
           \node (ell13) at (0.6, -0.6) {\(\ell_{13}\)};
@@ -169,25 +210,58 @@ It is natural to then ask the question: given a graph \(G\), does it have a \(k\
       \draw (X2) .. controls (3.2, -1) and (6, -0.5) .. (elln2);
     \end{tikzpicture}
   \end{center}
-  We have two connected nodes for each variable \(x_i\). One for \(x_i\) and one for \(\ol{x_i}\). We also have three connected nodes for each clause, one for each literal. Then, we also connect the variable nodes with the corresponding literals if they are the same. We then consider the reduction
+  We have two connected nodes for each variable \(x_i\).
+  One for \(x_i\) and one for \(\ol{x_i}\).
+  We also have three connected nodes for each clause, one for each literal.
+  Then, we also connect the variable nodes with
+  the corresponding literals if they are the same.
+  We then consider the reduction
   \[
     f \colon \angles{\phi} \mapsto \angles{G, k + 2n}.
   \]
-  Note that to cover the edges between the variables \(x_i\) and \(\ol{x_i}\), we need to use at least \(k\) vertices on the top. Similarly, to get all of the edges for the clauses, we need to use at least \(2n\) vertices on the bottom. Therefore, it must be this distribution.
+  Note that to cover the edges between the variables \(x_i\) and \(\ol{x_i}\),
+  we need to use at least \(k\) vertices on the top.
+  Similarly, to get all of the edges for the clauses,
+  we need to use at least \(2n\) vertices on the bottom.
+  Therefore, it must be this distribution.
 
-  If \(\phi\) has a satisfying assignment, then there exists some assignment for each \(x_i\). This corresponds to the \(k\) vertices we select on top. Then, since all of the clauses are satisfied, for each clause \(c_i\) there exist some literal \(\ell_{ij}\) in the clause that is satisfied. In particular, the edge from the variable to the literal is covered by the variable. Therefore, the \(2\) nodes we select for the clause can be the other \(\ell_{ij'}\), and all edges relevant to that clause will be covered.
+  If \(\phi\) has a satisfying assignment,
+  then there exists some assignment for each \(x_i\).
+  This corresponds to the \(k\) vertices we select on top.
+  Then, since all of the clauses are satisfied,
+  for each clause \(c_i\) there exist some literal \(\ell_{ij}\)
+  in the clause that is satisfied.
+  In particular, the edge from the variable to the literal
+  is covered by the variable.
+  Therefore, the \(2\) nodes we select for the clause
+  can be the other \(\ell_{ij'}\),
+  and all edges relevant to that clause will be covered.
 
-  Similarly, if \(G\) has a \((k + 2n)\)-vertex cover, then there is a set with \(k\) vertices on the top and \(2n\) on the bottom. The \(k\) vertices correspond to the assignment of variables. Then for each clause \(c_i\), we can only select \(2\) of the \(3\) vertices \(\set{\ell_{i1}, \ell_{i2}, \ell_{i3}}\). This means that the edge connecting the last literal edge must be covered with the variable vertex, implying that the clause is satisfied.
+  Similarly, if \(G\) has a \((k + 2n)\)-vertex cover,
+  then there is a set with \(k\) vertices on the top and \(2n\) on the bottom.
+  The \(k\) vertices correspond to the assignment of variables.
+  Then for each clause \(c_i\), we can only select \(2\) of the \(3\) vertices
+  \(\set{\ell_{i1}, \ell_{i2}, \ell_{i3}}\).
+  This means that the edge connecting the last literal edge
+  must be covered with the variable vertex,
+  implying that the clause is satisfied.
 \end{proof}
 
 % todo do the n by n triangle thing for A_CFG in P proof
 
 \subsection{ALLCUT Problem}
-Consider a set of vertices \(V\). Let \(T\) be a set of subsets of \(V\) with size \(3\). We can think of these as like `edges', but they have three nodes. % thredges
-Suppose we color each node either blue or red. Call an triple \(t \in T\) \vocab{happy} if it has at least one blue node and one red node. Then we can define the problem
+Consider a set of vertices \(V\).
+Let \(T\) be a set of subsets of \(V\) with size \(3\).
+We can think of these as like `edges', but they have three nodes. % thredges
+Suppose we color each node either blue or red.
+Call an triple \(t \in T\) \vocab{happy} if
+it has at least one blue node and one red node.
+Then we can define the problem
 \[
   \textit{ALLCUT} = \set{
-    \angles{V, T} \mid \text{$V$ is a set of nodes with triples $T$ that can be colored such that all triples are happy}
+    \angles{V, T} \mid
+    \text{$V$ is a set of nodes with triples $T$
+          that can be colored such that all triples are happy}
   }.
 \]
 
@@ -233,7 +307,8 @@ Suppose we color each node either blue or red. Call an triple \(t \in T\) \vocab
     \end{tikzpicture}
   \end{center}
 
-  In contrast, the following vertices with triples shown do not have a coloring that makes all triples happy:
+  In contrast, the following vertices with triples shown
+  do not have a coloring that makes all triples happy:
   \begin{center}
     \begin{tikzpicture}[
       every node/.style={circle, draw},
@@ -266,9 +341,20 @@ Suppose we color each node either blue or red. Call an triple \(t \in T\) \vocab
   \(\textit{ALLCUT}\) is \(\mathsf{NP}\)-complete.
 \end{claim}
 \begin{proof}
-  First, we know that \(\textit{ALLCUT} \in \mathsf{NP}\) because we can nondeterministically guess the color for each vertex. We will show that \(\textit{ALLCUT}\) is \(\mathsf{NP}\)-hard by proving \(\textit{3-SAT} \polyredu \textit{ALLCUT}\).
+  First, we know that \(\textit{ALLCUT} \in \mathsf{NP}\)
+  because we can nondeterministically guess the color for each vertex.
+  We will show that \(\textit{ALLCUT}\) is \(\mathsf{NP}\)-hard
+  by proving \(\textit{3-SAT} \polyredu \textit{ALLCUT}\).
 
-  The key idea is that since we want to embed an asymmetrical problem in a symmetrical setting, we introduce a way to get rid of the redundancy. In this problem, we're trying to map true formulas to a colored graph, we will have two connected template nodes for the values of \textsc{true} and \textsc{false}. We can force them to have opposite colors by connecting them both with an edge, where one of them is connected twice.
+  The key idea is that since we want to embed
+  an asymmetrical problem in a symmetrical setting,
+  we introduce a way to get rid of the redundancy.
+  In this problem, we're trying to map true formulas to a colored graph,
+  we will have two connected template nodes for
+  the values of \textsc{true} and \textsc{false}.
+  We can force them to have opposite colors
+  by connecting them both with an edge,
+  where one of them is connected twice.
   \begin{center}
     \begin{tikzpicture}[
       every node/.style={circle, draw, inner sep=2pt},
@@ -284,7 +370,8 @@ Suppose we color each node either blue or red. Call an triple \(t \in T\) \vocab
       \draw (F) to[bend right] (e);
     \end{tikzpicture}
   \end{center}
-  Then, we can connect other things to these nodes in order to enforce which color means true and which means false.
+  Then, we can connect other things to these nodes
+  in order to enforce which color means true and which means false.
 
   In our graph, we will also have a node for each possible literal,
   i.e.\ two nodes for each variable.
@@ -306,7 +393,10 @@ Suppose we color each node either blue or red. Call an triple \(t \in T\) \vocab
     \end{tikzpicture}
   \end{center}
 
-  Consider some clause \(c = \ell_1 \lor \ell_2 \lor \ell_3\). We want to encode the fact that at least one of the literals is \textsc{true}. To do this, we can form a new node for the clause, and then connecting the following nodes is sufficient:
+  Consider some clause \(c = \ell_1 \lor \ell_2 \lor \ell_3\).
+  We want to encode the fact that at least one of the literals is \textsc{true}.
+  To do this, we can form a new node for the clause,
+  and then connecting the following nodes is sufficient:
   \begin{center}
     \begin{tikzpicture}[
       every node/.style={circle, draw, minimum size=0.5cm, inner sep=1pt},
@@ -330,24 +420,39 @@ Suppose we color each node either blue or red. Call an triple \(t \in T\) \vocab
       \draw (center) -- (e2);
     \end{tikzpicture}
   \end{center}
-  To see why this works, note that if both \(\ell_1\) and \(\ell_2\) are colored with the same color as \textsc{false}, then the node labeled \(c\) must be colored \textsc{true}. Then, this forces \(\ol{\ell_3}\) to be colored \textsc{false}, which means \(\ell_3\) is true.
+  To see why this works, note that if both \(\ell_1\) and \(\ell_2\)
+  are colored with the same color as \textsc{false},
+  then the node labeled \(c\) must be colored \textsc{true}.
+  Then, this forces \(\ol{\ell_3}\) to be colored \textsc{false},
+  which means \(\ell_3\) is true.
 
-  Now, if \(\phi\) is an instance of \textit{3-SAT} that is satisfiable, then we color each node corresponding to each literal with its truth value. Then, it is easy to check that the \(c\) node corresponding to a clause can be colored.
+  Now, if \(\phi\) is an instance of \textit{3-SAT} that is satisfiable,
+  then we color each node corresponding to each literal with its truth value.
+  Then, it is easy to check that the \(c\) node
+  corresponding to a clause can be colored.
 
-  Conversely, if the graph is colorable, then we can take the colors that we have assigned to the literal clauses and get the assignment of values.
+  Conversely, if the graph is colorable,
+  then we can take the colors that we have assigned
+  to the literal clauses and get the assignment of values.
 \end{proof}
 
 
 \subsection{MAXCUT is NP-Complete}
-Consider an undirected graph \(G = (V, E)\) and some \(k \in \NN\). Call an edge \vocab{happy} if we can color each node such that each edge has both colors. Let
+Consider an undirected graph \(G = (V, E)\) and some \(k \in \NN\).
+Call an edge \vocab{happy} if we can color each node
+such that each edge has both colors.
+Let
 \[
   \textit{MAXCUT} = \set{
-    \angles{G = (V, E), k} \mid \text{$G$ is a graph such that at least $k$ edges are happy}
+    \angles{G = (V, E), k} \mid
+    \text{$G$ is a graph such that at least $k$ edges are happy}
   }.
 \]
 
 \begin{example}
-  For the following graph \(G\), we have \(\angles{G, 3} \in \textit{MAXCUT}\) but \(\angles{G, 4} \notin \textit{MAXCUT}\).
+  For the following graph \(G\),
+  we have \(\angles{G, 3} \in \textit{MAXCUT}\) but
+  \(\angles{G, 4} \notin \textit{MAXCUT}\).
   \begin{center}
     \begin{tikzpicture}[
       every node/.style={circle, draw},
@@ -370,9 +475,18 @@ Consider an undirected graph \(G = (V, E)\) and some \(k \in \NN\). Call an edge
   \(\textit{MAXCUT}\) is \(\mathsf{NP}\)-complete.
 \end{claim}
 \begin{proof}
-  It is clear that \(\textit{MAXCUT} \in \mathsf{NP}\) because we can just nondeterministically guess the coloring.
+  It is clear that \(\textit{MAXCUT} \in \mathsf{NP}\)
+  because we can just nondeterministically guess the coloring.
 
-  To prove that \(\textit{MAXCUT}\) is \(\mathsf{NP}\)-hard, we will show that \(\textit{ALLCUT} \polyredu \textit{MAXCUT}\). Suppose we have an instance \(\angles{V, T}\) of \(\textit{ALLCUT}\). Then, for each triple \(\set{u, v, w} \in T\), we make three edges \(\set{u, v}\), \(\set{v, w}\), and \(\set{w, u}\). If the original triple was happy, then exactly two of the new edges are happy. Therefore, we replace all triples in the original graph with these triangles, and require that \(K = 2 \size{T}\). In particular, \(f(V, T) = \angles{V, 2\size{T}}\).
+  To prove that \(\textit{MAXCUT}\) is \(\mathsf{NP}\)-hard,
+  we will show that \(\textit{ALLCUT} \polyredu \textit{MAXCUT}\).
+  Suppose we have an instance \(\angles{V, T}\) of \(\textit{ALLCUT}\).
+  Then, for each triple \(\set{u, v, w} \in T\),
+  we make three edges \(\set{u, v}\), \(\set{v, w}\), and \(\set{w, u}\).
+  If the original triple was happy, then exactly two of the new edges are happy.
+  Therefore, we replace all triples in the original graph with these triangles,
+  and require that \(K = 2 \size{T}\).
+  In particular, \(f(V, T) = \angles{V, 2\size{T}}\).
 \end{proof}
 
 % [proving things about N and NP] is like handling hot food with mittens

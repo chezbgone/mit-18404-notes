@@ -109,7 +109,8 @@ The catch is that the machine can only read and write to the top of the stack.
     \draw[shorten >=0pt] ($(stack) + (0, 1.2)$) -- ($(stack) + (0.6, 1.2)$);
     \path ($(stack) + (0.6, 0.9)$) node[right] {stack};
     \path ($(stack) + (0.3, 0)$) node[below] {\(\vdots\)};
-    \path[->, bend left=20, shorten >=2pt] (sc.east) edge ($(stack) + (0.3, 1.8)$);
+    \path[->, bend left=20, shorten >=2pt] (sc.east) edge
+                                           ($(stack) + (0.3, 1.8)$);
   \end{tikzpicture}
 \end{center}
 

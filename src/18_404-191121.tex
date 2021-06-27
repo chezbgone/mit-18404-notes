@@ -12,15 +12,28 @@
     \mathsf{NP} \subseteq
     \mathsf{PSPACE},
   \]
-  where \(\mathsf{NL} \neq \mathsf{PSPACE}\). The problems of whether \(\mathsf{L} \overset{?}{=} \mathsf{P}\) and \(\mathsf{P} \overset{?}{=} \mathsf{PSPACE}\) are open, but \(\mathsf{NL} \neq \mathsf{PSPACE}\) implies that at least one of them is false.
+  where \(\mathsf{NL} \neq \mathsf{PSPACE}\).
+  The problems of whether \(\mathsf{L} \overset{?}{=} \mathsf{P}\) and
+  \(\mathsf{P} \overset{?}{=} \mathsf{PSPACE}\) are open,
+  but \(\mathsf{NL} \neq \mathsf{PSPACE}\) implies that
+  at least one of them is false.
 
-  Recall that \(\textit{EQ}_{\textsf{DFA}}\) is decidable, and using the same \textsf{TM}, we have that \(\textit{EQ}_{\textsf{DFA}} \in \mathsf{P}\). We can also show that \(\textit{EQ}_{\textsf{NFA}} \in \mathsf{PSPACE}\).
+  Recall that \(\textit{EQ}_{\textsf{DFA}}\) is decidable,
+  and using the same \textsf{TM},
+  we have that \(\textit{EQ}_{\textsf{DFA}} \in \mathsf{P}\).
+  We can also show that \(\textit{EQ}_{\textsf{NFA}} \in \mathsf{PSPACE}\).
 
   \begin{proposition}
     \(\textit{EQ}_{\textsf{NFA}} \in \mathsf{PSPACE}\).
   \end{proposition}
   \begin{proof}
-    Since \(\mathsf{PSPACE}\) is deterministic, \(A \in \mathsf{PSPACE} \iff \ol A \in \mathsf{PSPACE}\). We proceed by showing that \(\ol{\textit{EQ}_{\mathsf{NFA}}} \in \mathsf{NPSPACE = \mathsf{PSPACE}}\). The idea is to nondeterministically guess the string that yields different results for the two \textsf{NFA}s. It is clear that this runs in polynomial space.
+    Since \(\mathsf{PSPACE}\) is deterministic,
+    \(A \in \mathsf{PSPACE} \iff \ol A \in \mathsf{PSPACE}\).
+    We proceed by showing that
+    \(\ol{\textit{EQ}_{\mathsf{NFA}}} \in \mathsf{NPSPACE = \mathsf{PSPACE}}\).
+    The idea is to nondeterministically guess the string
+    that yields different results for the two \textsf{NFA}s.
+    It is clear that this runs in polynomial space.
   \end{proof}
 
   Similarly, we have a similar theorem for regular expressions:
@@ -28,12 +41,14 @@
     \(\textit{EQ}_{\textsf{REGEX}} \in \mathsf{PSPACE}\).
   \end{corollary}
   \begin{proof}
-    This is immediately because the conversion from \(\textsf{REGEX} \to \textsf{NFA}\) can be done in polynomial space.
+    This is immediately because the conversion from
+    \(\textsf{REGEX} \to \textsf{NFA}\) can be done in polynomial space.
   \end{proof}
 
 
   \subsection{Exponential Space}
-  Consider a modified version of regular expressions that has exponentiation, i.e.
+  Consider a modified version of regular expressions that has exponentiation,
+  i.e.
   \[
     R^i = \underbracket{RR \dots R}_{\text{$i$ times}}.
   \]
@@ -63,18 +78,35 @@
   }}\) is \(\mathsf{EXPSPACE}\)-complete.
 \end{theorem}
 \begin{proof}
-  We will show that \(\textit{EQ}_{\REGEXup}\) is \(\mathsf{EXPSPACE}\)-complete. It is clear that \(\textit{EQ}_{\REGEXup} \in \mathsf{EXPSPACE}\) because \(\textit{EQ}_{\textsf{REGEX}} \in \mathsf{PSPACE}\). In particular, we can expand the \(\REGEXup\) into a \textsf{REGEX} in exponential space, and then use the \(\mathsf{PSPACE}\) algorithm for \(\textit{EQ}_{\textsf{REGEX}}\) on the exponentially sized \textsf{REGEX}s.
+  We will show that \(\textit{EQ}_{\REGEXup}\)
+  is \(\mathsf{EXPSPACE}\)-complete.
+  It is clear that \(\textit{EQ}_{\REGEXup} \in \mathsf{EXPSPACE}\)
+  because \(\textit{EQ}_{\textsf{REGEX}} \in \mathsf{PSPACE}\).
+  In particular, we can expand the \(\REGEXup\) into a \textsf{REGEX}
+  in exponential space, and then use the \(\mathsf{PSPACE}\) algorithm for
+  \(\textit{EQ}_{\textsf{REGEX}}\) on the exponentially sized \textsf{REGEX}s.
 
-  Now consider some \(A \in \mathsf{EXPSPACE}\) decided by a \textsf{TM} \(M\) that runs in space \(O(2^{n^k})\). Consider the reduction mapping \(w \mapsto \angles{R_1, R_2}\) where \(R_1\) is a \(\REGEXup\) that generates all strings, and \(R_2\) is a \(\REGEXup\) that generates all strings except for the rejecting computation history of \(M\) on \(w\). Then \(M\) accepts \(w\) iff \(L(R_1) = L(R_2)\), as desired.
+  Now consider some \(A \in \mathsf{EXPSPACE}\) decided by a \textsf{TM} \(M\)
+  that runs in space \(O(2^{n^k})\).
+  Consider the reduction mapping \(w \mapsto \angles{R_1, R_2}\)
+  where \(R_1\) is a \(\REGEXup\) that generates all strings,
+  and \(R_2\) is a \(\REGEXup\) that generates all strings
+  except for the rejecting computation history of \(M\) on \(w\).
+  Then \(M\) accepts \(w\) if and only if \(L(R_1) = L(R_2)\), as desired.
 
-  To actually construct \(R_2\), we can just check to make sure that the computation history makes a mistake. Let \(\Delta = \Gamma \union Q \union \set{\texttt{\#}}\) be the alphabet for the configurations.
+  To actually construct \(R_2\), we can just check to make sure
+  that the computation history makes a mistake.
+  Let \(\Delta = \Gamma \union Q \union \set{\texttt{\#}}\)
+  be the alphabet for the configurations.
   Consider the configuration history
   \[
     c_1 \texttt{\#} c_2 \texttt{\#} \dots \texttt{\#} c_{\text{reg}},
   \]
-  where we pad all configurations at the end with \(\blank\) for convenience. Then let
+  where we pad all configurations at the end with \(\blank\) for convenience.
+  Then let
   \[
-    R_2 = R_{\text{bad-start}} \union R_{\text{bad-move}} \union R_{\text{bad-reject}},
+    R_2 = R_{\text{bad-start}} \union R_{\text{bad-move}}
+                               \union R_{\text{bad-reject}},
   \]
   where the parts are defined as follows
   (where we adopt the notation \(X - a \coloneqq X \setminus \set{a}\)):
@@ -97,7 +129,13 @@
 
     \item Similarly, let \(R_{\text{bad-reject}} = (\Delta - q_{\text{reject}})^*\).
 
-    \item For \(R_{\text{bad-move}}\), we can use the same idea as we did in Cook-Levin. We look at three consecutive symbols in a configuration as well as the configuration after it, and we reject the sets of symbols that do not correspond to a legal move. In particular,
+    \item For \(R_{\text{bad-move}}\),
+          we can use the same idea as we did in Cook-Levin.
+          We look at three consecutive symbols in a configuration
+          as well as the configuration after it,
+          and we reject the sets of symbols
+          that do not correspond to a legal move.
+          In particular,
     \[
       R_{\text{bad-move}} = \bigunion_{\text{bad $(abc, def)$}} \Delta^* abc \Delta^{2^{n^k} - 2} def \Delta^*.
     \]

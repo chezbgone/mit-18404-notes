@@ -6,7 +6,14 @@
 \section{Branching Programs}
 
 \begin{definition}
-  A \vocab{branching program} (\textsf{BP}) is a directed acyclic graph where all nodes are labeled with a variable, and have two outgoing edges labeled \(\mathtt 0\) and \(\mathtt 1\). There are two other output nodes labeled \(\mathtt 0\) and \(\mathtt 1\) that have no outgoing edges. Branching programs generally represent a boolean function, where we query each variable when we get to each node and follow the corresponding edge.
+  A \vocab{branching program} (\textsf{BP}) is a directed acyclic graph
+  where all nodes are labeled with a variable,
+  and have two outgoing edges labeled \(\mathtt 0\) and \(\mathtt 1\).
+  There are two other output nodes labeled \(\mathtt 0\) and \(\mathtt 1\)
+  that have no outgoing edges.
+  Branching programs generally represent a boolean function,
+  where we query each variable when we get to each node
+  and follow the corresponding edge.
 \end{definition}
 
 \begin{example}[Branching program]
@@ -41,7 +48,11 @@
   \end{tikzpicture}
 \end{example}
 
-We call a branching program \vocab{read-once} if every path from the start to one of the output nodes contains each variable at most once. We will abbreviate read-once branching programs as \textsf{ROBP}s. Then consider the problem \(\textit{EQ}_{\textsf{ROBP}}\).
+We call a branching program \vocab{read-once} if
+every path from the start to one of the output nodes
+contains each variable at most once.
+We will abbreviate read-once branching programs as \textsf{ROBP}s.
+Then consider the problem \(\textit{EQ}_{\textsf{ROBP}}\).
 
 \begin{claim}
   \(\textit{EQ}_{\textsf{ROBP}} \in \mathsf{BPP}\).
@@ -49,20 +60,30 @@ We call a branching program \vocab{read-once} if every path from the start to on
 One attempt at proving this is to try the following algorithm:
 \begin{enumerate}[start=0]
   \item On input \(\angles{B_1, B_2}\):
-  \item Pick random boolean assignments to \(x_1, \dots, x_m\) and run \(B_1, B_2\) on these assignments.
+  \item Pick random boolean assignments to \(x_1, \dots, x_m\)
+        and run \(B_1, B_2\) on these assignments.
   \item If they disagree then \textsc{reject}, else \textsc{accept}.
 \end{enumerate}
-It turns out that this does not work because the two branching programs might only disagree on one input, so the algorithm will get that specific instance wrong with probability \(1 - 2^m\).
+It turns out that this does not work because
+the two branching programs might only disagree on one input,
+so the algorithm will get that specific instance wrong
+with probability \(1 - 2^m\).
 
-Instead to prove this, we will need a lemma that follows from the fundamental theorem of algebra.
+Instead to prove this,
+we will need a lemma that follows from the fundamental theorem of algebra.
 \begin{lemma}[Schwartz-Zippel Lemma]
-  If \(p \in \FF_q[x_1, \dots, x_m]\) is nonzero and has degree at most \(d\) in each variable, then over \(r_1, \dots, r_m \in \FF_q\),
+  If \(p \in \FF_q[x_1, \dots, x_m]\) is nonzero
+  and has degree at most \(d\) in each variable,
+  then over \(r_1, \dots, r_m \in \FF_q\),
   \[
     \PP[p(x_1, \dots, x_m) = 0] \leq \frac{md}{q}.
   \]
 \end{lemma}
 \begin{proof}[Sketch]
-  Induct on \(m\). Write \(p(x_1, \dots, x_m)\) as a polynomial in \(F[x_1, \dots, x_{m - 1}][x_m]\) and use the fundamental theorem of algebra.
+  Induct on \(m\).
+  Write \(p(x_1, \dots, x_m)\) as a polynomial in
+  \(F[x_1, \dots, x_{m - 1}][x_m]\) and
+  use the fundamental theorem of algebra.
 \end{proof}
 
 

@@ -4,10 +4,15 @@
 \begin{document}
 %\chapter{November 12, 2019}
 \section{Games}
-A \vocab{game} is loosely defined to be a competition between two players that are trying to achieve opposing goals.
+A \vocab{game} is loosely defined to be a competition between two players
+that are trying to achieve opposing goals.
 
 \subsection{Geography Game}
-Consider the following game between two people: We start with a country. The next player has to select a country that starts with the last letter of the previous. The last player that can name a country that has not been previously said wins. We can draw a graph that that looks like the following representing the game.
+Consider the following game between two people: We start with a country.
+The next player has to select a country that starts with
+the last letter of the previous.
+The last player that can name a country that has not been previously said wins.
+We can draw a graph that that looks like the following representing the game.
 \begin{center}
   \begin{tikzpicture}[every node/.style={rectangle, draw}]
     \node (us) {U.S. America};
@@ -27,10 +32,20 @@ Consider the following game between two people: We start with a country. The nex
   \end{tikzpicture}
 \end{center}
 
-It is natural to ask who wins this game. In this case there are a finite number of nodes, so it is easy to determine the winner. Let's generalize this game. Suppose we have a directed graph \(G = (V, E)\) with a designated starting vertex \(a \in V\), and the players select nodes that have not been previously used along a path until they are not able to. The last person who successfully selects a node wins. Then we can define the problem
+It is natural to ask who wins this game.
+In this case there are a finite number of nodes,
+so it is easy to determine the winner.
+Let's generalize this game.
+Suppose we have a directed graph \(G = (V, E)\)
+with a designated starting vertex \(a \in V\),
+and the players select nodes that have not been previously used
+along a path until they are not able to.
+The last person who successfully selects a node wins.
+Then we can define the problem
 \[
   \textit{GG} = \set{ \angles{G, a} \mid
-    \text{Player 1 has a winning strategy in the generalized geography game on graph $G$ starting with $a$}
+    \text{Player 1 has a winning strategy in the generalized geography game
+          on graph $G$ starting with $a$}
   }.
 \]
 
@@ -40,13 +55,29 @@ It is natural to ask who wins this game. In this case there are a finite number 
 \begin{proof}
   It is clear that \(\textit{GG} \in \mathsf{PSPACE}\).
 
-  To prove that \(\textit{GG}\) is \(\mathsf{PSPACE}\)-hard, we will prove \(\textit{TQBF} \polyredu \textit{GG}\). Suppose we have some instance \(\angles{\varphi}\) of \(\textit{TQBF}\)
+  To prove that \(\textit{GG}\) is \(\mathsf{PSPACE}\)-hard,
+  we will prove \(\textit{TQBF} \polyredu \textit{GG}\).
+  Suppose we have some instance \(\angles{\varphi}\) of \(\textit{TQBF}\)
   \[
-    \varphi = \exists x_1 \forall x_2 \exists x_3 \forall x_4 \dots \exists x_m \psi,
+    \varphi =
+      \exists x_1 \forall x_2 \exists x_3 \forall x_4 \dots \exists x_m \psi,
   \]
-  where \(\psi\) is in conjunctive normal form. Let's create a game where we suggestively name our players \(E\) and \(A\). The idea is that \(E\) will select the values of the variables \(x_1, x_3, \dots, x_m\), while \(A\) will select the values of \(x_2, x_4, \dots, x_{m - 1}\). Note that we can always write \(\varphi\) in this form by converting to prenex normal form, and then adding dummy variables so that the \(\exists\) and \(\forall\) alternate.
+  where \(\psi\) is in conjunctive normal form.
+  Let's create a game where we suggestively name our players \(E\) and \(A\).
+  The idea is that \(E\) will select the values
+  of the variables \(x_1, x_3, \dots, x_m\),
+  while \(A\) will select the values of \(x_2, x_4, \dots, x_{m - 1}\).
+  Note that we can always write \(\varphi\) in this form
+  by converting to prenex normal form,
+  and then adding dummy variables so that
+  the \(\exists\) and \(\forall\) alternate.
 
-  Let's say that \(E\) wins if the selection of values causes \(\psi\) to be \textsc{true}, and \(A\) wins if the selection of values causes \(\psi\) to be \textsc{false}. Then, it turns out that \(E\) wins if and only if \(\varphi \in \textit{TQBF}\).
+  Let's say that \(E\) wins if the selection of values causes \(\psi\)
+  to be \textsc{true},
+  and \(A\) wins if the selection of values causes \(\psi\)
+  to be \textsc{false}.
+  Then, it turns out that \(E\) wins if and only if
+  \(\varphi \in \textit{TQBF}\).
 
   Consider the following graph \(G\):
   \begin{center}
@@ -130,39 +161,88 @@ It is natural to ask who wins this game. In this case there are a finite number 
     \end{tikzpicture}
   \end{center}
 
-  There is a diamond structure for each variable \(x_i\). The players alternate picking the left or right path, and at the end we have another structure to check whether the formula is true or not. We want \(E\) to win if the resulting formula with the chosen variables is true. To check this in a game setting, the idea is to let \(A\) claim that a certain clause is false, and then within the clause, \(E\) chooses the literal that they claim is true. Then, we connect the literal to the corresponding node in the diamond structure. If the literal is actually true, then \(A\) has no move, so \(E\) wins, as desired. Conversely, if \(E\) is not able to select a true literal, then \(A\) will have another move, and then \(E\) loses, as desired.
+  There is a diamond structure for each variable \(x_i\).
+  The players alternate picking the left or right path,
+  and at the end we have another structure to check
+  whether the formula is true or not.
+  We want \(E\) to win if the resulting formula
+  with the chosen variables is true.
+  To check this in a game setting,
+  the idea is to let \(A\) claim that a certain clause is false,
+  and then within the clause,
+  \(E\) chooses the literal that they claim is true.
+  Then, we connect the literal to the corresponding node
+  in the diamond structure.
+  If the literal is actually true, then \(A\) has no move,
+  so \(E\) wins, as desired.
+  Conversely, if \(E\) is not able to select a true literal,
+  then \(A\) will have another move, and then \(E\) loses, as desired.
 \end{proof}
 
 
 \section{Logspace}
-We would like to consider problems that can be solved in less than linear space. However, all of our current Turing machines use at least \(O(n)\) space because the tape must contain the input. To extend to problems that can be solved in a smaller space constraint, we will consider a \(2\)-tape \textsf{TM} where the input is on a read-only tape, and the second tape is a standard read/write tape that starts empty. Then we only count the space that the read/write tape uses. Then, we say that a problem is \vocab{solvable in log space} if the machine that solves the problem only uses \(O(\log n)\) space on its second tape.
+We would like to consider problems that can be solved
+in less than linear space.
+However, all of our current Turing machines use at least \(O(n)\) space
+because the tape must contain the input.
+To extend to problems that can be solved in a smaller space constraint,
+we will consider a \(2\)-tape \textsf{TM}
+where the input is on a read-only tape,
+and the second tape is a standard read/write tape that starts empty.
+Then we only count the space that the read/write tape uses.
+Then, we say that a problem is \vocab{solvable in log space}
+if the machine that solves the problem only uses
+\(O(\log n)\) space on its second tape.
 
-Some motivation for this are CD-ROMs and the internet. The input (entire data on the internet) might be large, but we can download them to a local machine.
+Some motivation for this are CD-ROMs and the internet.
+The input (entire data on the internet) might be large,
+but we can download them to a local machine.
 
 \begin{definition}
-  The class of languages decidable in log space on a deterministic Turing machine is
+  The class of languages decidable in log space
+  on a deterministic Turing machine is
   \[
-    \mathsf{L} = \SPACE(\log n) = \set{\mathscr L \mid \text{$\mathscr{L}$ is solvable in log space}}.
+    \mathsf{L} = \SPACE(\log n) =
+      \set{\mathscr L \mid \text{$\mathscr{L}$ is solvable in log space}}.
   \]
-  Similarly, we define the class of languages decidable in logarithmic space on a nondeterministic Turing machine to be
+  Similarly, we define the class of languages
+  decidable in logarithmic space on a nondeterministic Turing machine to be
   \[
-    \mathsf{NL} = \NSPACE(\log n) = \set{\mathscr L \mid \text{$\mathscr{L}$ is solvable in log space nondeterministically}}.
+    \mathsf{NL} = \NSPACE(\log n) =
+      \set{\mathscr L \mid \text{$\mathscr{L}$ is solvable
+                                 in log space nondeterministically}}.
   \]
 \end{definition}
 
 \begin{example}
   \(\set{\texttt{a}^k \texttt{b}^k \mid k \in \NN} \in \mathsf{L}\).
   \tcblower
-  We can keep a counter of the number of \(\texttt a\)s on the second tape when we read them, and then decrement when we get to the \(\texttt b\)s.
+  We can keep a counter of the number of \(\texttt a\)s on the second tape
+  when we read them, and then decrement when we get to the \(\texttt b\)s.
 \end{example}
 
 Recall the problem
 \[
-  \textit{PATH} = \set{\angles{G, s, t} \mid \text{$G$ is a directed graph with a path from $s$ to $t$}}.
+  \textit{PATH} = \set{\angles{G, s, t} \mid
+                       \text{$G$ is a directed graph with
+                             a path from $s$ to $t$}}.
 \]
-We have that \(\textit{PATH} \in \mathsf{NL}\) because a Turing machine can keep track of just the current node and nondeterministically guess the next node while using a counter to make sure that we don't loop. However, it is not known whether \(\textit{PATH} \in \mathsf{L}\). In fact, the problem of whether \(\mathsf{L} = \mathsf{NL}\) is open.
+We have that \(\textit{PATH} \in \mathsf{NL}\) because
+a Turing machine can keep track of just the current node
+and nondeterministically guess the next node while using a counter
+to make sure that we don't loop.
+However, it is not known whether \(\textit{PATH} \in \mathsf{L}\).
+In fact, the problem of whether \(\mathsf{L} = \mathsf{NL}\) is open.
 
-We can show that \(\mathsf{NL} \subseteq \SPACE((\log n)^2)\) from Savitch's theorem. We can also show that \(\mathsf{L} \subseteq \mathsf{P}\). In particular, we can consider the number of configurations that the machine that solves a problem in \(\mathsf{L}\), which is exponential in \(O(\log n)\). Then, the maximum amount of time that the machine can run for is also exponential in \(\log n\), which is bounded by a polynomial in \(n\).
+We can show that \(\mathsf{NL} \subseteq \SPACE((\log n)^2)\)
+from Savitch's theorem.
+We can also show that \(\mathsf{L} \subseteq \mathsf{P}\).
+In particular, we can consider the number of configurations
+that the machine that solves a problem in \(\mathsf{L}\),
+which is exponential in \(O(\log n)\).
+Then, the maximum amount of time that the machine
+can run for is also exponential in \(\log n\),
+which is bounded by a polynomial in \(n\).
 
 
 

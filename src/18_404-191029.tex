@@ -7,19 +7,25 @@
 \begin{problem}[SAT]
   Suppose we have a formula made from variables,
   \(\land\)s, \(\lor\)s, and \(\neg\)s.
-  We want to determine whether there exists some assignment of variables over \(\set{\textsc{true}, \textsc{false}}\) or \(\set{1, 0}\) that makes the formula true. We call this problem \textit{SAT}. More formally,
+  We want to determine whether there exists some assignment
+  of variables over \(\set{\textsc{true}, \textsc{false}}\) or \(\set{1, 0}\) that makes the formula true. We call this problem \textit{SAT}.
+  More formally,
   \[
-    \textit{SAT} = \set{\angles{\phi} \mid \text{some assignment satisfies the formula $\phi$}}.
+    \textit{SAT} = \set{
+      \angles{\phi} \mid \text{some assignment satisfies the formula $\phi$}
+    }.
   \]
 \end{problem}
 \begin{example}
-  \((a \lor b) \land (a \lor \neg b)\) is satisfiable with \((a, b) = (1, 0)\) or \((a, b) = (1, 1)\).
+  \((a \lor b) \land (a \lor \neg b)\) is satisfiable with
+  \((a, b) = (1, 0)\) or \((a, b) = (1, 1)\).
 
   \tcblower
   \(a \land \neg a\) is never satisfiable.
 \end{example}
 
-It is clear that \(\textit{SAT} \in \mathsf{NP}\) because we can create an \textsf{NTM} that guesses all possible combinations.
+It is clear that \(\textit{SAT} \in \mathsf{NP}\) because
+we can create an \textsf{NTM} that guesses all possible combinations.
 
 \subsubsection{Cool Special Cases}
 We call \(k\textit{-SAT}\) the problem of SAT
@@ -36,49 +42,83 @@ For example,
 \]
 is an instance of \textit{3-SAT}.
 
-It turns out that every instance of \textit{SAT} can be reduced to \textit{3-SAT}. Moreover, it turns out that \(\textit{2-SAT} \in \mathsf P\) because we can construct a directed graph with nodes
+It turns out that every instance of \textit{SAT}
+can be reduced to \textit{3-SAT}.
+Moreover, it turns out that \(\textit{2-SAT} \in \mathsf P\)
+because we can construct a directed graph with nodes
 \[
   V = \,\bigunion_{\mathclap{\text{variables $v$}}} \; \set{v, \neg v},
 \]
-and edges corresponding to the implications, and then run a connected components algorithm on the graph. In contrast, \textit{3-SAT} is probably not in \(\mathsf P\).
+and edges corresponding to the implications,
+and then run a connected components algorithm on the graph.
+In contrast, \textit{3-SAT} is probably not in \(\mathsf P\).
 
 \subsection{Clique Problem}
-Suppose we have an undirected graph \(G\). Then a \vocab{\(k\)-clique} is a set of \(k\) nodes where there exists an edge between each pair of nodes. Then, we have the natural problem
+Suppose we have an undirected graph \(G\).
+Then a \vocab{\(k\)-clique} is a set of \(k\) nodes
+where there exists an edge between each pair of nodes.
+Then, we have the natural problem
 \[
-  \textit{CLIQUE} = \set{\angles{G, k} \mid \text{undirected graph $G$ contains a $k$-clique}}.
+  \textit{CLIQUE} =
+    \set{\angles{G, k} \mid \text{undirected graph $G$ contains a $k$-clique}}.
 \]
 
 \subsection{Reducing}
 \begin{definition}
-  We say \(A\) is \vocab{polynomial-time reducible} to \(B\), denoted \(A \polyredu B\) if and only if \(A \mapredu B\) and the reduction is computable in polynomial time.
+  We say \(A\) is \vocab{polynomial-time reducible} to \(B\),
+  denoted \(A \polyredu B\) if and only if \(A \mapredu B\)
+  and the reduction is computable in polynomial time.
 \end{definition}
 
 \begin{proposition}
   \(\textit{3-SAT} \polyredu \textit{CLIQUE}\).
 \end{proposition}
 \begin{proof}
-  Suppose we have some instance of \(\textit{3-SAT}\) \(\phi\) with \(k\) clauses. Then we will construct the graph \(G\) as follows. There will be \(3k\) nodes of \(G\), one corresponding to each literal in each clause. The edges will be everything except
+  Suppose we have some instance of \(\textit{3-SAT}\) \(\phi\)
+  with \(k\) clauses.
+  Then we will construct the graph \(G\) as follows.
+  There will be \(3k\) nodes of \(G\),
+  one corresponding to each literal in each clause.
+  The edges will be everything except
   \begin{itemize}
     \item edges between nodes in the same clause, and
-    \item edges between nodes that are opposite literals (e.g. \(x\) and \(\neg x\)).
+    \item edges between nodes that are opposite literals
+          (e.g. \(x\) and \(\neg x\)).
   \end{itemize}
 
-  We will show that \(\angles{\phi} \to \angles{G, k}\) is the reduction that shows \(\textit{3-SAT} \polyredu \textit{CLIQUE}\).
+  We will show that \(\angles{\phi} \to \angles{G, k}\)
+  is the reduction that shows \(\textit{3-SAT} \polyredu \textit{CLIQUE}\).
 
-  If \(\angles{\phi} \in \textit{3-SAT}\), then \(\phi\) has a satisfying assignment. Then, at least one literal in each clause is true, which gives us the \(k\) nodes in the clique. Therefore, \(\angles{G, k} \in \textit{CLIQUE}\).
+  If \(\angles{\phi} \in \textit{3-SAT}\),
+  then \(\phi\) has a satisfying assignment.
+  Then, at least one literal in each clause is true,
+  which gives us the \(k\) nodes in the clique.
+  Therefore, \(\angles{G, k} \in \textit{CLIQUE}\).
 
-  If \(\angles{G, k} \in \textit{CLIQUE}\), then there exists some \(k\)-clique in \(G\). Since there are no edges from a clause to itself, the clique has one node per clause. Moreover, since there are no edges connecting opposite literals in \(G\), the clique corresponds to an assignment. Therefore, if we assign all of the nodes in our clique to be true, we get an assignment satisfying \(\phi\).
+  If \(\angles{G, k} \in \textit{CLIQUE}\),
+  then there exists some \(k\)-clique in \(G\).
+  Since there are no edges from a clause to itself,
+  the clique has one node per clause.
+  Moreover, since there are no edges connecting opposite literals in \(G\),
+  the clique corresponds to an assignment.
+  Therefore, if we assign all of the nodes in our clique to be true,
+  we get an assignment satisfying \(\phi\).
 \end{proof}
 
 \begin{definition}
-  A problem \(B\) is \vocab{\(\mathsf{NP}\)-hard} if for every \(A \in \mathsf{NP}\), we have \(A \polyredu B\). Then, \(B\) is \vocab{\(\mathsf{NP}\)-complete} if we also have \(B \in \mathsf{NP}\).
+  A problem \(B\) is \vocab{\(\mathsf{NP}\)-hard} if
+  for every \(A \in \mathsf{NP}\), we have \(A \polyredu B\).
+  Then, \(B\) is \vocab{\(\mathsf{NP}\)-complete}
+  if we also have \(B \in \mathsf{NP}\).
 \end{definition}
 
 \begin{proposition}
   \(\textit{3-SAT} \polyredu \textit{HAMPATH}\).
 \end{proposition}
 \begin{proof}
-  Suppose we have some formula \(\phi\) with \(k\) clauses in \(n\) variables \(x_1, \dots, x_n\) in conjunctive normal form. Consider the graph with the following base structure:
+  Suppose we have some formula \(\phi\) with \(k\) clauses
+  in \(n\) variables \(x_1, \dots, x_n\) in conjunctive normal form.
+  Consider the graph with the following base structure:
   \begin{center}
     \begin{tikzpicture}
       \draw[fill] (0, 1) circle[radius=0.05];

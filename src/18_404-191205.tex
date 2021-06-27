@@ -2,7 +2,10 @@
 \usepackage{chez}
 
 \begin{document}
-Recall that we can label each object (nodes and edges) of a \textsf{BP} with \(\mathtt 1\)s and \(\mathtt 0\)s depending on which ones are used during the execution. We can even do this for general variables and also algebraically.
+Recall that we can label each object (nodes and edges)
+of a \textsf{BP} with \(\mathtt 1\)s and \(\mathtt 0\)s
+depending on which ones are used during the execution.
+We can even do this for general variables and also algebraically.
 
 \begin{example}
   \centering
@@ -150,10 +153,12 @@ More generally, we have the following labeling rules
   %\qquad
   %\includegraphics[scale=0.27]{EQ_ROBP_in_BPP4}
 \end{center}
-Then, the formula the corresponds to the \(\mathtt 1\) output is the one the represents the \textsf{BP}.
+Then, the formula the corresponds to the \(\mathtt 1\) output
+is the one the represents the \textsf{BP}.
 
 \begin{claim}
-  For \textsf{ROBP}s \(B_1\) and \(B_2\) with polynomials \(P_1\) and \(P_2\), then over \(r_1, \dots, r_m \in \FF_q\),
+  For \textsf{ROBP}s \(B_1\) and \(B_2\) with polynomials \(P_1\) and \(P_2\),
+  then over \(r_1, \dots, r_m \in \FF_q\),
   \[
     \PP[P_1(r_1, \dots, r_m) = P_2(r_1, \dots, r_m)] = \begin{cases}
       1 & \text{$B_1$ and $B_2$ are equivalent} \\[-1ex]
@@ -243,8 +248,11 @@ In the other case, \(V\) will catch the lie with probability \(1 - 2^{-N}\).
   \begin{align*}
     \mathsf{IP} \coloneqq \lbrace
       A \mid {}& \text{there exists a protocol $(V \leftrightarrow P)$ where} \\
-      {}& w \in A \iff \PP[\text{$(V\leftrightarrow P)$ accepts $w$}] \geq \tfrac{2}{3} \\
-      {}& \text{$w \notin A \iff \PP[\text{$(V\leftrightarrow \tilde P)$ accepts $w$}] \leq \tfrac{1}{3}$ for all $\tilde P$}
+      {}& w \in A \iff
+            \PP[\text{$(V\leftrightarrow P)$ accepts $w$}] \geq \tfrac{2}{3} \\
+      {}& \text{$w \notin A \iff
+            \PP[\text{$(V\leftrightarrow \tilde P)$ accepts $w$}]
+                \leq \tfrac{1}{3}$ for all $\tilde P$}
     \rbrace.
   \end{align*}
 \end{definition}
@@ -259,9 +267,9 @@ It turns out that \(\mathsf{IP} \subseteq \mathsf{PSPACE}\),
 but we will not prove this. The idea of the proof is to
 explore all possible interactions in polynomial space.
 We will prove the weaker statement \(\mathsf{coNP} \subseteq \mathsf{IP}\)
-by showing \(\texttt\#\mathit{SAT} \in \mathsf{IP}\).
-(Note that \(\texttt\#\mathit{SAT}\) is \(\mathsf{coNP}\)-hard
-  because \(\overline{\mathit{SAT}} \polyredu \texttt\#\mathsf{SAT}\)
+by showing \(\hash\mathit{SAT} \in \mathsf{IP}\).
+(Note that \(\hash\mathit{SAT}\) is \(\mathsf{coNP}\)-hard
+  because \(\overline{\mathit{SAT}} \polyredu \hash\mathsf{SAT}\)
   by the reduction \(\angles{\phi} \to \angles{\phi, 0}\).)
 
 

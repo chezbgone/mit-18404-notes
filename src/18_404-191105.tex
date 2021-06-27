@@ -6,9 +6,15 @@
 \section{Space Complexity}
 Similar to time complexity, we can define space complexity.
 \begin{definition}
-  Given a function \(f \colon \NN \to \NN\) (assuming \(f(n) \geq n\) for convenience), we say that a \textsf{TM} \(M\) \vocab{runs in space \(f(n)\)} if \(M\) is a decider and uses \(\leq f(n)\) tape cells on all inputs of length \(n\).
+  Given a function \(f \colon \NN \to \NN\)
+  (assuming \(f(n) \geq n\) for convenience),
+  we say that a \textsf{TM} \(M\) \vocab{runs in space \(f(n)\)}
+  if \(M\) is a decider and uses \(\leq f(n)\) tape cells
+  on all inputs of length \(n\).
   
-  Similarly, a \textsf{NTM} \(M\) \vocab{runs in space \(f(n)\)} if \(M\) is a decider and uses \(\leq f(n)\) tapes cells on each branch for all inputs of length \(n\).
+  Similarly, a \textsf{NTM} \(M\) \vocab{runs in space \(f(n)\)}
+  if \(M\) is a decider and uses \(\leq f(n)\) tapes cells
+  on each branch for all inputs of length \(n\).
 
   \tcblower
 
@@ -29,42 +35,72 @@ Then, similar to time complexity we can define
   \textsf{NPSPACE} = \bigunion_k \operatorname{NSPACE}(n^k).
 \end{gather*}
 
-For \(f(n) \geq n\), it is immediate that \(\operatorname{TIME}(f(n)) \subseteq \operatorname{SPACE}(f(n))\). This is because if a machine runs in time \(O(f(n))\), then it uses at most \(O(f(n))\) space as well, because the machine can only use one tape cell per time step. This implies that \(\mathsf{P} \subseteq \mathsf{PSPACE}\), and for a similar reason, we have \(\mathsf{NP} \subseteq \mathsf{NPSPACE}\).
+For \(f(n) \geq n\), it is immediate that
+\(\operatorname{TIME}(f(n)) \subseteq \operatorname{SPACE}(f(n))\).
+This is because if a machine runs in time \(O(f(n))\),
+then it uses at most \(O(f(n))\) space as well,
+because the machine can only use one tape cell per time step.
+This implies that \(\mathsf{P} \subseteq \mathsf{PSPACE}\),
+and for a similar reason, we have \(\mathsf{NP} \subseteq \mathsf{NPSPACE}\).
 
-Conversely, we have \(\operatorname{SPACE}(f(n)) \subseteq \operatorname{TIME}(2^{O(f(n))})\), because if a machine uses \(O(f(n))\) space and must halt, then it runs in time \(c \cdot \size{\Gamma}^{O(f(n))}\) for some constant \(c\).
+Conversely, we have
+\(\operatorname{SPACE}(f(n)) \subseteq \operatorname{TIME}(2^{O(f(n))})\),
+because if a machine uses \(O(f(n))\) space and must halt,
+then it runs in time \(c \cdot \size{\Gamma}^{O(f(n))}\)
+for some constant \(c\).
 
 \begin{theorem}
   \(\mathsf{NP} \subseteq \mathsf{PSPACE}\).
 \end{theorem}
 \begin{proof}
-  Note that \(\textit{SAT} \in \mathsf{PSPACE}\) because we can keep track of the formula and an assignment in polynomial space, and test each possible assignment. Then, for \(A \in \mathsf{NP}\), we know \(A \polyredu SAT\), so \(A \in \mathsf{PSPACE}\).
+  Note that \(\textit{SAT} \in \mathsf{PSPACE}\) because
+  we can keep track of the formula and an assignment in polynomial space,
+  and test each possible assignment.
+  Then, for \(A \in \mathsf{NP}\), we know \(A \polyredu SAT\),
+  so \(A \in \mathsf{PSPACE}\).
   % why not do this directly?
 \end{proof}
 
 \begin{example}
-  We have \(\mathsf{coNP} = \set{\ol A \mid A \in \mathsf{NP}} \subseteq \mathsf{PSPACE}\). This is because 
+  We have \(\mathsf{coNP} = \set{\ol A \mid A \in \mathsf{NP}}
+                          \subseteq \mathsf{PSPACE}\).
+  This is because
+  \[
+    \mathsf{NP} \subseteq \mathsf{PSPACE} \implies
+    \mathsf{coNP} \subseteq \mathsf{coPSPACE} = \mathsf{PSPACE}
+  \]
 
-  Some examples of problems in \(\mathsf{coNP}\) are the unsatisfiability problem, or tautology problem
+  Some examples of problems in \(\mathsf{coNP}\)
+  are the unsatisfiability problem, or tautology problem
   \begin{gather*}
-    \textit{UNSAT} = \set{\angles \phi \mid \text{formula $\phi$ is not satisfied for some assignment}} \\
-    \textit{TAUT} = \set{\angles \phi \mid \text{formula $\phi$ is satisfied for all assignment}}.
+    \textit{UNSAT} =
+      \set{\angles \phi \mid
+           \text{formula $\phi$ is not satisfied for some assignment}} \\
+    \textit{TAUT} =
+      \set{\angles \phi \mid
+           \text{formula $\phi$ is satisfied for all assignment}}.
   \end{gather*}
 \end{example}
 
 \subsection{Quantified Boolean Formulas}
-Let a \vocab{quantified boolean formula} be a boolean formula with quantifiers \(\forall\) and \(\exists\).
+Let a \vocab{quantified boolean formula} be a boolean formula
+with quantifiers \(\forall\) and \(\exists\).
 \begin{example}
   The two formulas
   \begin{gather*}
     \forall x \exists y [(x \lor y) \land (\ol x \lor \ol y)] \\
     \forall y \exists x [(x \lor y) \land (\ol x \lor \ol y)]
   \end{gather*}
-  are quantified boolean formulas that are \textsc{true} and \textsc{false} respectively.
+  are quantified boolean formulas that are
+  \textsc{true} and \textsc{false} respectively.
 \end{example}
 
-Consider the problem of deciding whether a quantified boolean formula is true or not, i.e.
+Consider the problem of deciding whether
+a quantified boolean formula is true or not, i.e.
 \[
-  \textit{TQBF} = \set{\angles\phi \mid \text{$\phi$ is a \textsc{true} quantified boolean formula}}.
+  \textit{TQBF} =
+    \set{\angles\phi \mid
+         \text{$\phi$ is a \textsc{true} quantified boolean formula}}.
 \]
 The \(\textit{T}\) in \(\textit{TQBF}\) stands for true.
 
@@ -76,17 +112,31 @@ The \(\textit{T}\) in \(\textit{TQBF}\) stands for true.
   \begin{enumerate}[start=0]
     \item On input \(\angles \phi\):
 
-    \item If there are no quantifiers, then there are only constants, so we can evaluate \(\phi\) directly and \textsc{accept} if \(\phi\) is true.
+    \item If there are no quantifiers, then there are only constants,
+    so we can evaluate \(\phi\) directly
+    and \textsc{accept} if \(\phi\) is true.
 
-    \item If \(\phi = \exists x \psi\) for some quantified boolean formula \(\psi\), then recursively evaluate \(\psi\) with \(x \in \set{\textsc{true}, \textsc{false}}\). If either case accepts, then \textsc{accept}.
+    \item If \(\phi = \exists x \psi\) for
+    some quantified boolean formula\(\psi\),
+    then recursively evaluate \(\psi\) with
+    \(x \in \set{\textsc{true}, \textsc{false}}\).
+    If either case accepts, then \textsc{accept}.
 
-    \item If \(\phi = \forall x \psi\) for some quantified boolean formula \(\psi\), then recursively evaluate \(\psi\) with \(x \in \set{\textsc{true}, \textsc{false}}\). If both cases accept, then \textsc{accept}.
+    \item If \(\phi = \forall x \psi\) for some
+    quantified boolean formula \(\psi\),
+    then recursively evaluate \(\psi\) with
+    \(x \in \set{\textsc{true}, \textsc{false}}\).
+    If both cases accept, then \textsc{accept}.
   \end{enumerate}
-  Note that this algorithm can be run in polynomial space because there are at most \(n\) recursive calls, and each recursive call uses \(O(1)\) space.
+  Note that this algorithm can be run in polynomial space
+  because there are at most \(n\) recursive calls,
+  and each recursive call uses \(O(1)\) space.
 \end{proof}
 
 \subsection{Word Ladder}
-There are some games where you have two words and try to get from one to the other by changing one letter at a time, while remaining on valid words. E.g.
+There are some games where you have two words
+and try to get from one to the other by changing one letter at a time,
+while remaining on valid words. E.g.
 \[
   \text{WORK} \to
   \text{PORK} \to
@@ -102,8 +152,11 @@ Let's define the problem
 \[
   \begin{multlined}
     \textit{LADDER}_{\textsf{DFA}} = \lbrace
-      \angles{B, u, v} \mid \text{$B$ is a \textsc{DFA} such that there exists a sequence $y_0, \dots, y_k$ in $L(B)$} \\
-      \text{such that $y_0 = u$, $y_1 = v$, and $y_i$ differs from $y_{i + 1}$ in one symbol}
+      \angles{B, u, v} \mid
+      \text{$B$ is a \textsc{DFA} such that there exists
+            a sequence $y_0, \dots, y_k$ in $L(B)$} \\
+      \text{such that $y_0 = u$, $y_1 = v$,
+            and $y_i$ differs from $y_{i + 1}$ in one symbol}
     \rbrace.
   \end{multlined}
 \]
@@ -117,9 +170,13 @@ Let's define the problem
     \item On input \(\angles{B, u, v}\):
     \item Make a copy of \(u\), called \(y\).
     \item Nondeterministically change one letter.
-    \item Repeat either until \(y = v\) (in which case \textsc{accept}), or \(\size{u}^{\size{\Sigma}}\) letters have been changed (in which case \textsc{reject}), where \(\Sigma\) is the alphabet of \(B\).
+    \item Repeat either until \(y = v\) (in which case \textsc{accept}),
+          or \(\size{u}^{\size{\Sigma}}\) letters have been changed
+          (in which case \textsc{reject}),
+          where \(\Sigma\) is the alphabet of \(B\).
   \end{enumerate}
-  Note that this algorithm runs in polynomial space for all branches, so \(\textit{LADDER}_{\textsf{DFA}} \in \mathsf{NPSPACE}\).
+  Note that this algorithm runs in polynomial space for all branches,
+  so \(\textit{LADDER}_{\textsf{DFA}} \in \mathsf{NPSPACE}\).
 \end{proof}
 
 

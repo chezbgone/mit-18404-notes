@@ -142,12 +142,12 @@ to explore the idea of a computation history.
   The idea is to consider the possible computation history for a machine.
   In particular, a computation history is a sequence of configurations
   \[
-    C_1 \texttt\#
-    C_2 \texttt\#
-    C_3 \texttt\# \dots \texttt\#
+    C_1 \hash
+    C_2 \hash
+    C_3 \hash \dots \hash
     C_\ell,
   \]
-  delimited by \(\texttt\#\)s, where \(C_i\) are of the form \(t_1 q t_2\),
+  delimited by \(\hash\)s, where \(C_i\) are of the form \(t_1 q t_2\),
   where \(t_1 t_2 \in \Gamma^n\) is the content of the tape,
   and \(q\) is the state that the machine is on,
   inserted into \(t = t_1 t_2\) at the position of the head.
@@ -189,9 +189,11 @@ Now we will prove \cref{prop:pcp}, i.e. \(\mathit{PCP}\) is undecidable.
     \[
       \begin{multlined}
         P_{M, w} = \set*{
-          \begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*},
-          \begin{bmatrix} \texttt\# \\ \texttt\# \end{bmatrix},
-          \begin{bmatrix} q_{\text{accept}} \texttt\# \\ \texttt\# \end{bmatrix}
+          \begin{bmatrix*}[l]
+            \hash \\ \hash q_0 w_1 w_2 \dots w_n \hash
+          \end{bmatrix*},
+          \begin{bmatrix} \hash \\ \hash \end{bmatrix},
+          \begin{bmatrix} q_{\text{accept}} \hash \\ \hash \end{bmatrix}
         } \union \set*{
           \begin{bmatrix} a \\ a \end{bmatrix} \mid a \in \Gamma
         } \\
@@ -200,28 +202,46 @@ Now we will prove \cref{prop:pcp}, i.e. \(\mathit{PCP}\) is undecidable.
         } \union \set*{
           \begin{bmatrix} cqa \\ rcb \end{bmatrix} \mid \delta(q, a) = (r, b, L)
         } \union \set*{
-          \begin{bmatrix*}[r] a q_{\text{accept}} b \texttt\# \\ \texttt\# \end{bmatrix*} \mid a, b \in \Gamma^*
+          \begin{bmatrix*}[r]
+            a q_{\text{accept}} b \hash \\ \hash
+          \end{bmatrix*} \mid a, b \in \Gamma^*
         }
       \end{multlined}
     \]
     \item Run \(R\) on \(P_{M, w}\).
-    \item If \(R\) accepts then \textsc{accept}; if \(R\) rejects then \textsc{reject}.
+    \item If \(R\) accepts then \textsc{accept};
+          if \(R\) rejects then \textsc{reject}.
   \end{enumerate}
-  The idea is to make \(R\) create a valid computation history if one exists. At each \(\texttt\#\), the computation history advances one step. For example, if \(\begin{bmatrix} q_0 w_1 \\ a q \end{bmatrix} \in P_{M, w}\), then our sequence of dominoes might start out as
+  The idea is to make \(R\) create a valid computation history if one exists.
+  At each \(\hash\), the computation history advances one step.
+  For example, if \(\begin{bmatrix} q_0 w_1 \\ a q \end{bmatrix} \in P_{M, w}\),
+  then our sequence of dominoes might start out as
   \[
-    \begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*},
-    \begin{bmatrix} q_0 w_1 \\ a q \end{bmatrix}, \dots,
-    \begin{bmatrix} \texttt\# \\ \texttt\# \end{bmatrix}, \dots
+    \begin{bmatrix*}[l]
+      \hash \\
+      \hash q_0 w_1 w_2 \dots w_n \hash
+    \end{bmatrix*},
+    \begin{bmatrix} q_0 w_1 \\ a q \end{bmatrix},
+    \dots,
+    \begin{bmatrix} \hash \\ \hash \end{bmatrix},
+    \dots
   \]
   which gives the combined domino:
   \[
     \begin{bmatrix*}[l]
-      \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \\
-      \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# a q w_2 \dots w_n \texttt\#
+      \hash q_0 w_1 w_2 \dots w_n \hash \\
+      \hash q_0 w_1 w_2 \dots w_n \hash a q w_2 \dots w_n \hash
     \end{bmatrix*}.
   \]
   
-  The existence of a match in \(P\) that starts with \(\begin{bmatrix*}[l] \texttt\# \\ \texttt\# q_0 w_1 w_2 \dots w_n \texttt\# \end{bmatrix*}\) means that we have a valid sequence of configurations that accept. In particular, if \(R\) accepts \(P\) then we know that \(M\) accepts \(w\), and similarly if \(R\) rejects \(P\).
+  The existence of a match in \(P\) that starts with
+  \(\begin{bmatrix*}[l]
+      \hash \\
+      \hash q_0 w_1 w_2 \dots w_n \hash
+    \end{bmatrix*}\)
+  means that we have a valid sequence of configurations that accept.
+  In particular, if \(R\) accepts \(P\) then we know that \(M\) accepts \(w\),
+  and similarly if \(R\) rejects \(P\).
 \end{proof}
 
 
