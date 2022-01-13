@@ -10,12 +10,10 @@ Also, recall the set
            \text{$p$ is a multivariable polynomial that has integer roots}}\).
 The question whether \(D\) is decidable or not is Hilbert's 10th problem.
 
-\begin{proposition}[1971]
-  \(D\) is not decidable.
+\begin{proposition}[Matiyasevich, 1971]
+  Hilbert's 10th problem \(D\) is undecidable.
 \end{proposition}
-\begin{proof}[Sketch]
-  Reduce \(A_{\textsf{TM}}\) to \(D\).
-\end{proof}
+The idea is to reduce \(A_{\textsf{TM}}\) to \(D\).
 This reduction unfortunately is very complicated,
 so we will not go over it here.
 We can, however find another problem that is undecidable.
@@ -32,7 +30,7 @@ Suppose we have dominoes, i.e.\ pairs of strings:
 \]
 Can we determine if there exists a nonempty tuple
 \((p_1, \dots, p_k)\) of dominoes with \(p_i \in P\) such that
-the top strings concatenated are the same as the bottom strings concatenated.
+the top strings concatenated are the same as the bottom strings concatenated?
 Such tuples are called \vocab{matches}.
 
 \begin{example}
